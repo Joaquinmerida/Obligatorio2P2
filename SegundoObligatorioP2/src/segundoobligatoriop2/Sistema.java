@@ -8,7 +8,7 @@ package segundoobligatoriop2;
  *
  * @author joaqu
  */
-public class SegundoObligatorioP2 {
+public class Sistema {
 
     /**
      * @param args the command line arguments
