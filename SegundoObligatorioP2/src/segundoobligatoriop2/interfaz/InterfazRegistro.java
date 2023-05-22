@@ -1,23 +1,14 @@
+package segundoobligatoriop2.interfaz;
+
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author meraj
- */
 public class InterfazRegistro extends javax.swing.JFrame {
 
-    /**
-     * Creates new form InterfazRegistro
-     */
     public InterfazRegistro() {
         initComponents();
     }

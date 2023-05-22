@@ -1,13 +1,14 @@
-
 package segundoobligatoriop2.auxiliar;
-
 
 public class Mayorista {
     private String rut;
     private String nombre;
     private String direccion;
 
+    
     // falta la lista de productos que es array
+    
+    
     public Mayorista(String rut, String nombre, String direccion) {
         this.rut = rut;
         this.nombre = nombre;
