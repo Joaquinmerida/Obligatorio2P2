@@ -145,7 +145,7 @@ public class InterfazRegistro extends javax.swing.JFrame {
         getContentPane().add(AparicionImagenRegistro);
         AparicionImagenRegistro.setBounds(10, 370, 180, 140);
 
-        pack();
+        setBounds(0, 0, 1258, 609);
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegistroTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistroTipoActionPerformed
