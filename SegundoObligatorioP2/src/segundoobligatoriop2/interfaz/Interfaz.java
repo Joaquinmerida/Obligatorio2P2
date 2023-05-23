@@ -69,34 +69,53 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane4.addTab("Inicio", jPanel4);
 
+        jPanel1.setLayout(null);
+
         RegistroNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegistroNombreActionPerformed(evt);
             }
         });
+        jPanel1.add(RegistroNombre);
+        RegistroNombre.setBounds(260, 119, 120, 22);
 
         jLabel1.setText("Nombre:");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(100, 119, 60, 16);
 
         jLabel2.setText("Descripcion:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(100, 179, 90, 16);
 
         RegistroDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegistroDescripcionActionPerformed(evt);
             }
         });
+        jPanel1.add(RegistroDescripcion);
+        RegistroDescripcion.setBounds(260, 179, 300, 22);
 
         jLabel3.setText("Tipo:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(100, 239, 26, 16);
 
-        RegistroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        RegistroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
+        RegistroTipo.setName("");
         RegistroTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegistroTipoActionPerformed(evt);
             }
         });
+        jPanel1.add(RegistroTipo);
+        RegistroTipo.setBounds(260, 229, 110, 20);
 
         jLabel4.setText("Venta por:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(100, 279, 110, 16);
 
-        RegistroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        RegistroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
+        jPanel1.add(RegistroVentaPor);
+        RegistroVentaPor.setBounds(260, 279, 110, 22);
 
         BotonLimpiarRegistro.setText("Limpiar");
         BotonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -104,104 +123,32 @@ public class Interfaz extends javax.swing.JFrame {
                 BotonLimpiarRegistroActionPerformed(evt);
             }
         });
+        jPanel1.add(BotonLimpiarRegistro);
+        BotonLimpiarRegistro.setBounds(260, 339, 100, 40);
 
         BotonAltaRegistro.setText("Alta");
+        jPanel1.add(BotonAltaRegistro);
+        BotonAltaRegistro.setBounds(260, 399, 100, 40);
 
         jLabel5.setText("Imagen:");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(670, 119, 60, 16);
 
         BotonAbrirRegistro.setText("Abrir");
+        BotonAbrirRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BotonAbrirRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonAbrirRegistroActionPerformed(evt);
             }
         });
+        jPanel1.add(BotonAbrirRegistro);
+        BotonAbrirRegistro.setBounds(730, 422, 100, 30);
 
         BotonCancelarRegistro.setText("Cancelar");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1060, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(100, 100, 100)
-                            .addComponent(RegistroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(290, 290, 290)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(70, 70, 70)
-                            .addComponent(RegistroDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(jLabel3)
-                            .addGap(134, 134, 134)
-                            .addComponent(RegistroTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(50, 50, 50)
-                            .addComponent(RegistroVentaPor, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(190, 190, 190)
-                            .addComponent(BotonLimpiarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(AparicionImagenRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(BotonAltaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(370, 370, 370)
-                            .addComponent(BotonAbrirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(60, 60, 60)
-                            .addComponent(BotonCancelarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 679, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1)
-                        .addComponent(RegistroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5))
-                    .addGap(38, 38, 38)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(RegistroDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(28, 28, 28)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel3))
-                        .addComponent(RegistroTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(24, 24, 24)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
-                        .addComponent(RegistroVentaPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(38, 38, 38)
-                    .addComponent(BotonLimpiarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(20, 20, 20)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addComponent(AparicionImagenRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(BotonAltaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addComponent(BotonAbrirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addComponent(BotonCancelarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        jPanel1.add(BotonCancelarRegistro);
+        BotonCancelarRegistro.setBounds(890, 422, 100, 30);
+        jPanel1.add(AparicionImagenRegistro);
+        AparicionImagenRegistro.setBounds(70, 419, 180, 140);
 
         jTabbedPane4.addTab("Registros", jPanel1);
 
@@ -275,7 +222,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         if (respuesta == jFileChooser.APPROVE_OPTION) {
             Ruta = jFileChooser.getSelectedFile().getPath();
-
             Image mImagen = new ImageIcon(Ruta).getImage();
             ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
             AparicionImagenRegistro.setIcon(mIcono);
@@ -344,6 +290,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void LimpiarFormRegistro() {
         RegistroDescripcion.setText("");
         RegistroNombre.setText("");
+        
+       
     }
 
 }
