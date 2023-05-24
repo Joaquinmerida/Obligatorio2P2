@@ -619,7 +619,7 @@ public class InterfazRegistro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BotonAbrirRegistroActionPerformed
 
-<<<<<<< Updated upstream:SegundoObligatorioP2/src/segundoobligatoriop2/InterfazRegistro.java
+
     private void RegistroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistroNombreActionPerformed
         
     }//GEN-LAST:event_RegistroNombreActionPerformed
@@ -627,7 +627,7 @@ public class InterfazRegistro extends javax.swing.JFrame {
     private void RegistroDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistroDescripcionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_RegistroDescripcionActionPerformed
-=======
+
     private void consultasNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_consultasNombreActionPerformed
@@ -667,7 +667,7 @@ public class InterfazRegistro extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
->>>>>>> Stashed changes:SegundoObligatorioP2/src/segundoobligatoriop2/interfaz/Interfaz.java
+
 
     /**
      * @param args the command line arguments
@@ -714,11 +714,10 @@ public class InterfazRegistro extends javax.swing.JFrame {
     private javax.swing.JTextField RegistroNombre;
     private javax.swing.JComboBox<String> RegistroTipo;
     private javax.swing.JComboBox<String> RegistroVentaPor;
-<<<<<<< Updated upstream:SegundoObligatorioP2/src/segundoobligatoriop2/InterfazRegistro.java
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
-=======
+
     private javax.swing.JTable consultaTablaDuenos;
     private javax.swing.JTable consultaTablaMayoristas;
     private javax.swing.JTable consultaTablaPuestos;
@@ -739,7 +738,6 @@ public class InterfazRegistro extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
->>>>>>> Stashed changes:SegundoObligatorioP2/src/segundoobligatoriop2/interfaz/Interfaz.java
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -770,8 +768,7 @@ public class InterfazRegistro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-<<<<<<< Updated upstream:SegundoObligatorioP2/src/segundoobligatoriop2/InterfazRegistro.java
-=======
+
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -797,7 +794,6 @@ public class InterfazRegistro extends javax.swing.JFrame {
     private javax.swing.JTextField movimiendoPindvPaM;
     private javax.swing.JTextField movimientocantidadCompra;
     private javax.swing.JComboBox<String> movimientocomboDePuestosVenta;
->>>>>>> Stashed changes:SegundoObligatorioP2/src/segundoobligatoriop2/interfaz/Interfaz.java
     // End of variables declaration//GEN-END:variables
 
     private void LimpiarFormRegistro() {
