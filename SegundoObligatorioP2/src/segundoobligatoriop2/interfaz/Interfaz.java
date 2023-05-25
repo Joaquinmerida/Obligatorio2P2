@@ -34,21 +34,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        RegistroNombre = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        RegistroDescripcion = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        RegistroTipo = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        RegistroVentaPor = new javax.swing.JComboBox<>();
-        BotonLimpiarRegistro = new javax.swing.JButton();
-        BotonAltaRegistro = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        BotonAbrirRegistro = new javax.swing.JButton();
-        BotonCancelarRegistro = new javax.swing.JButton();
-        AparicionImagenRegistro = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -116,6 +101,20 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         consultaTablaPuestos = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        RegistroNombre = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        RegistroDescripcion = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        RegistroTipo = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        RegistroVentaPor = new javax.swing.JComboBox<>();
+        BotonLimpiarRegistro = new javax.swing.JButton();
+        BotonAltaRegistro = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        AparicionImagenRegistro = new javax.swing.JLabel();
+        seleccionarImagen = new javax.swing.JFileChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -132,89 +131,6 @@ public class Interfaz extends javax.swing.JFrame {
         );
 
         jTabbedPane4.addTab("Inicio", jPanel4);
-
-        jPanel1.setLayout(null);
-
-        RegistroNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistroNombreActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RegistroNombre);
-        RegistroNombre.setBounds(260, 119, 120, 22);
-
-        jLabel1.setText("Nombre:");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(100, 119, 60, 16);
-
-        jLabel2.setText("Descripcion:");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(100, 179, 90, 16);
-
-        RegistroDescripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistroDescripcionActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RegistroDescripcion);
-        RegistroDescripcion.setBounds(260, 179, 300, 22);
-
-        jLabel3.setText("Tipo:");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(100, 239, 26, 16);
-
-        RegistroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
-        RegistroTipo.setName("");
-        RegistroTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistroTipoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RegistroTipo);
-        RegistroTipo.setBounds(260, 229, 110, 20);
-
-        jLabel4.setText("Venta por:");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(100, 279, 110, 16);
-
-        RegistroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
-        jPanel1.add(RegistroVentaPor);
-        RegistroVentaPor.setBounds(260, 279, 110, 22);
-
-        BotonLimpiarRegistro.setText("Limpiar");
-        BotonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonLimpiarRegistroActionPerformed(evt);
-            }
-        });
-        jPanel1.add(BotonLimpiarRegistro);
-        BotonLimpiarRegistro.setBounds(260, 339, 100, 40);
-
-        BotonAltaRegistro.setText("Alta");
-        jPanel1.add(BotonAltaRegistro);
-        BotonAltaRegistro.setBounds(260, 399, 100, 40);
-
-        jLabel5.setText("Imagen:");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(670, 119, 60, 16);
-
-        BotonAbrirRegistro.setText("Abrir");
-        BotonAbrirRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        BotonAbrirRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonAbrirRegistroActionPerformed(evt);
-            }
-        });
-        jPanel1.add(BotonAbrirRegistro);
-        BotonAbrirRegistro.setBounds(730, 422, 100, 30);
-
-        BotonCancelarRegistro.setText("Cancelar");
-        jPanel1.add(BotonCancelarRegistro);
-        BotonCancelarRegistro.setBounds(890, 422, 100, 30);
-        jPanel1.add(AparicionImagenRegistro);
-        AparicionImagenRegistro.setBounds(70, 419, 180, 140);
-
-        jTabbedPane4.addTab("Registros", jPanel1);
 
         jPanel5.setLayout(null);
 
@@ -545,6 +461,92 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane4.addTab("Consultas", jPanel2);
 
+        jPanel1.setLayout(null);
+
+        RegistroNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistroNombreActionPerformed(evt);
+            }
+        });
+        jPanel1.add(RegistroNombre);
+        RegistroNombre.setBounds(260, 119, 120, 22);
+
+        jLabel1.setText("Nombre:");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(100, 119, 60, 16);
+
+        jLabel2.setText("Descripcion:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(100, 179, 90, 16);
+
+        RegistroDescripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistroDescripcionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(RegistroDescripcion);
+        RegistroDescripcion.setBounds(260, 179, 300, 22);
+
+        jLabel3.setText("Tipo:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(100, 239, 26, 16);
+
+        RegistroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
+        RegistroTipo.setName("");
+        RegistroTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistroTipoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(RegistroTipo);
+        RegistroTipo.setBounds(260, 229, 110, 20);
+
+        jLabel4.setText("Venta por:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(100, 279, 110, 16);
+
+        RegistroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
+        jPanel1.add(RegistroVentaPor);
+        RegistroVentaPor.setBounds(260, 279, 110, 22);
+
+        BotonLimpiarRegistro.setText("Limpiar");
+        BotonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonLimpiarRegistroActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BotonLimpiarRegistro);
+        BotonLimpiarRegistro.setBounds(260, 339, 100, 40);
+
+        BotonAltaRegistro.setText("Alta");
+        jPanel1.add(BotonAltaRegistro);
+        BotonAltaRegistro.setBounds(260, 399, 100, 40);
+
+        jLabel5.setText("Imagen:");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(590, 40, 60, 16);
+        jPanel1.add(AparicionImagenRegistro);
+        AparicionImagenRegistro.setBounds(70, 419, 180, 140);
+
+        seleccionarImagen.setAcceptAllFileFilterUsed(false);
+        seleccionarImagen.setApproveButtonText("Abrir");
+        seleccionarImagen.setApproveButtonToolTipText("Cancelar");
+        seleccionarImagen.setCurrentDirectory(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
+        seleccionarImagen.setDialogTitle("");
+        seleccionarImagen.setSelectedFile(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
+        seleccionarImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        seleccionarImagen.setDoubleBuffered(true);
+        seleccionarImagen.setName("seleccionarImagen");
+        seleccionarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionarImagenActionPerformed(evt);
+            }
+        });
+        jPanel1.add(seleccionarImagen);
+        seleccionarImagen.setBounds(650, 60, 510, 290);
+
+        jTabbedPane4.addTab("Registros", jPanel1);
+
         getContentPane().add(jTabbedPane4);
         jTabbedPane4.setBounds(0, 0, 1240, 1160);
 
@@ -566,21 +568,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void BotonLimpiarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLimpiarRegistroActionPerformed
         LimpiarFormRegistro();
     }//GEN-LAST:event_BotonLimpiarRegistroActionPerformed
-
-    private void BotonAbrirRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAbrirRegistroActionPerformed
-        String Ruta = "";
-        JFileChooser jFileChooser = new JFileChooser();
-        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
-        jFileChooser.setFileFilter(filtrado);
-        int respuesta = jFileChooser.showOpenDialog(this);
-
-        if (respuesta == jFileChooser.APPROVE_OPTION) {
-            Ruta = jFileChooser.getSelectedFile().getPath();
-            Image mImagen = new ImageIcon(Ruta).getImage();
-            ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
-            AparicionImagenRegistro.setIcon(mIcono);
-        }
-    }//GEN-LAST:event_BotonAbrirRegistroActionPerformed
 
     private void consultasNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasNombreActionPerformed
         // TODO add your handling code here:
@@ -610,6 +597,22 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void seleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarImagenActionPerformed
+        
+        
+        String Ruta = "";
+        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
+        seleccionarImagen.setFileFilter(filtrado);
+        Ruta = seleccionarImagen.getSelectedFile().getPath();
+        Image mImagen = new ImageIcon(Ruta).getImage();
+        ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
+        AparicionImagenRegistro.setIcon(mIcono);
+    }//GEN-LAST:event_seleccionarImagenActionPerformed
+    
+    
+    
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -648,9 +651,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AparicionImagenRegistro;
-    private javax.swing.JButton BotonAbrirRegistro;
     private javax.swing.JButton BotonAltaRegistro;
-    private javax.swing.JButton BotonCancelarRegistro;
     private javax.swing.JButton BotonLimpiarRegistro;
     private javax.swing.JTextField RegistroDescripcion;
     private javax.swing.JTextField RegistroNombre;
@@ -731,13 +732,15 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField movimiendoPindvPaM;
     private javax.swing.JTextField movimientocantidadCompra;
     private javax.swing.JComboBox<String> movimientocomboDePuestosVenta;
+    private javax.swing.JFileChooser seleccionarImagen;
     // End of variables declaration//GEN-END:variables
 
+
+    
     private void LimpiarFormRegistro() {
         RegistroDescripcion.setText("");
         RegistroNombre.setText("");
-        
-       
+
     }
 
 }
