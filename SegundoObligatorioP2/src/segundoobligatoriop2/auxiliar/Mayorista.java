@@ -9,12 +9,11 @@ public class Mayorista {
     private String direccion;
     private ArrayList<Item> listaItems;
 
-    // falta la lista de productos que es array
-    public Mayorista(String rut, String nombre, String direccion, ArrayList listaItems) {
+    public Mayorista(String rut, String nombre, String direccion /*ArrayList listaItems*/) {
         this.rut = rut;
         this.nombre = nombre;
         this.direccion = direccion;
-        this.listaItems = listaItems;
+        //this.listaItems = listaItems;
     }
 
     public String getRut() {
@@ -47,6 +46,17 @@ public class Mayorista {
 
     public void agregarItem(Item unItem) {
         this.getListaItems().add(unItem);
+    }
+
+    @Override
+    
+    public String toString() {
+        String result = nombre + " " + direccion + " ";
+        for (Item item : listaItems) {
+            result += item.getNombre() + " ";
+        }
+        return result;
+
     }
 
 }

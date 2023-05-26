@@ -6,9 +6,9 @@ package segundoobligatoriop2.interfaz;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import segundoobligatoriop2.auxiliar.Mercado;
+import segundoobligatoriop2.Sistema;
+import segundoobligatoriop2.auxiliar.*;
 
 /**
  *
@@ -32,6 +32,13 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
+        jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -101,20 +108,61 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         consultaTablaPuestos = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        RegistroNombre = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        RegistroDescripcion = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        RegistroTipo = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        RegistroVentaPor = new javax.swing.JComboBox<>();
-        BotonLimpiarRegistro = new javax.swing.JButton();
-        BotonAltaRegistro = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        Registro = new javax.swing.JPanel();
+        menuRegistro = new javax.swing.JTabbedPane();
+        panelRegistroItem = new javax.swing.JPanel();
+        registroNombre = new javax.swing.JTextField();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        registroDescripcion = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        registroTipo = new javax.swing.JComboBox<>();
+        jLabel38 = new javax.swing.JLabel();
+        registroVentaPor = new javax.swing.JComboBox<>();
+        botonLimpiarRegistro = new javax.swing.JButton();
+        botonAltaRegistro = new javax.swing.JButton();
+        textoImagen = new javax.swing.JLabel();
         AparicionImagenRegistro = new javax.swing.JLabel();
         seleccionarImagen = new javax.swing.JFileChooser();
+        panelRegistroMayorista = new javax.swing.JPanel();
+        textoNombreMayorista = new javax.swing.JLabel();
+        nombreMayorista = new javax.swing.JTextField();
+        textoRut = new javax.swing.JLabel();
+        rutMayorista = new javax.swing.JTextField();
+        textoDireccion = new javax.swing.JLabel();
+        direccionMayorista = new javax.swing.JTextField();
+        productosMayorista = new javax.swing.JLabel();
+        registroVentaPor1 = new javax.swing.JComboBox<>();
+        botonLimpiarRegistroMayorista = new javax.swing.JButton();
+        botonAltaRegistroMayorista = new javax.swing.JButton();
+        panelRegistroPuesto = new javax.swing.JPanel();
+        registroIdentificacion = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        registroDueño = new javax.swing.JTextField();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        botonLimpiarRegistro1 = new javax.swing.JButton();
+        botonAltaRegistro1 = new javax.swing.JButton();
+        registroUbicacion = new javax.swing.JTextField();
+        registroNumeroEmpleados = new javax.swing.JTextField();
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
+
+        jMenu1.setText("jMenu1");
+
+        jMenu2.setText("jMenu2");
+
+        jMenu3.setText("jMenu3");
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jCheckBoxMenuItem2.setSelected(true);
+        jCheckBoxMenuItem2.setText("jCheckBoxMenuItem2");
+
+        jCheckBoxMenuItem3.setSelected(true);
+        jCheckBoxMenuItem3.setText("jCheckBoxMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -461,77 +509,83 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane4.addTab("Consultas", jPanel2);
 
-        jPanel1.setLayout(null);
+        Registro.setLayout(null);
 
-        RegistroNombre.addActionListener(new java.awt.event.ActionListener() {
+        panelRegistroItem.setLayout(null);
+
+        registroNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistroNombreActionPerformed(evt);
+                registroNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(RegistroNombre);
-        RegistroNombre.setBounds(260, 119, 120, 22);
+        panelRegistroItem.add(registroNombre);
+        registroNombre.setBounds(260, 119, 120, 22);
 
-        jLabel1.setText("Nombre:");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(100, 119, 60, 16);
+        jLabel35.setText("Nombre:");
+        panelRegistroItem.add(jLabel35);
+        jLabel35.setBounds(100, 119, 60, 16);
 
-        jLabel2.setText("Descripcion:");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(100, 179, 90, 16);
+        jLabel36.setText("Descripcion:");
+        panelRegistroItem.add(jLabel36);
+        jLabel36.setBounds(100, 179, 90, 16);
 
-        RegistroDescripcion.addActionListener(new java.awt.event.ActionListener() {
+        registroDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistroDescripcionActionPerformed(evt);
+                registroDescripcionActionPerformed(evt);
             }
         });
-        jPanel1.add(RegistroDescripcion);
-        RegistroDescripcion.setBounds(260, 179, 300, 22);
+        panelRegistroItem.add(registroDescripcion);
+        registroDescripcion.setBounds(260, 179, 300, 22);
 
-        jLabel3.setText("Tipo:");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(100, 239, 26, 16);
+        jLabel37.setText("Tipo:");
+        panelRegistroItem.add(jLabel37);
+        jLabel37.setBounds(100, 239, 26, 16);
 
-        RegistroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
-        RegistroTipo.setName("");
-        RegistroTipo.addActionListener(new java.awt.event.ActionListener() {
+        registroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
+        registroTipo.setName("");
+        registroTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistroTipoActionPerformed(evt);
+                registroTipoActionPerformed(evt);
             }
         });
-        jPanel1.add(RegistroTipo);
-        RegistroTipo.setBounds(260, 229, 110, 20);
+        panelRegistroItem.add(registroTipo);
+        registroTipo.setBounds(260, 229, 110, 20);
 
-        jLabel4.setText("Venta por:");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(100, 279, 110, 16);
+        jLabel38.setText("Venta por:");
+        panelRegistroItem.add(jLabel38);
+        jLabel38.setBounds(100, 279, 110, 16);
 
-        RegistroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
-        jPanel1.add(RegistroVentaPor);
-        RegistroVentaPor.setBounds(260, 279, 110, 22);
+        registroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
+        panelRegistroItem.add(registroVentaPor);
+        registroVentaPor.setBounds(260, 279, 110, 22);
 
-        BotonLimpiarRegistro.setText("Limpiar");
-        BotonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
+        botonLimpiarRegistro.setText("Limpiar");
+        botonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonLimpiarRegistroActionPerformed(evt);
+                botonLimpiarRegistroActionPerformed(evt);
             }
         });
-        jPanel1.add(BotonLimpiarRegistro);
-        BotonLimpiarRegistro.setBounds(260, 339, 100, 40);
+        panelRegistroItem.add(botonLimpiarRegistro);
+        botonLimpiarRegistro.setBounds(260, 339, 100, 40);
 
-        BotonAltaRegistro.setText("Alta");
-        jPanel1.add(BotonAltaRegistro);
-        BotonAltaRegistro.setBounds(260, 399, 100, 40);
+        botonAltaRegistro.setText("Alta");
+        botonAltaRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAltaRegistroActionPerformed(evt);
+            }
+        });
+        panelRegistroItem.add(botonAltaRegistro);
+        botonAltaRegistro.setBounds(260, 399, 100, 40);
 
-        jLabel5.setText("Imagen:");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(590, 40, 60, 16);
-        jPanel1.add(AparicionImagenRegistro);
-        AparicionImagenRegistro.setBounds(70, 419, 180, 140);
+        textoImagen.setText("Imagen:");
+        panelRegistroItem.add(textoImagen);
+        textoImagen.setBounds(590, 40, 60, 16);
+        panelRegistroItem.add(AparicionImagenRegistro);
+        AparicionImagenRegistro.setBounds(50, 360, 180, 140);
 
         seleccionarImagen.setAcceptAllFileFilterUsed(false);
         seleccionarImagen.setApproveButtonText("Abrir");
         seleccionarImagen.setApproveButtonToolTipText("Cancelar");
-        seleccionarImagen.setCurrentDirectory(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
         seleccionarImagen.setDialogTitle("");
         seleccionarImagen.setSelectedFile(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
         seleccionarImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -542,32 +596,158 @@ public class Interfaz extends javax.swing.JFrame {
                 seleccionarImagenActionPerformed(evt);
             }
         });
-        jPanel1.add(seleccionarImagen);
+        panelRegistroItem.add(seleccionarImagen);
         seleccionarImagen.setBounds(650, 60, 510, 290);
 
-        jTabbedPane4.addTab("Registros", jPanel1);
+        menuRegistro.addTab("Item", panelRegistroItem);
+
+        panelRegistroMayorista.setLayout(null);
+
+        textoNombreMayorista.setText("Nombre:");
+        panelRegistroMayorista.add(textoNombreMayorista);
+        textoNombreMayorista.setBounds(100, 119, 60, 16);
+
+        nombreMayorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreMayoristaActionPerformed(evt);
+            }
+        });
+        panelRegistroMayorista.add(nombreMayorista);
+        nombreMayorista.setBounds(260, 119, 120, 22);
+
+        textoRut.setText("Rut:");
+        panelRegistroMayorista.add(textoRut);
+        textoRut.setBounds(100, 179, 90, 16);
+
+        rutMayorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rutMayoristaActionPerformed(evt);
+            }
+        });
+        panelRegistroMayorista.add(rutMayorista);
+        rutMayorista.setBounds(260, 179, 300, 22);
+
+        textoDireccion.setText("Dirección:");
+        panelRegistroMayorista.add(textoDireccion);
+        textoDireccion.setBounds(100, 230, 70, 16);
+
+        direccionMayorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                direccionMayoristaActionPerformed(evt);
+            }
+        });
+        panelRegistroMayorista.add(direccionMayorista);
+        direccionMayorista.setBounds(260, 230, 300, 22);
+
+        productosMayorista.setText("Productos que ofrece:");
+        panelRegistroMayorista.add(productosMayorista);
+        productosMayorista.setBounds(650, 100, 140, 16);
+
+        registroVentaPor1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "aca", "va" ,"cada","item"}));
+        panelRegistroMayorista.add(registroVentaPor1);
+        registroVentaPor1.setBounds(640, 130, 330, 110);
+
+        botonLimpiarRegistroMayorista.setText("Limpiar");
+        botonLimpiarRegistroMayorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonLimpiarRegistroMayoristaActionPerformed(evt);
+            }
+        });
+        panelRegistroMayorista.add(botonLimpiarRegistroMayorista);
+        botonLimpiarRegistroMayorista.setBounds(480, 340, 160, 40);
+
+        botonAltaRegistroMayorista.setText("Registrar mayorista");
+        botonAltaRegistroMayorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAltaRegistroMayoristaActionPerformed(evt);
+            }
+        });
+        panelRegistroMayorista.add(botonAltaRegistroMayorista);
+        botonAltaRegistroMayorista.setBounds(280, 340, 160, 40);
+
+        menuRegistro.addTab("Mayorista", panelRegistroMayorista);
+
+        panelRegistroPuesto.setLayout(null);
+
+        registroIdentificacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroIdentificacionActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto.add(registroIdentificacion);
+        registroIdentificacion.setBounds(260, 119, 120, 22);
+
+        jLabel39.setText("Identificacion:");
+        panelRegistroPuesto.add(jLabel39);
+        jLabel39.setBounds(100, 119, 90, 16);
+
+        jLabel40.setText("Dueño:");
+        panelRegistroPuesto.add(jLabel40);
+        jLabel40.setBounds(100, 179, 90, 16);
+
+        registroDueño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroDueñoActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto.add(registroDueño);
+        registroDueño.setBounds(260, 179, 130, 22);
+
+        jLabel41.setText("Ubicación:");
+        panelRegistroPuesto.add(jLabel41);
+        jLabel41.setBounds(100, 239, 100, 16);
+
+        jLabel42.setText("Cantidad empleados:");
+        panelRegistroPuesto.add(jLabel42);
+        jLabel42.setBounds(100, 290, 120, 16);
+
+        botonLimpiarRegistro1.setText("Limpiar");
+        botonLimpiarRegistro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonLimpiarRegistro1ActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto.add(botonLimpiarRegistro1);
+        botonLimpiarRegistro1.setBounds(260, 339, 100, 40);
+
+        botonAltaRegistro1.setText("Alta");
+        botonAltaRegistro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAltaRegistro1ActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto.add(botonAltaRegistro1);
+        botonAltaRegistro1.setBounds(260, 399, 100, 40);
+
+        registroUbicacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroUbicacionActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto.add(registroUbicacion);
+        registroUbicacion.setBounds(260, 240, 120, 22);
+
+        registroNumeroEmpleados.setText("0");
+        registroNumeroEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroNumeroEmpleadosActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto.add(registroNumeroEmpleados);
+        registroNumeroEmpleados.setBounds(260, 290, 30, 22);
+
+        menuRegistro.addTab("Item", panelRegistroPuesto);
+
+        Registro.add(menuRegistro);
+        menuRegistro.setBounds(50, 10, 1170, 580);
+
+        jTabbedPane4.addTab("Registros", Registro);
 
         getContentPane().add(jTabbedPane4);
         jTabbedPane4.setBounds(0, 0, 1240, 1160);
 
         setBounds(0, 0, 1250, 1168);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void RegistroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistroNombreActionPerformed
-
-    }//GEN-LAST:event_RegistroNombreActionPerformed
-
-    private void RegistroDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistroDescripcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RegistroDescripcionActionPerformed
-
-    private void RegistroTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistroTipoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RegistroTipoActionPerformed
-
-    private void BotonLimpiarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLimpiarRegistroActionPerformed
-        LimpiarFormRegistro();
-    }//GEN-LAST:event_BotonLimpiarRegistroActionPerformed
 
     private void consultasNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasNombreActionPerformed
         // TODO add your handling code here:
@@ -597,9 +777,27 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void registroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroNombreActionPerformed
+
+    private void registroDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroDescripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroDescripcionActionPerformed
+
+    private void registroTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroTipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroTipoActionPerformed
+
+    private void botonLimpiarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarRegistroActionPerformed
+       LimpiarFormRegistro();
+    }//GEN-LAST:event_botonLimpiarRegistroActionPerformed
+
+    private void botonAltaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAltaRegistroActionPerformed
+
     private void seleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarImagenActionPerformed
-        
-        
         String Ruta = "";
         FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
         seleccionarImagen.setFileFilter(filtrado);
@@ -608,11 +806,54 @@ public class Interfaz extends javax.swing.JFrame {
         ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
         AparicionImagenRegistro.setIcon(mIcono);
     }//GEN-LAST:event_seleccionarImagenActionPerformed
-    
-    
-    
-   
-    
+
+    private void nombreMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreMayoristaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreMayoristaActionPerformed
+
+    private void rutMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rutMayoristaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rutMayoristaActionPerformed
+
+    private void botonLimpiarRegistroMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarRegistroMayoristaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonLimpiarRegistroMayoristaActionPerformed
+
+    private void botonAltaRegistroMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistroMayoristaActionPerformed
+     String nombre=nombreMayorista.getText();
+     String rut=rutMayorista.getText();
+     String direccion= direccionMayorista.getText();
+     Sistema.agregarMayorista(nombre, rut, direccion);
+    }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
+
+    private void direccionMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionMayoristaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_direccionMayoristaActionPerformed
+
+    private void registroIdentificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroIdentificacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroIdentificacionActionPerformed
+
+    private void registroDueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroDueñoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroDueñoActionPerformed
+
+    private void botonLimpiarRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarRegistro1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonLimpiarRegistro1ActionPerformed
+
+    private void botonAltaRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistro1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAltaRegistro1ActionPerformed
+
+    private void registroUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroUbicacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroUbicacionActionPerformed
+
+    private void registroNumeroEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNumeroEmpleadosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroNumeroEmpleadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -651,12 +892,13 @@ public class Interfaz extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AparicionImagenRegistro;
-    private javax.swing.JButton BotonAltaRegistro;
-    private javax.swing.JButton BotonLimpiarRegistro;
-    private javax.swing.JTextField RegistroDescripcion;
-    private javax.swing.JTextField RegistroNombre;
-    private javax.swing.JComboBox<String> RegistroTipo;
-    private javax.swing.JComboBox<String> RegistroVentaPor;
+    private javax.swing.JPanel Registro;
+    private javax.swing.JButton botonAltaRegistro;
+    private javax.swing.JButton botonAltaRegistro1;
+    private javax.swing.JButton botonAltaRegistroMayorista;
+    private javax.swing.JButton botonLimpiarRegistro;
+    private javax.swing.JButton botonLimpiarRegistro1;
+    private javax.swing.JButton botonLimpiarRegistroMayorista;
     private javax.swing.JTable consultaTablaDuenos;
     private javax.swing.JTable consultaTablaMayoristas;
     private javax.swing.JTable consultaTablaPuestos;
@@ -669,6 +911,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField consultasNombre;
     private javax.swing.JList<String> consultasPrecioMin;
     private javax.swing.JList<String> consultasVentaMax;
+    private javax.swing.JTextField direccionMayorista;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -676,8 +919,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -688,7 +933,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -699,19 +943,27 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -729,18 +981,36 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JList<String> listaDePuestosAComprar;
     private javax.swing.JList<String> listaMayoristasQueLeCompran;
+    private javax.swing.JTabbedPane menuRegistro;
     private javax.swing.JTextField movimiendoPindvPaM;
     private javax.swing.JTextField movimientocantidadCompra;
     private javax.swing.JComboBox<String> movimientocomboDePuestosVenta;
+    private javax.swing.JTextField nombreMayorista;
+    private javax.swing.JPanel panelRegistroItem;
+    private javax.swing.JPanel panelRegistroMayorista;
+    private javax.swing.JPanel panelRegistroPuesto;
+    private javax.swing.JLabel productosMayorista;
+    private javax.swing.JTextField registroDescripcion;
+    private javax.swing.JTextField registroDueño;
+    private javax.swing.JTextField registroIdentificacion;
+    private javax.swing.JTextField registroNombre;
+    private javax.swing.JTextField registroNumeroEmpleados;
+    private javax.swing.JComboBox<String> registroTipo;
+    private javax.swing.JTextField registroUbicacion;
+    private javax.swing.JComboBox<String> registroVentaPor;
+    private javax.swing.JComboBox<String> registroVentaPor1;
+    private javax.swing.JTextField rutMayorista;
     private javax.swing.JFileChooser seleccionarImagen;
+    private javax.swing.JLabel textoDireccion;
+    private javax.swing.JLabel textoImagen;
+    private javax.swing.JLabel textoNombreMayorista;
+    private javax.swing.JLabel textoRut;
     // End of variables declaration//GEN-END:variables
 
-
-    
     private void LimpiarFormRegistro() {
-        RegistroDescripcion.setText("");
-        RegistroNombre.setText("");
-
+        registroDescripcion.setText("");
+        registroNombre.setText("");
     }
-
+    
+    
 }
