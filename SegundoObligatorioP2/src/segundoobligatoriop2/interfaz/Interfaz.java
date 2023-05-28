@@ -645,14 +645,14 @@ public class Interfaz extends javax.swing.JFrame {
         panelRegistroItem.add(seleccionarImagen);
         seleccionarImagen.setBounds(650, 60, 510, 290);
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Check de articulos por mayorista");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
         panelRegistroItem.add(jButton2);
-        jButton2.setBounds(480, 410, 75, 23);
+        jButton2.setBounds(450, 370, 210, 90);
 
         menuRegistro.addTab("Item", panelRegistroItem);
 

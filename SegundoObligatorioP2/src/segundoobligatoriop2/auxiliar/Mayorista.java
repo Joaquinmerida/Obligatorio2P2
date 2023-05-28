@@ -51,11 +51,9 @@ public class Mayorista {
     public boolean itemUnico(String nombre) {
         for (Item item : this.getListaItems()) {
             if (item.getNombre().equals(nombre)) {
-                System.out.println("Ya existe un item con ese nombre.");
                 return false;
             }
         }
-        System.out.println("no esiste");
         return true;
     }
 
