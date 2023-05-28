@@ -5,15 +5,14 @@
 package segundoobligatoriop2.interfaz;
 
 import java.awt.Image;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.*;
 
-/**
- *
- * @author joaqu
- */
 public class Interfaz extends javax.swing.JFrame {
 
     /**
@@ -21,6 +20,29 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
+        inicializarComboBox();
+
+    }
+
+    private void inicializarComboBox() {
+        seleccionMayorista.setModel(new DefaultComboBoxModel<>());
+        actualizarComboBox();
+    }
+
+    public void actualizarComboBox() {
+        ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
+
+        DefaultComboBoxModel<String> comboBoxModel = (DefaultComboBoxModel<String>) seleccionMayorista.getModel();
+        if (listaMayoristas.isEmpty()) {
+            comboBoxModel.addElement("No hay ningun mayorista registrado");
+            return;
+        }
+
+        comboBoxModel.removeAllElements();
+
+        for (Mayorista mayorista : listaMayoristas) {
+            comboBoxModel.addElement(mayorista.getNombre());
+        }
     }
 
     /**
@@ -111,19 +133,22 @@ public class Interfaz extends javax.swing.JFrame {
         Registro = new javax.swing.JPanel();
         menuRegistro = new javax.swing.JTabbedPane();
         panelRegistroItem = new javax.swing.JPanel();
+        textoSeleccionMayorista = new javax.swing.JLabel();
+        seleccionMayorista = new javax.swing.JComboBox<>();
+        textoNombreItem = new javax.swing.JLabel();
         registroNombre = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
+        textoDescripcion = new javax.swing.JLabel();
         registroDescripcion = new javax.swing.JTextField();
-        jLabel37 = new javax.swing.JLabel();
+        textoTipo = new javax.swing.JLabel();
         registroTipo = new javax.swing.JComboBox<>();
-        jLabel38 = new javax.swing.JLabel();
+        textoVentaPor = new javax.swing.JLabel();
         registroVentaPor = new javax.swing.JComboBox<>();
         botonLimpiarRegistro = new javax.swing.JButton();
         botonAltaRegistro = new javax.swing.JButton();
         textoImagen = new javax.swing.JLabel();
         AparicionImagenRegistro = new javax.swing.JLabel();
         seleccionarImagen = new javax.swing.JFileChooser();
+        jButton2 = new javax.swing.JButton();
         panelRegistroMayorista = new javax.swing.JPanel();
         textoNombreMayorista = new javax.swing.JLabel();
         nombreMayorista = new javax.swing.JTextField();
@@ -146,6 +171,15 @@ public class Interfaz extends javax.swing.JFrame {
         botonAltaRegistro1 = new javax.swing.JButton();
         registroUbicacion = new javax.swing.JTextField();
         registroNumeroEmpleados = new javax.swing.JTextField();
+        panelRegistroPuesto1 = new javax.swing.JPanel();
+        textoNombre = new javax.swing.JLabel();
+        registroNombreDueño = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        registroEdadDueño = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        registroEdadExperiencia = new javax.swing.JTextField();
+        botonLimpiarRegistro2 = new javax.swing.JButton();
+        botonAltaRegistro2 = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -513,21 +547,33 @@ public class Interfaz extends javax.swing.JFrame {
 
         panelRegistroItem.setLayout(null);
 
+        textoSeleccionMayorista.setText("Mayorista:");
+        panelRegistroItem.add(textoSeleccionMayorista);
+        textoSeleccionMayorista.setBounds(100, 70, 60, 16);
+
+        seleccionMayorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionMayoristaActionPerformed(evt);
+            }
+        });
+        panelRegistroItem.add(seleccionMayorista);
+        seleccionMayorista.setBounds(260, 70, 260, 22);
+
+        textoNombreItem.setText("Nombre:");
+        panelRegistroItem.add(textoNombreItem);
+        textoNombreItem.setBounds(100, 119, 60, 16);
+
         registroNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registroNombreActionPerformed(evt);
             }
         });
         panelRegistroItem.add(registroNombre);
-        registroNombre.setBounds(260, 119, 120, 22);
+        registroNombre.setBounds(260, 119, 260, 22);
 
-        jLabel35.setText("Nombre:");
-        panelRegistroItem.add(jLabel35);
-        jLabel35.setBounds(100, 119, 60, 16);
-
-        jLabel36.setText("Descripcion:");
-        panelRegistroItem.add(jLabel36);
-        jLabel36.setBounds(100, 179, 90, 16);
+        textoDescripcion.setText("Descripcion:");
+        panelRegistroItem.add(textoDescripcion);
+        textoDescripcion.setBounds(100, 179, 90, 16);
 
         registroDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -535,11 +581,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroDescripcion);
-        registroDescripcion.setBounds(260, 179, 300, 22);
+        registroDescripcion.setBounds(260, 179, 260, 22);
 
-        jLabel37.setText("Tipo:");
-        panelRegistroItem.add(jLabel37);
-        jLabel37.setBounds(100, 239, 26, 16);
+        textoTipo.setText("Tipo:");
+        panelRegistroItem.add(textoTipo);
+        textoTipo.setBounds(100, 239, 26, 16);
 
         registroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
         registroTipo.setName("");
@@ -551,9 +597,9 @@ public class Interfaz extends javax.swing.JFrame {
         panelRegistroItem.add(registroTipo);
         registroTipo.setBounds(260, 229, 110, 20);
 
-        jLabel38.setText("Venta por:");
-        panelRegistroItem.add(jLabel38);
-        jLabel38.setBounds(100, 279, 110, 16);
+        textoVentaPor.setText("Venta por:");
+        panelRegistroItem.add(textoVentaPor);
+        textoVentaPor.setBounds(100, 279, 110, 16);
 
         registroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
         panelRegistroItem.add(registroVentaPor);
@@ -598,6 +644,15 @@ public class Interfaz extends javax.swing.JFrame {
         });
         panelRegistroItem.add(seleccionarImagen);
         seleccionarImagen.setBounds(650, 60, 510, 290);
+
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        panelRegistroItem.add(jButton2);
+        jButton2.setBounds(480, 410, 75, 23);
 
         menuRegistro.addTab("Item", panelRegistroItem);
 
@@ -736,7 +791,65 @@ public class Interfaz extends javax.swing.JFrame {
         panelRegistroPuesto.add(registroNumeroEmpleados);
         registroNumeroEmpleados.setBounds(260, 290, 30, 22);
 
-        menuRegistro.addTab("Item", panelRegistroPuesto);
+        menuRegistro.addTab("Puesto", panelRegistroPuesto);
+
+        panelRegistroPuesto1.setLayout(null);
+
+        textoNombre.setText("Nombre");
+        panelRegistroPuesto1.add(textoNombre);
+        textoNombre.setBounds(100, 119, 90, 16);
+
+        registroNombreDueño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroNombreDueñoActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto1.add(registroNombreDueño);
+        registroNombreDueño.setBounds(260, 119, 120, 22);
+
+        jLabel44.setText("Edad:");
+        panelRegistroPuesto1.add(jLabel44);
+        jLabel44.setBounds(100, 179, 90, 16);
+
+        registroEdadDueño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroEdadDueñoActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto1.add(registroEdadDueño);
+        registroEdadDueño.setBounds(260, 179, 130, 22);
+
+        jLabel45.setText("Años de experiencia:");
+        panelRegistroPuesto1.add(jLabel45);
+        jLabel45.setBounds(100, 239, 100, 16);
+
+        registroEdadExperiencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroEdadExperienciaActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto1.add(registroEdadExperiencia);
+        registroEdadExperiencia.setBounds(260, 240, 40, 22);
+
+        botonLimpiarRegistro2.setText("Limpiar");
+        botonLimpiarRegistro2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonLimpiarRegistro2ActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto1.add(botonLimpiarRegistro2);
+        botonLimpiarRegistro2.setBounds(450, 340, 150, 40);
+
+        botonAltaRegistro2.setText("Alta");
+        botonAltaRegistro2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAltaRegistro2ActionPerformed(evt);
+            }
+        });
+        panelRegistroPuesto1.add(botonAltaRegistro2);
+        botonAltaRegistro2.setBounds(260, 340, 150, 40);
+
+        menuRegistro.addTab("Dueño de puesto", panelRegistroPuesto1);
 
         Registro.add(menuRegistro);
         menuRegistro.setBounds(50, 10, 1170, 580);
@@ -790,11 +903,18 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_registroTipoActionPerformed
 
     private void botonLimpiarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarRegistroActionPerformed
-       LimpiarFormRegistro();
+        LimpiarFormRegistro();
     }//GEN-LAST:event_botonLimpiarRegistroActionPerformed
 
     private void botonAltaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistroActionPerformed
-        // TODO add your handling code here:
+        String nombre = registroNombre.getText();
+        String descripcion = registroDescripcion.getText();
+        String tipo = registroTipo.getSelectedItem().toString();
+        String formaVenta = registroVentaPor.getSelectedItem().toString();
+        String imagen = seleccionarImagen.getSelectedFile().getPath();
+        String mayorista = seleccionMayorista.getSelectedItem().toString();
+        System.out.println("se agregaitem: " + " nombre " + nombre + " descripcion " + descripcion + " tipo " + tipo + " forma venta : " + formaVenta+ " imagenpath: " + imagen + " mayorista : " + mayorista);
+        Sistema.agregarItemAMayorista(mayorista, nombre, descripcion, tipo, formaVenta, imagen);
     }//GEN-LAST:event_botonAltaRegistroActionPerformed
 
     private void seleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarImagenActionPerformed
@@ -820,10 +940,13 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_botonLimpiarRegistroMayoristaActionPerformed
 
     private void botonAltaRegistroMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistroMayoristaActionPerformed
-     String nombre=nombreMayorista.getText();
-     String rut=rutMayorista.getText();
-     String direccion= direccionMayorista.getText();
-     Sistema.agregarMayorista(nombre, rut, direccion);
+        String nombre = nombreMayorista.getText();
+        String rut = rutMayorista.getText();
+        String direccion = direccionMayorista.getText();
+        Sistema.agregarMayorista(nombre, rut, direccion);
+
+        actualizarComboBox();
+
     }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
 
     private void direccionMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionMayoristaActionPerformed
@@ -854,30 +977,65 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_registroNumeroEmpleadosActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void seleccionMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionMayoristaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_seleccionMayoristaActionPerformed
+
+    private void registroNombreDueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreDueñoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroNombreDueñoActionPerformed
+
+    private void registroEdadDueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroEdadDueñoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroEdadDueñoActionPerformed
+
+    private void botonLimpiarRegistro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarRegistro2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonLimpiarRegistro2ActionPerformed
+
+    private void botonAltaRegistro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistro2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAltaRegistro2ActionPerformed
+
+    private void registroEdadExperienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroEdadExperienciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registroEdadExperienciaActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
+
+        for (Mayorista mayorista : listaMayoristas) {
+            ArrayList<Item> listaItems = mayorista.getListaItems();
+            for (Item item : listaItems) {
+                System.out.println(mayorista.getNombre()+ " <dueño producto> "+item.getNombre());
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -888,16 +1046,20 @@ public class Interfaz extends javax.swing.JFrame {
                 new Interfaz().setVisible(true);
             }
         });
+
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AparicionImagenRegistro;
     private javax.swing.JPanel Registro;
     private javax.swing.JButton botonAltaRegistro;
     private javax.swing.JButton botonAltaRegistro1;
+    private javax.swing.JButton botonAltaRegistro2;
     private javax.swing.JButton botonAltaRegistroMayorista;
     private javax.swing.JButton botonLimpiarRegistro;
     private javax.swing.JButton botonLimpiarRegistro1;
+    private javax.swing.JButton botonLimpiarRegistro2;
     private javax.swing.JButton botonLimpiarRegistroMayorista;
     private javax.swing.JTable consultaTablaDuenos;
     private javax.swing.JTable consultaTablaMayoristas;
@@ -913,6 +1075,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JList<String> consultasVentaMax;
     private javax.swing.JTextField direccionMayorista;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -948,14 +1111,12 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -989,28 +1150,38 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel panelRegistroItem;
     private javax.swing.JPanel panelRegistroMayorista;
     private javax.swing.JPanel panelRegistroPuesto;
+    private javax.swing.JPanel panelRegistroPuesto1;
     private javax.swing.JLabel productosMayorista;
     private javax.swing.JTextField registroDescripcion;
     private javax.swing.JTextField registroDueño;
+    private javax.swing.JTextField registroEdadDueño;
+    private javax.swing.JTextField registroEdadExperiencia;
     private javax.swing.JTextField registroIdentificacion;
     private javax.swing.JTextField registroNombre;
+    private javax.swing.JTextField registroNombreDueño;
     private javax.swing.JTextField registroNumeroEmpleados;
     private javax.swing.JComboBox<String> registroTipo;
     private javax.swing.JTextField registroUbicacion;
     private javax.swing.JComboBox<String> registroVentaPor;
     private javax.swing.JComboBox<String> registroVentaPor1;
     private javax.swing.JTextField rutMayorista;
+    private javax.swing.JComboBox<String> seleccionMayorista;
     private javax.swing.JFileChooser seleccionarImagen;
+    private javax.swing.JLabel textoDescripcion;
     private javax.swing.JLabel textoDireccion;
     private javax.swing.JLabel textoImagen;
+    private javax.swing.JLabel textoNombre;
+    private javax.swing.JLabel textoNombreItem;
     private javax.swing.JLabel textoNombreMayorista;
     private javax.swing.JLabel textoRut;
+    private javax.swing.JLabel textoSeleccionMayorista;
+    private javax.swing.JLabel textoTipo;
+    private javax.swing.JLabel textoVentaPor;
     // End of variables declaration//GEN-END:variables
 
     private void LimpiarFormRegistro() {
         registroDescripcion.setText("");
         registroNombre.setText("");
     }
-    
-    
+
 }

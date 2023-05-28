@@ -9,11 +9,11 @@ public class Mayorista {
     private String direccion;
     private ArrayList<Item> listaItems;
 
-    public Mayorista(String rut, String nombre, String direccion /*ArrayList listaItems*/) {
+    public Mayorista(String rut, String nombre, String direccion) {
         this.rut = rut;
         this.nombre = nombre;
         this.direccion = direccion;
-        //this.listaItems = listaItems;
+        this.listaItems = new ArrayList<Item>();
     }
 
     public String getRut() {
@@ -45,18 +45,18 @@ public class Mayorista {
     }
 
     public void agregarItem(Item unItem) {
-        this.getListaItems().add(unItem);
+        this.listaItems.add(unItem);
     }
 
-    @Override
-    
-    public String toString() {
-        String result = nombre + " " + direccion + " ";
-        for (Item item : listaItems) {
-            result += item.getNombre() + " ";
+    public boolean itemUnico(String nombre) {
+        for (Item item : this.getListaItems()) {
+            if (item.getNombre().equals(nombre)) {
+                System.out.println("Ya existe un item con ese nombre.");
+                return false;
+            }
         }
-        return result;
-
+        System.out.println("no esiste");
+        return true;
     }
 
 }
