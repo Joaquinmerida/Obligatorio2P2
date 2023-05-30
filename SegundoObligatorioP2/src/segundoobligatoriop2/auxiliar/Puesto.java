@@ -8,14 +8,15 @@ public class Puesto {
     private Object dueño;
     private String ubicacion;
     private int cantidadEmpleados;
+    private ArrayList<Puesto> puesto; 
     private ArrayList stock;
 
-    public Puesto(String identificacion, Object dueño, String ubicacion, int cantidadEmpleados, ArrayList stock) {
+    public Puesto(String identificacion, Object dueño, String ubicacion, int cantidadEmpleados) {
         this.identificacion = identificacion;
         this.dueño = dueño;
         this.ubicacion = ubicacion;
         this.cantidadEmpleados = cantidadEmpleados;
-        this.stock = stock;
+        this.stock = new ArrayList<Item>();
     }
 
     public String getIdentificacion() {

@@ -7,11 +7,13 @@ import segundoobligatoriop2.auxiliar.*;
 public class Sistema {
 
     private static ArrayList<Mayorista> listaMayoristas;
-    private static ArrayList<Puesto> listaPuestos;
+    private static ArrayList<Puesto> listaPuesto;
+    private static ArrayList<Dueno> listaDuenos;
 
     public static void main(String[] args) {
         listaMayoristas = new ArrayList<>();
-        listaPuestos = new ArrayList<>();
+        listaDuenos = new ArrayList<>();
+        listaPuesto= new ArrayList<>();
         Interfaz v = new Interfaz();
         v.setVisible(true);
 
@@ -21,10 +23,14 @@ public class Sistema {
         return listaMayoristas;
     }
 
-    public ArrayList<Puesto> getListaPuestos() {
-        return listaPuestos;
+    public static ArrayList<Dueno> getListaDuenos() {
+         return listaDuenos;
     }
 
+    public  static ArrayList<Puesto> getListaPuesto() {
+        return listaPuesto;
+    }
+    
     public static void agregarMayorista(String nombre, String rut, String direccion) {
         if (mayoristaUnico(rut)) {
             System.out.println("ya existe ese mayorista");
@@ -37,6 +43,31 @@ public class Sistema {
             System.out.println(mayorista.getNombre());
         }
     }
+    
+    public static void agregarPuesto(String identificacion,String dueno, String ubicacion, int empleados){
+        if(identificacionUnico(identificacion)){
+            System.out.println("Ya existe un puesto con esa identificacion");
+        }else{
+            Puesto unpuesto = new Puesto(identificacion, dueno, ubicacion, empleados);
+            Sistema.getListaPuesto().add(unpuesto);
+        }
+    
+    }
+    
+    public static void agregarDueno(String nombre, int edad, int experiencia){
+        if(nombreDueñoUnico(nombre)){
+            System.out.println("ya existe ese nombre");
+        }else{
+            Dueno unDueño = new Dueno(nombre, edad, experiencia);
+            Sistema.getListaDuenos().add(unDueño);
+            System.out.println("se agrego Dueño");
+        }
+        for(Dueno unDueño : listaDuenos){
+            System.out.println(unDueño.getNombre());
+        }
+    
+    
+    }
 
     public static Boolean mayoristaUnico(String rut) {
         Boolean existe = false;
@@ -44,6 +75,29 @@ public class Sistema {
             if (mayorista.getRut().contains(rut)) {
                 existe = true;
                 System.out.println("ya hay un mayorista con ese rut");
+            }
+        }
+        return existe;
+    }
+    
+    public static Boolean identificacionUnico(String identificacion){
+        Boolean existe= false;
+        for(Puesto puesto:listaPuesto){
+            if(puesto.getIdentificacion().equalsIgnoreCase(identificacion)){
+                existe=true;
+                System.out.println("Ya hay un puesto con esa identificacion");
+            
+            }
+        }
+     return existe;
+    }
+    
+    public static Boolean nombreDueñoUnico(String nombre){
+        Boolean existe= false;
+        for(Dueno Dueños:listaDuenos){
+            if(Dueños.getNombre().contains(nombre)){
+                existe=true;
+                System.out.println("Ya hay un Dueño con ese nombre");
             }
         }
         return existe;
@@ -68,7 +122,7 @@ public class Sistema {
     }
 
     public void agregarPuesto(Puesto unPuesto) {
-        this.getListaPuestos().add(unPuesto);
+        this.getListaPuesto().add(unPuesto);
     }
 
     public static void altaItem(String nombre, String descripcion, String tipo, String formaVenta, String imagen) {

@@ -1,13 +1,16 @@
 
 package segundoobligatoriop2.auxiliar;
 
-public class Dueño {
+import java.util.ArrayList;
+
+public class Dueno {
 
     private String nombre;
     private int edad;
     private int añosExperiencia;
+    private ArrayList <Dueno> listaDuenos;
 
-    public Dueño(String nombre, int Edad, int añosExperiencia) {
+    public Dueno(String nombre, int Edad, int añosExperiencia) {
         this.nombre = nombre;
         this.edad = edad;
         this.añosExperiencia = añosExperiencia;
@@ -16,6 +19,7 @@ public class Dueño {
     public String getNombre() {
         return nombre;
     }
+    
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -36,4 +40,5 @@ public class Dueño {
     public void setAñosExperiencia(int añosExperiencia) {
         this.añosExperiencia = añosExperiencia;
     }
+    
 }
