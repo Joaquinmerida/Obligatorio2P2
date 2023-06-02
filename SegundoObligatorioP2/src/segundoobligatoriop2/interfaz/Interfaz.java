@@ -5,10 +5,12 @@
 package segundoobligatoriop2.interfaz;
 
 import java.awt.Image;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
@@ -24,9 +26,11 @@ public class Interfaz extends javax.swing.JFrame {
         inicializarComboMayoristas();
         inicializarComboDuenos();
         inicializarListaPuestos();
+        inicializarListaMayoristas();
     }
 
     private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
+    private DefaultListModel<String> seleccionListaMayoristasModel = new DefaultListModel<>();
 
     private void inicializarComboMayoristas() {
         seleccionMayorista.setModel(new DefaultComboBoxModel<>());
@@ -38,22 +42,47 @@ public class Interfaz extends javax.swing.JFrame {
         actualizarComboDuenos();
     }
 
+    private void inicializarComboItemsAVender() {
+        itemAComprar.setModel(new DefaultComboBoxModel<>());
+        actualizarComboItemsAVender();
+
+    }
+
     private void inicializarListaPuestos() {
         seleccionListaPuestos.setModel(seleccionListaPuestosModel);
         contenedorListaPuestos.setViewportView(seleccionListaPuestos);
     }
 
+    private void inicializarListaMayoristas() {
+        seleccionListaMayoristas.setModel(seleccionListaMayoristasModel);
+        contenedorListaMayoristas.setViewportView(seleccionListaMayoristas);
+    }
+
     private void actualizarListaPuestos() {
-        ArrayList<Puesto> listaPuesto = Sistema.getListaPuesto();
+        ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
         System.out.println(seleccionListaPuestosModel.getSize());
-        if (listaPuesto.isEmpty()) {
+        if (listaPuestos.isEmpty()) {
             seleccionListaPuestosModel.addElement("No hay ningún puesto registrado");
         } else {
             seleccionListaPuestosModel.clear();
-            for (Puesto puesto : listaPuesto) {
+            for (Puesto puesto : listaPuestos) {
                 String idPuesto = puesto.getIdentificacion();
                 System.out.println(idPuesto);
-                seleccionListaPuestosModel.addElement(idPuesto + "");
+                seleccionListaPuestosModel.addElement(idPuesto);
+            }
+        }
+    }
+
+    private void actualizarListaMayoristas() {
+        ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
+        System.out.println(seleccionListaMayoristasModel.getSize());
+        if (listaMayoristas.isEmpty()) {
+            seleccionListaMayoristasModel.addElement("No hay ningún puesto registrado");
+        } else {
+            seleccionListaMayoristasModel.clear();
+            for (Mayorista mayorista : listaMayoristas) {
+                String nombreMayorista = mayorista.getNombre();
+                seleccionListaMayoristasModel.addElement(nombreMayorista);
             }
         }
     }
@@ -90,6 +119,28 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
 
+    public void actualizarComboItemsAVender() {
+//        String mayoristaSeleccionado
+//                = ArrayList < Item > listaItems = 
+
+    }
+
+    public String getSelectedItem(String nombreLista) {
+        try {
+            Field field = getClass().getDeclaredField(nombreLista);
+            field.setAccessible(true);
+            JList<String> listaSeleccionada = (JList<String>) field.get(this);
+            if (listaSeleccionada != null) {
+                String selectedItem = listaSeleccionada.getSelectedValue();
+                return selectedItem;
+
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return "JList no encontrada";
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,19 +163,6 @@ public class Interfaz extends javax.swing.JFrame {
         inicioImagen = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        movimiendoPindvPaM = new javax.swing.JTextField();
-        movimientocantidadCompra = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        movimientocomboDePuestosVenta = new javax.swing.JComboBox<>();
-        contenedorListaPuestos = new javax.swing.JScrollPane(seleccionListaPuestos);
-        seleccionListaPuestos = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -227,6 +265,23 @@ public class Interfaz extends javax.swing.JFrame {
         registroEdadExperiencia = new javax.swing.JTextField();
         botonLimpiarRegistro2 = new javax.swing.JButton();
         botonAltaRegistro2 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        movimiendoPindvPaM = new javax.swing.JTextField();
+        movimientocantidadCompra = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        movimientocomboDePuestosVenta = new javax.swing.JComboBox<>();
+        contenedorListaPuestos = new javax.swing.JScrollPane(seleccionListaMayoristas);
+        seleccionListaPuestos = new javax.swing.JList<>();
+        contenedorListaMayoristas = new javax.swing.JScrollPane(seleccionListaMayoristas);
+        seleccionListaMayoristas = new javax.swing.JList<>();
+        itemAComprar = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -279,75 +334,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane4.addTab("Inicio", jPanel4);
 
-        jPanel5.setLayout(null);
-
-        jLabel6.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
-        jLabel6.setText("Registrar compra de productos");
-        jPanel5.add(jLabel6);
-        jLabel6.setBounds(350, 10, 500, 25);
-
-        jLabel7.setText("Puesto que realiza la compra:");
-        jPanel5.add(jLabel7);
-        jLabel7.setBounds(80, 60, 210, 16);
-
-        jLabel8.setText("Mayorista al que le compran:");
-        jPanel5.add(jLabel8);
-        jLabel8.setBounds(770, 60, 160, 16);
-
-        jLabel9.setText("Precio individual:");
-        jPanel5.add(jLabel9);
-        jLabel9.setBounds(430, 90, 100, 16);
-
-        jLabel10.setText("Cantidad:");
-        jPanel5.add(jLabel10);
-        jLabel10.setBounds(430, 140, 60, 16);
-
-        movimiendoPindvPaM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                movimiendoPindvPaMActionPerformed(evt);
-            }
-        });
-        jPanel5.add(movimiendoPindvPaM);
-        movimiendoPindvPaM.setBounds(550, 90, 120, 22);
-
-        movimientocantidadCompra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                movimientocantidadCompraActionPerformed(evt);
-            }
-        });
-        jPanel5.add(movimientocantidadCompra);
-        movimientocantidadCompra.setBounds(550, 140, 120, 22);
-
-        jLabel11.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
-        jLabel11.setText("Registrar venta de productos");
-        jPanel5.add(jLabel11);
-        jLabel11.setBounds(360, 390, 420, 25);
-
-        jLabel12.setText("Puestos:");
-        jPanel5.add(jLabel12);
-        jLabel12.setBounds(30, 500, 60, 16);
-
-        movimientocomboDePuestosVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        movimientocomboDePuestosVenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                movimientocomboDePuestosVentaActionPerformed(evt);
-            }
-        });
-        jPanel5.add(movimientocomboDePuestosVenta);
-        movimientocomboDePuestosVenta.setBounds(90, 490, 120, 40);
-
-        contenedorListaPuestos.setViewportView(seleccionListaPuestos);
-
-        jPanel5.add(contenedorListaPuestos);
-        contenedorListaPuestos.setBounds(70, 100, 300, 260);
-
-        jTabbedPane4.addTab("Movimientos", jPanel5);
-
         jPanel3.setLayout(null);
 
         jLabel29.setText("Tipo de movimiento:");
         jPanel3.add(jLabel29);
-        jLabel29.setBounds(30, 60, 120, 16);
+        jLabel29.setBounds(30, 60, 120, 17);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(jComboBox1);
@@ -355,15 +346,15 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel30.setText("Rango de movimiento:");
         jPanel3.add(jLabel30);
-        jLabel30.setBounds(30, 140, 130, 16);
+        jLabel30.setBounds(30, 140, 130, 17);
 
         jLabel31.setText("Desde:");
         jPanel3.add(jLabel31);
-        jLabel31.setBounds(190, 140, 35, 16);
+        jLabel31.setBounds(190, 140, 42, 17);
 
         jLabel32.setText("Hasta:");
         jPanel3.add(jLabel32);
-        jLabel32.setBounds(400, 140, 33, 16);
+        jLabel32.setBounds(400, 140, 38, 17);
 
         jTextField1.setText("jTextField1");
         jPanel3.add(jTextField1);
@@ -375,39 +366,39 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel33.setText("Puesto:");
         jPanel3.add(jLabel33);
-        jLabel33.setBounds(30, 220, 43, 16);
+        jLabel33.setBounds(30, 220, 43, 17);
 
         jCheckBox1.setText("jCheckBox1");
         jPanel3.add(jCheckBox1);
-        jCheckBox1.setBounds(90, 220, 100, 20);
+        jCheckBox1.setBounds(90, 220, 100, 21);
 
         jCheckBox2.setText("jCheckBox2");
         jPanel3.add(jCheckBox2);
-        jCheckBox2.setBounds(90, 250, 85, 20);
+        jCheckBox2.setBounds(90, 250, 93, 21);
 
         jCheckBox3.setText("jCheckBox3");
         jPanel3.add(jCheckBox3);
-        jCheckBox3.setBounds(90, 280, 85, 20);
+        jCheckBox3.setBounds(90, 280, 93, 21);
 
         jCheckBox4.setText("jCheckBox4");
         jPanel3.add(jCheckBox4);
-        jCheckBox4.setBounds(90, 310, 85, 20);
+        jCheckBox4.setBounds(90, 310, 93, 21);
 
         jCheckBox5.setText("jCheckBox5");
         jPanel3.add(jCheckBox5);
-        jCheckBox5.setBounds(90, 340, 85, 20);
+        jCheckBox5.setBounds(90, 340, 93, 21);
 
         jCheckBox6.setText("jCheckBox6");
         jPanel3.add(jCheckBox6);
-        jCheckBox6.setBounds(90, 370, 85, 20);
+        jCheckBox6.setBounds(90, 370, 93, 21);
 
         jLabel34.setText("Nombre del archivo a generar:");
         jPanel3.add(jLabel34);
-        jLabel34.setBounds(270, 220, 170, 16);
+        jLabel34.setBounds(270, 220, 170, 17);
 
         jTextField3.setText("jTextField3");
         jPanel3.add(jTextField3);
-        jTextField3.setBounds(450, 220, 240, 22);
+        jTextField3.setBounds(450, 220, 240, 23);
 
         jButton1.setText("Generar Archivo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -426,19 +417,19 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel13.setText("Nombre:");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(190, 60, 70, 16);
+        jLabel13.setBounds(190, 60, 70, 17);
 
         jLabel14.setText("Descripcion:");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(190, 110, 80, 16);
+        jLabel14.setBounds(190, 110, 80, 17);
 
         jLabel15.setText("Tipo:");
         jPanel2.add(jLabel15);
-        jLabel15.setBounds(190, 160, 26, 16);
+        jLabel15.setBounds(190, 160, 29, 17);
 
         jLabel16.setText("Venta por:");
         jPanel2.add(jLabel16);
-        jLabel16.setBounds(190, 200, 60, 16);
+        jLabel16.setBounds(190, 200, 60, 17);
 
         consultasNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -446,7 +437,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jPanel2.add(consultasNombre);
-        consultasNombre.setBounds(290, 60, 130, 22);
+        consultasNombre.setBounds(290, 60, 130, 23);
 
         consultasDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -454,51 +445,51 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jPanel2.add(consultasDescripcion);
-        consultasDescripcion.setBounds(290, 110, 230, 22);
+        consultasDescripcion.setBounds(290, 110, 230, 23);
 
         consultasComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(consultasComboTipo);
-        consultasComboTipo.setBounds(290, 160, 72, 22);
+        consultasComboTipo.setBounds(290, 160, 72, 23);
 
         consultasComboVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(consultasComboVentaPor);
-        consultasComboVentaPor.setBounds(290, 200, 72, 22);
+        consultasComboVentaPor.setBounds(290, 200, 72, 23);
 
         jLabel17.setText("Informacion del producto:");
         jPanel2.add(jLabel17);
-        jLabel17.setBounds(560, 60, 190, 16);
+        jLabel17.setBounds(560, 60, 190, 17);
 
         jLabel18.setText("Total $ vendido entre todos los puestos:");
         jPanel2.add(jLabel18);
-        jLabel18.setBounds(560, 100, 250, 16);
+        jLabel18.setBounds(560, 100, 250, 17);
 
         jLabel19.setText("Total $ comprado por todos los puestos:");
         jPanel2.add(jLabel19);
-        jLabel19.setBounds(560, 140, 220, 16);
+        jLabel19.setBounds(560, 140, 220, 17);
 
         jLabel20.setText("Cantidad total vendida entre todos los puestos (kilo/unidad):");
         jPanel2.add(jLabel20);
-        jLabel20.setBounds(560, 180, 330, 16);
+        jLabel20.setBounds(560, 180, 330, 17);
 
         jLabel21.setText("Cantidad total comprade entre todos los puestos(kilo/unidad):");
         jPanel2.add(jLabel21);
-        jLabel21.setBounds(560, 220, 330, 16);
+        jLabel21.setBounds(560, 220, 330, 17);
 
         jLabel22.setText("Precio minimo vendido:");
         jPanel2.add(jLabel22);
-        jLabel22.setBounds(560, 260, 130, 16);
+        jLabel22.setBounds(560, 260, 130, 17);
 
         jLabel23.setText("Precio maximo vendido:");
         jPanel2.add(jLabel23);
-        jLabel23.setBounds(760, 260, 130, 16);
+        jLabel23.setBounds(760, 260, 130, 17);
 
         jLabel24.setText("Puestos con el precio de venta minimo:");
         jPanel2.add(jLabel24);
-        jLabel24.setBounds(560, 300, 220, 16);
+        jLabel24.setBounds(560, 300, 220, 17);
 
         jLabel25.setText("Puestos con el precio de venta maximo:");
         jPanel2.add(jLabel25);
-        jLabel25.setBounds(820, 300, 230, 16);
+        jLabel25.setBounds(820, 300, 230, 17);
 
         consultasPrecioMin.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -535,7 +526,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel26.setText("Consulta de duenos:");
         jPanel2.add(jLabel26);
-        jLabel26.setBounds(10, 560, 210, 16);
+        jLabel26.setBounds(10, 560, 210, 17);
 
         consultaTablaMayoristas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -555,7 +546,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel27.setText("Consulta de puestos:");
         jPanel2.add(jLabel27);
-        jLabel27.setBounds(560, 560, 120, 16);
+        jLabel27.setBounds(560, 560, 120, 17);
 
         consultaTablaDuenos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -575,7 +566,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel28.setText("Consulta de mayoristas:");
         jPanel2.add(jLabel28);
-        jLabel28.setBounds(10, 800, 230, 16);
+        jLabel28.setBounds(10, 800, 230, 17);
 
         consultaTablaPuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -601,7 +592,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoSeleccionMayorista.setText("Mayorista:");
         panelRegistroItem.add(textoSeleccionMayorista);
-        textoSeleccionMayorista.setBounds(100, 70, 60, 16);
+        textoSeleccionMayorista.setBounds(100, 70, 60, 17);
 
         seleccionMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -609,11 +600,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(seleccionMayorista);
-        seleccionMayorista.setBounds(260, 70, 260, 22);
+        seleccionMayorista.setBounds(260, 70, 260, 23);
 
         textoNombreItem.setText("Nombre:");
         panelRegistroItem.add(textoNombreItem);
-        textoNombreItem.setBounds(100, 119, 60, 16);
+        textoNombreItem.setBounds(100, 119, 60, 17);
 
         registroNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -621,11 +612,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroNombre);
-        registroNombre.setBounds(260, 119, 260, 22);
+        registroNombre.setBounds(260, 119, 260, 23);
 
         textoDescripcion.setText("Descripcion:");
         panelRegistroItem.add(textoDescripcion);
-        textoDescripcion.setBounds(100, 179, 90, 16);
+        textoDescripcion.setBounds(100, 179, 90, 17);
 
         registroDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -633,11 +624,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroDescripcion);
-        registroDescripcion.setBounds(260, 179, 260, 22);
+        registroDescripcion.setBounds(260, 179, 260, 23);
 
         textoTipo.setText("Tipo:");
         panelRegistroItem.add(textoTipo);
-        textoTipo.setBounds(100, 239, 26, 16);
+        textoTipo.setBounds(100, 239, 29, 17);
 
         registroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
         registroTipo.setName("");
@@ -651,11 +642,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoVentaPor.setText("Venta por:");
         panelRegistroItem.add(textoVentaPor);
-        textoVentaPor.setBounds(100, 279, 110, 16);
+        textoVentaPor.setBounds(100, 279, 110, 17);
 
         registroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
         panelRegistroItem.add(registroVentaPor);
-        registroVentaPor.setBounds(260, 279, 110, 22);
+        registroVentaPor.setBounds(260, 279, 110, 23);
 
         botonLimpiarRegistro.setText("Limpiar");
         botonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -677,7 +668,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoImagen.setText("Imagen:");
         panelRegistroItem.add(textoImagen);
-        textoImagen.setBounds(590, 40, 60, 16);
+        textoImagen.setBounds(590, 40, 60, 17);
         panelRegistroItem.add(AparicionImagenRegistro);
         AparicionImagenRegistro.setBounds(50, 360, 180, 140);
 
@@ -685,7 +676,7 @@ public class Interfaz extends javax.swing.JFrame {
         seleccionarImagen.setApproveButtonText("Abrir");
         seleccionarImagen.setApproveButtonToolTipText("Cancelar");
         seleccionarImagen.setDialogTitle("");
-        seleccionarImagen.setSelectedFile(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
+        seleccionarImagen.setSelectedFile(new java.io.File("/C:/Users/joaqu/OneDrive/Escritorio/Obligatorio2P2/Obligatorio2P2/SegundoObligatorioP2/src/segundoobligatoriop2/ImagenesOblig"));
         seleccionarImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         seleccionarImagen.setDoubleBuffered(true);
         seleccionarImagen.setName("seleccionarImagen");
@@ -712,7 +703,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreMayorista.setText("Nombre:");
         panelRegistroMayorista.add(textoNombreMayorista);
-        textoNombreMayorista.setBounds(100, 119, 60, 16);
+        textoNombreMayorista.setBounds(100, 119, 60, 17);
 
         nombreMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -720,11 +711,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(nombreMayorista);
-        nombreMayorista.setBounds(260, 119, 120, 22);
+        nombreMayorista.setBounds(260, 119, 120, 23);
 
         textoRut.setText("Rut:");
         panelRegistroMayorista.add(textoRut);
-        textoRut.setBounds(100, 179, 90, 16);
+        textoRut.setBounds(100, 179, 90, 17);
 
         rutMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -732,11 +723,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(rutMayorista);
-        rutMayorista.setBounds(260, 179, 300, 22);
+        rutMayorista.setBounds(260, 179, 300, 23);
 
         textoDireccion.setText("Dirección:");
         panelRegistroMayorista.add(textoDireccion);
-        textoDireccion.setBounds(100, 230, 70, 16);
+        textoDireccion.setBounds(100, 230, 70, 17);
 
         direccionMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -744,11 +735,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(direccionMayorista);
-        direccionMayorista.setBounds(260, 230, 300, 22);
+        direccionMayorista.setBounds(260, 230, 300, 23);
 
         productosMayorista.setText("Productos que ofrece:");
         panelRegistroMayorista.add(productosMayorista);
-        productosMayorista.setBounds(650, 100, 140, 16);
+        productosMayorista.setBounds(650, 100, 140, 17);
 
         registroVentaPor1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "aca", "va" ,"cada","item"}));
         panelRegistroMayorista.add(registroVentaPor1);
@@ -782,23 +773,23 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroIdentificacion);
-        registroIdentificacion.setBounds(260, 119, 120, 22);
+        registroIdentificacion.setBounds(260, 119, 120, 23);
 
         jLabel39.setText("Identificacion:");
         panelRegistroPuesto.add(jLabel39);
-        jLabel39.setBounds(100, 119, 90, 16);
+        jLabel39.setBounds(100, 119, 90, 17);
 
         jLabel40.setText("Dueño:");
         panelRegistroPuesto.add(jLabel40);
-        jLabel40.setBounds(100, 179, 90, 16);
+        jLabel40.setBounds(100, 179, 90, 17);
 
         jLabel41.setText("Ubicación:");
         panelRegistroPuesto.add(jLabel41);
-        jLabel41.setBounds(100, 239, 100, 16);
+        jLabel41.setBounds(100, 239, 100, 17);
 
         jLabel42.setText("Cantidad empleados:");
         panelRegistroPuesto.add(jLabel42);
-        jLabel42.setBounds(100, 290, 120, 16);
+        jLabel42.setBounds(100, 290, 120, 17);
 
         botonLimpiarRegistro1.setText("Limpiar");
         botonLimpiarRegistro1.addActionListener(new java.awt.event.ActionListener() {
@@ -824,7 +815,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroUbicacion);
-        registroUbicacion.setBounds(260, 240, 120, 22);
+        registroUbicacion.setBounds(260, 240, 120, 23);
 
         registroNumeroEmpleados.setText("0");
         registroNumeroEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -833,7 +824,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroNumeroEmpleados);
-        registroNumeroEmpleados.setBounds(260, 290, 30, 22);
+        registroNumeroEmpleados.setBounds(260, 290, 30, 23);
 
         registroPuestoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         registroPuestoCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -842,7 +833,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroPuestoCombo);
-        registroPuestoCombo.setBounds(260, 180, 120, 22);
+        registroPuestoCombo.setBounds(260, 180, 120, 23);
 
         menuRegistro.addTab("Puesto", panelRegistroPuesto);
 
@@ -850,7 +841,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombre.setText("Nombre");
         panelRegistroPuesto1.add(textoNombre);
-        textoNombre.setBounds(100, 119, 90, 16);
+        textoNombre.setBounds(100, 119, 90, 17);
 
         registroNombreDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -858,11 +849,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroNombreDueño);
-        registroNombreDueño.setBounds(260, 119, 120, 22);
+        registroNombreDueño.setBounds(260, 119, 120, 23);
 
         jLabel44.setText("Edad:");
         panelRegistroPuesto1.add(jLabel44);
-        jLabel44.setBounds(100, 179, 90, 16);
+        jLabel44.setBounds(100, 179, 90, 17);
 
         registroEdadDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -870,11 +861,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadDueño);
-        registroEdadDueño.setBounds(260, 179, 130, 22);
+        registroEdadDueño.setBounds(260, 179, 130, 23);
 
         jLabel45.setText("Años de experiencia:");
         panelRegistroPuesto1.add(jLabel45);
-        jLabel45.setBounds(100, 239, 100, 16);
+        jLabel45.setBounds(100, 239, 100, 17);
 
         registroEdadExperiencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -882,7 +873,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadExperiencia);
-        registroEdadExperiencia.setBounds(260, 240, 40, 22);
+        registroEdadExperiencia.setBounds(260, 240, 40, 23);
 
         botonLimpiarRegistro2.setText("Limpiar");
         botonLimpiarRegistro2.addActionListener(new java.awt.event.ActionListener() {
@@ -908,6 +899,97 @@ public class Interfaz extends javax.swing.JFrame {
         menuRegistro.setBounds(50, 10, 1170, 580);
 
         jTabbedPane4.addTab("Registros", Registro);
+
+        jPanel5.setLayout(null);
+
+        jLabel6.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
+        jLabel6.setText("Registrar compra de productos");
+        jPanel5.add(jLabel6);
+        jLabel6.setBounds(350, 10, 500, 30);
+
+        jLabel7.setText("Puesto que realiza la compra:");
+        jPanel5.add(jLabel7);
+        jLabel7.setBounds(80, 60, 210, 17);
+
+        jLabel8.setText("Mayorista al que le compran:");
+        jPanel5.add(jLabel8);
+        jLabel8.setBounds(80, 250, 210, 17);
+
+        jLabel9.setText("Precio individual:");
+        jPanel5.add(jLabel9);
+        jLabel9.setBounds(470, 140, 100, 20);
+
+        jLabel10.setText("Cantidad:");
+        jPanel5.add(jLabel10);
+        jLabel10.setBounds(510, 190, 60, 20);
+
+        movimiendoPindvPaM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                movimiendoPindvPaMActionPerformed(evt);
+            }
+        });
+        jPanel5.add(movimiendoPindvPaM);
+        movimiendoPindvPaM.setBounds(590, 130, 160, 40);
+
+        movimientocantidadCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                movimientocantidadCompraActionPerformed(evt);
+            }
+        });
+        jPanel5.add(movimientocantidadCompra);
+        movimientocantidadCompra.setBounds(590, 180, 160, 40);
+
+        jLabel11.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
+        jLabel11.setText("Registrar venta de productos");
+        jPanel5.add(jLabel11);
+        jLabel11.setBounds(360, 440, 420, 30);
+
+        jLabel12.setText("Puestos:");
+        jPanel5.add(jLabel12);
+        jLabel12.setBounds(30, 500, 60, 17);
+
+        movimientocomboDePuestosVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        movimientocomboDePuestosVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                movimientocomboDePuestosVentaActionPerformed(evt);
+            }
+        });
+        jPanel5.add(movimientocomboDePuestosVenta);
+        movimientocomboDePuestosVenta.setBounds(90, 490, 120, 40);
+
+        seleccionListaPuestos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                seleccionListaPuestosValueChanged(evt);
+            }
+        });
+        contenedorListaPuestos.setViewportView(seleccionListaPuestos);
+
+        jPanel5.add(contenedorListaPuestos);
+        contenedorListaPuestos.setBounds(80, 80, 300, 150);
+
+        seleccionListaMayoristas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                seleccionListaMayoristasMouseClicked(evt);
+            }
+        });
+        contenedorListaMayoristas.setViewportView(seleccionListaMayoristas);
+
+        jPanel5.add(contenedorListaMayoristas);
+        contenedorListaMayoristas.setBounds(80, 270, 300, 150);
+
+        itemAComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAComprarActionPerformed(evt);
+            }
+        });
+        jPanel5.add(itemAComprar);
+        itemAComprar.setBounds(590, 80, 160, 40);
+
+        jLabel2.setText("Item:");
+        jPanel5.add(jLabel2);
+        jLabel2.setBounds(540, 90, 29, 17);
+
+        jTabbedPane4.addTab("Movimientos", jPanel5);
 
         getContentPane().add(jTabbedPane4);
         jTabbedPane4.setBounds(0, 0, 1240, 1160);
@@ -1001,6 +1083,7 @@ public class Interfaz extends javax.swing.JFrame {
         Sistema.agregarMayorista(nombre, rut, direccion);
 
         actualizarComboMayorista();
+        actualizarListaMayoristas();
 
     }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
 
@@ -1096,6 +1179,30 @@ public class Interfaz extends javax.swing.JFrame {
 
     }//GEN-LAST:event_registroPuestoComboActionPerformed
 
+    private void itemAComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAComprarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemAComprarActionPerformed
+
+    private void seleccionListaPuestosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaPuestosValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            String selectedItem = getSelectedItem("seleccionListaPuestos");
+            System.out.println("Ítem seleccionado en jList1: " + selectedItem);
+        }
+        
+        //
+        
+        ///CAMBIAR EL CODIGO DE ACA PARA QUE SEA DINAMICO DE LA LISTA QUE SE ELIJA
+        //
+        
+        ///
+        
+        ///
+    }//GEN-LAST:event_seleccionListaPuestosValueChanged
+
+    private void seleccionListaMayoristasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionListaMayoristasMouseClicked
+
+    }//GEN-LAST:event_seleccionListaMayoristasMouseClicked
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1157,9 +1264,11 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField consultasNombre;
     private javax.swing.JList<String> consultasPrecioMin;
     private javax.swing.JList<String> consultasVentaMax;
+    private javax.swing.JScrollPane contenedorListaMayoristas;
     private javax.swing.JScrollPane contenedorListaPuestos;
     private javax.swing.JTextField direccionMayorista;
     private javax.swing.JLabel inicioImagen;
+    private javax.swing.JComboBox<String> itemAComprar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
@@ -1183,6 +1292,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1250,6 +1360,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> registroVentaPor;
     private javax.swing.JComboBox<String> registroVentaPor1;
     private javax.swing.JTextField rutMayorista;
+    private javax.swing.JList<String> seleccionListaMayoristas;
     private javax.swing.JList<String> seleccionListaPuestos;
     private javax.swing.JComboBox<String> seleccionMayorista;
     private javax.swing.JFileChooser seleccionarImagen;
