@@ -7,8 +7,9 @@ package segundoobligatoriop2.interfaz;
 import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.*;
@@ -22,37 +23,56 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
         inicializarComboMayoristas();
         inicializarComboDuenos();
-
+        inicializarListaPuestos();
     }
+
+    private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
 
     private void inicializarComboMayoristas() {
         seleccionMayorista.setModel(new DefaultComboBoxModel<>());
         actualizarComboMayorista();
     }
-    
-     private void inicializarComboDuenos() {
+
+    private void inicializarComboDuenos() {
         registroPuestoCombo.setModel(new DefaultComboBoxModel<>());
         actualizarComboDuenos();
     }
-     
-    public void actualizarComboDuenos(){
-    ArrayList<Dueno>listaDuenos= Sistema.getListaDuenos();
-    
-    DefaultComboBoxModel<String> comboBoxModel = (DefaultComboBoxModel<String>)registroPuestoCombo.getModel();
-    if(listaDuenos.isEmpty()){
-        comboBoxModel.addElement("No hay ningun dueno registrado");
-        return;
-    
+
+    private void inicializarListaPuestos() {
+        seleccionListaPuestos.setModel(seleccionListaPuestosModel);
+        contenedorListaPuestos.setViewportView(seleccionListaPuestos);
     }
-    comboBoxModel.removeAllElements();
-    for(Dueno duenos:listaDuenos){
-        comboBoxModel.addElement(duenos.getNombre());
-    
+
+    private void actualizarListaPuestos() {
+        ArrayList<Puesto> listaPuesto = Sistema.getListaPuesto();
+        System.out.println(seleccionListaPuestosModel.getSize());
+        if (listaPuesto.isEmpty()) {
+            seleccionListaPuestosModel.addElement("No hay ningún puesto registrado");
+        } else {
+            seleccionListaPuestosModel.clear();
+            for (Puesto puesto : listaPuesto) {
+                String idPuesto = puesto.getIdentificacion();
+                System.out.println(idPuesto);
+                seleccionListaPuestosModel.addElement(idPuesto + "");
+            }
+        }
     }
-    
+
+    public void actualizarComboDuenos() {
+        ArrayList<Dueno> listaDuenos = Sistema.getListaDuenos();
+        DefaultComboBoxModel<String> comboBoxModel = (DefaultComboBoxModel<String>) registroPuestoCombo.getModel();
+        if (listaDuenos.isEmpty()) {
+            comboBoxModel.addElement("No hay ningun dueno registrado");
+            return;
+
+        }
+        comboBoxModel.removeAllElements();
+        for (Dueno duenos : listaDuenos) {
+            comboBoxModel.addElement(duenos.getNombre());
+
+        }
+
     }
-    
-    
 
     public void actualizarComboMayorista() {
         ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
@@ -96,10 +116,6 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listaMayoristasQueLeCompran = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listaDePuestosAComprar = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         movimiendoPindvPaM = new javax.swing.JTextField();
@@ -107,6 +123,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         movimientocomboDePuestosVenta = new javax.swing.JComboBox<>();
+        contenedorListaPuestos = new javax.swing.JScrollPane(seleccionListaPuestos);
+        seleccionListaPuestos = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -276,26 +294,6 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel5.add(jLabel8);
         jLabel8.setBounds(770, 60, 160, 16);
 
-        listaMayoristasQueLeCompran.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listaMayoristasQueLeCompran);
-
-        jPanel5.add(jScrollPane1);
-        jScrollPane1.setBounds(770, 80, 280, 290);
-
-        listaDePuestosAComprar.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(listaDePuestosAComprar);
-
-        jPanel5.add(jScrollPane2);
-        jScrollPane2.setBounds(80, 80, 280, 290);
-
         jLabel9.setText("Precio individual:");
         jPanel5.add(jLabel9);
         jLabel9.setBounds(430, 90, 100, 16);
@@ -337,6 +335,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jPanel5.add(movimientocomboDePuestosVenta);
         movimientocomboDePuestosVenta.setBounds(90, 490, 120, 40);
+
+        contenedorListaPuestos.setViewportView(seleccionListaPuestos);
+
+        jPanel5.add(contenedorListaPuestos);
+        contenedorListaPuestos.setBounds(70, 100, 300, 260);
 
         jTabbedPane4.addTab("Movimientos", jPanel5);
 
@@ -963,7 +966,7 @@ public class Interfaz extends javax.swing.JFrame {
         String formaVenta = registroVentaPor.getSelectedItem().toString();
         String imagen = seleccionarImagen.getSelectedFile().getPath();
         String mayorista = seleccionMayorista.getSelectedItem().toString();
-        System.out.println("se agregaitem: " + " nombre " + nombre + " descripcion " + descripcion + " tipo " + tipo + " forma venta : " + formaVenta+ " imagenpath: " + imagen + " mayorista : " + mayorista);
+        System.out.println("se agregaitem: " + " nombre " + nombre + " descripcion " + descripcion + " tipo " + tipo + " forma venta : " + formaVenta + " imagenpath: " + imagen + " mayorista : " + mayorista);
         Sistema.agregarItemAMayorista(mayorista, nombre, descripcion, tipo, formaVenta, imagen);
     }//GEN-LAST:event_botonAltaRegistroActionPerformed
 
@@ -986,9 +989,9 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_rutMayoristaActionPerformed
 
     private void botonLimpiarRegistroMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarRegistroMayoristaActionPerformed
-       nombreMayorista.setText("");
-       rutMayorista.setText("");
-       direccionMayorista.setText("");
+        nombreMayorista.setText("");
+        rutMayorista.setText("");
+        direccionMayorista.setText("");
     }//GEN-LAST:event_botonLimpiarRegistroMayoristaActionPerformed
 
     private void botonAltaRegistroMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistroMayoristaActionPerformed
@@ -1002,7 +1005,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
 
     private void direccionMayoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionMayoristaActionPerformed
-        
+
     }//GEN-LAST:event_direccionMayoristaActionPerformed
 
     private void registroIdentificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroIdentificacionActionPerformed
@@ -1016,12 +1019,12 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_botonLimpiarRegistro1ActionPerformed
 
     private void botonAltaRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistro1ActionPerformed
-       String identificacion=registroIdentificacion.getText();
-       String dueno=registroPuestoCombo.getSelectedItem().toString();
-       String ubicacion= registroUbicacion.getText();
-       int cantidadEmpleados= Integer.parseInt(registroNumeroEmpleados.getText());
-       Sistema.agregarPuesto(identificacion, dueno, ubicacion, cantidadEmpleados);
-       
+        String identificacion = registroIdentificacion.getText();
+        String dueno = registroPuestoCombo.getSelectedItem().toString();
+        String ubicacion = registroUbicacion.getText();
+        int cantidadEmpleados = Integer.parseInt(registroNumeroEmpleados.getText());
+        Sistema.agregarPuesto(identificacion, dueno, ubicacion, cantidadEmpleados);
+        actualizarListaPuestos();
     }//GEN-LAST:event_botonAltaRegistro1ActionPerformed
 
     private void registroUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroUbicacionActionPerformed
@@ -1053,8 +1056,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void botonAltaRegistro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistro2ActionPerformed
         String nombreDueno = registroNombreDueño.getText();
         int edad = Integer.parseInt(registroEdadDueño.getText());
-        int experiencia= Integer.parseInt(registroEdadDueño.getText());
-       
+        int experiencia = Integer.parseInt(registroEdadDueño.getText());
+
         Sistema.agregarDueno(nombreDueno, edad, experiencia);
         actualizarComboDuenos();
     }//GEN-LAST:event_botonAltaRegistro2ActionPerformed
@@ -1065,32 +1068,32 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
-        ArrayList<Puesto> listaPuesto= Sistema.getListaPuesto();
-        
-        for(Puesto unPuesto:listaPuesto){
-            System.out.println("un puesto:"+unPuesto.getIdentificacion()+"el dueno:"+unPuesto.getDueño());
-        
+        ArrayList<Puesto> listaPuesto = Sistema.getListaPuesto();
+
+        for (Puesto unPuesto : listaPuesto) {
+            System.out.println("un puesto:" + unPuesto.getIdentificacion() + "el dueno:" + unPuesto.getDueño());
+
         }
 
         for (Mayorista mayorista : listaMayoristas) {
-            System.out.println("mayorista:"+mayorista.getNombre());
+            System.out.println("mayorista:" + mayorista.getNombre());
             ArrayList<Item> listaItems = mayorista.getListaItems();
             for (Item item : listaItems) {
-                System.out.println(mayorista.getNombre()+ " <dueño producto> "+item.getNombre());
+                System.out.println(mayorista.getNombre() + " <dueño producto> " + item.getNombre());
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void inicioImagenComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_inicioImagenComponentResized
-    ImageIcon icono = (ImageIcon) inicioImagen.getIcon();
-    Image image = icono.getImage();
-    Image resizedImage = image.getScaledInstance(inicioImagen.getWidth(), inicioImagen.getHeight(), Image.SCALE_SMOOTH);
-    ImageIcon resizedIcon = new ImageIcon(resizedImage);
-    inicioImagen.setIcon(resizedIcon);
+        ImageIcon icono = (ImageIcon) inicioImagen.getIcon();
+        Image image = icono.getImage();
+        Image resizedImage = image.getScaledInstance(inicioImagen.getWidth(), inicioImagen.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        inicioImagen.setIcon(resizedIcon);
     }//GEN-LAST:event_inicioImagenComponentResized
 
     private void registroPuestoComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroPuestoComboActionPerformed
-        
+
     }//GEN-LAST:event_registroPuestoComboActionPerformed
 
     public static void main(String args[]) {
@@ -1154,6 +1157,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField consultasNombre;
     private javax.swing.JList<String> consultasPrecioMin;
     private javax.swing.JList<String> consultasVentaMax;
+    private javax.swing.JScrollPane contenedorListaPuestos;
     private javax.swing.JTextField direccionMayorista;
     private javax.swing.JLabel inicioImagen;
     private javax.swing.JButton jButton1;
@@ -1214,8 +1218,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -1225,8 +1227,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JList<String> listaDePuestosAComprar;
-    private javax.swing.JList<String> listaMayoristasQueLeCompran;
     private javax.swing.JTabbedPane menuRegistro;
     private javax.swing.JTextField movimiendoPindvPaM;
     private javax.swing.JTextField movimientocantidadCompra;
@@ -1250,6 +1250,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> registroVentaPor;
     private javax.swing.JComboBox<String> registroVentaPor1;
     private javax.swing.JTextField rutMayorista;
+    private javax.swing.JList<String> seleccionListaPuestos;
     private javax.swing.JComboBox<String> seleccionMayorista;
     private javax.swing.JFileChooser seleccionarImagen;
     private javax.swing.JLabel textoDescripcion;
