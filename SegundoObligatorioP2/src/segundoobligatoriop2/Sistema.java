@@ -1,6 +1,7 @@
 package segundoobligatoriop2;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import segundoobligatoriop2.interfaz.*;
 import segundoobligatoriop2.auxiliar.*;
 
@@ -44,6 +45,19 @@ public class Sistema {
         }
     }
     
+    
+    
+     public static Boolean mayoristaUnico(String rut) {
+        Boolean existe = false;
+        for (Mayorista mayorista : listaMayoristas) {
+            if (mayorista.getRut().contains(rut)) {
+                existe = true;
+                System.out.println("ya hay un mayorista con ese rut");
+            }
+        }
+        return existe;
+    }
+    
     public static void agregarPuesto(String identificacion,String dueno, String ubicacion, int empleados){
         if(identificacionUnico(identificacion)){
             System.out.println("Ya existe un puesto con esa identificacion");
@@ -69,16 +83,6 @@ public class Sistema {
     
     }
 
-    public static Boolean mayoristaUnico(String rut) {
-        Boolean existe = false;
-        for (Mayorista mayorista : listaMayoristas) {
-            if (mayorista.getRut().contains(rut)) {
-                existe = true;
-                System.out.println("ya hay un mayorista con ese rut");
-            }
-        }
-        return existe;
-    }
     
     public static Boolean identificacionUnico(String identificacion){
         Boolean existe= false;

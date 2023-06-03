@@ -11,6 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
@@ -1048,8 +1049,16 @@ public class Interfaz extends javax.swing.JFrame {
         String formaVenta = registroVentaPor.getSelectedItem().toString();
         String imagen = seleccionarImagen.getSelectedFile().getPath();
         String mayorista = seleccionMayorista.getSelectedItem().toString();
-        System.out.println("se agregaitem: " + " nombre " + nombre + " descripcion " + descripcion + " tipo " + tipo + " forma venta : " + formaVenta + " imagenpath: " + imagen + " mayorista : " + mayorista);
-        Sistema.agregarItemAMayorista(mayorista, nombre, descripcion, tipo, formaVenta, imagen);
+        if (mayorista == "No hay ningun mayorista registrado") {
+            JOptionPane.showMessageDialog(this, "Error: no hay ningun mayorista registrado", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            System.out.println("se agregaitem: " + " nombre " + nombre + " descripcion " + descripcion + " tipo " + tipo + " forma venta : " + formaVenta + " imagenpath: " + imagen + " mayorista : " + mayorista);
+            Sistema.agregarItemAMayorista(mayorista, nombre, descripcion, tipo, formaVenta, imagen);
+            registroNombre.setText("");
+            registroDescripcion.setText("");
+        }
+
     }//GEN-LAST:event_botonAltaRegistroActionPerformed
 
     private void seleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarImagenActionPerformed
@@ -1080,10 +1089,16 @@ public class Interfaz extends javax.swing.JFrame {
         String nombre = nombreMayorista.getText();
         String rut = rutMayorista.getText();
         String direccion = direccionMayorista.getText();
+        if(!Sistema.mayoristaUnico(rut)){
         Sistema.agregarMayorista(nombre, rut, direccion);
-
+        nombreMayorista.setText("");
+        rutMayorista.setText("");
+        direccionMayorista.setText("");
         actualizarComboMayorista();
         actualizarListaMayoristas();
+        }else{
+        JOptionPane.showMessageDialog(this, "Error: Rut ya registrado ", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
 
@@ -1106,8 +1121,18 @@ public class Interfaz extends javax.swing.JFrame {
         String dueno = registroPuestoCombo.getSelectedItem().toString();
         String ubicacion = registroUbicacion.getText();
         int cantidadEmpleados = Integer.parseInt(registroNumeroEmpleados.getText());
+        if(!Sistema.identificacionUnico(identificacion)){
         Sistema.agregarPuesto(identificacion, dueno, ubicacion, cantidadEmpleados);
+        registroIdentificacion.setText("");
+        registroUbicacion.setText("");
+        registroNumeroEmpleados.setText("");
         actualizarListaPuestos();
+        
+        }else{
+        JOptionPane.showMessageDialog(this, "Error: La identificacion del puesto ya esta registrada ", "Error", JOptionPane.ERROR_MESSAGE);
+        
+        }
+        
     }//GEN-LAST:event_botonAltaRegistro1ActionPerformed
 
     private void registroUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroUbicacionActionPerformed
@@ -1139,10 +1164,18 @@ public class Interfaz extends javax.swing.JFrame {
     private void botonAltaRegistro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistro2ActionPerformed
         String nombreDueno = registroNombreDueño.getText();
         int edad = Integer.parseInt(registroEdadDueño.getText());
-        int experiencia = Integer.parseInt(registroEdadDueño.getText());
-
+        int experiencia = Integer.parseInt(registroEdadExperiencia.getText());
+        if(!Sistema.nombreDueñoUnico(nombreDueno)){
         Sistema.agregarDueno(nombreDueno, edad, experiencia);
+        registroNombreDueño.setText("");
+        registroEdadDueño.setText("");
+        registroEdadExperiencia.setText("");
         actualizarComboDuenos();
+        }else{
+        JOptionPane.showMessageDialog(this, "Error: El nombre del dueño ya esta registrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_botonAltaRegistro2ActionPerformed
 
     private void registroEdadExperienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroEdadExperienciaActionPerformed
@@ -1188,14 +1221,11 @@ public class Interfaz extends javax.swing.JFrame {
             String selectedItem = getSelectedItem("seleccionListaPuestos");
             System.out.println("Ítem seleccionado en jList1: " + selectedItem);
         }
-        
+
         //
-        
         ///CAMBIAR EL CODIGO DE ACA PARA QUE SEA DINAMICO DE LA LISTA QUE SE ELIJA
         //
-        
         ///
-        
         ///
     }//GEN-LAST:event_seleccionListaPuestosValueChanged
 
