@@ -6,16 +6,20 @@ package segundoobligatoriop2.auxiliar;
 
 import java.util.ArrayList;
 
-class Transaccion {
+public class Transaccion {
 
     private String vendedor;
     private String comprador;
     private ArrayList<Item> itemsVenta;
+    private int precio;
+    private int cantidad;
 
-    public Transaccion(String vendedor, String comprador, ArrayList itemsVenta) {
+    public Transaccion(String vendedor, String comprador, ArrayList itemsVenta, int precio, int cantidad) {
         this.vendedor = vendedor;
         this.comprador = comprador;
         this.itemsVenta = itemsVenta;
+        this.precio = precio;
+        this.cantidad = cantidad;
     }
 
     public String getVendedor() {
@@ -24,6 +28,14 @@ class Transaccion {
 
     public String getComprador() {
         return comprador;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public int getCantidad() {
+        return cantidad;
     }
 
     public ArrayList<Item> getItemsVenta() {
@@ -42,4 +54,12 @@ class Transaccion {
         this.getItemsVenta().add(unItem);
     }
 
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
+    
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 }
