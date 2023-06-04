@@ -11,8 +11,7 @@ public class Sistema {
     private static ArrayList<Puesto> listaPuesto;
     private static ArrayList<Dueno> listaDuenos;
     private static ArrayList<Transaccion> listaTransacciones;
-    
-    
+
     public static void main(String[] args) {
         listaMayoristas = new ArrayList<>();
         listaDuenos = new ArrayList<>();
@@ -34,24 +33,46 @@ public class Sistema {
         return listaPuesto;
     }
 
-    public static ArrayList<Transaccion> getListaTransacciones(){
-    return listaTransacciones;
+    public static ArrayList<Transaccion> getListaTransacciones() {
+        return listaTransacciones;
     }
-    
-    public static void agregarTransaccion(String vendedor, String comprador, String item, int cantidad, int precio){
-    
-    }
-    
-    public static void ventaAPuesto(String comprador, String item, int cantidad){
+
+    public static Mayorista getMayorista(int rut) {
+        Mayorista mayoristaEncontrado = null;
         for (Mayorista mayorista : listaMayoristas) {
+            if (mayorista.getRut() == rut) {
+                mayoristaEncontrado = mayorista;
+                break;
+            }
+        }
+        return mayoristaEncontrado;
+    }
+
+    public static void agregarTransaccion(int vendedor, String comprador, String item, int precio, int cantidad) {
+
+        Item itemVendido = null;
+        Mayorista mayorista = getMayorista(vendedor);
+        for (Item itemMayorista : mayorista.getListaItems()) {
+            if (itemMayorista.getNombre() == item) {
+                itemVendido = itemMayorista;
+            }
+        }
+        listaTransacciones.add(new Transaccion(vendedor, comprador,itemVendido,precio,cantidad));
+        for(Transaccion transaccion : listaTransacciones){
+            System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad()+" " + transaccion.getItemsVenta().getNombre() + " a " + transaccion.getPrecio() );
+        }
+    }
+
+    public static void ventaAPuesto(int rutVendedor, String comprador, String item, int cantidad, int precio) {
+//        for (Mayorista mayorista : listaMayoristas) {
 //            if (mayorista.get().contains(rut)) {
 //                existe = true;
 //                System.out.println("ya hay un mayorista con ese rut");
 //            }
-        }
+//        }
     }
-    
-    public static void agregarMayorista(String nombre, String rut, String direccion) {
+
+    public static void agregarMayorista(String nombre, int rut, String direccion) {
         if (mayoristaUnico(rut)) {
             System.out.println("ya existe ese mayorista");
         } else {
@@ -64,21 +85,20 @@ public class Sistema {
         }
     }
 
-    public static ArrayList<Item> getItemsAVenderMayorista(String nombreMayorista) {
-
-        ArrayList <Item> listaItems = new ArrayList<Item>();
+    public static ArrayList<Item> getItemsAVenderMayorista(int rut) {
+        ArrayList<Item> listaItems = new ArrayList<Item>();
         for (Mayorista mayorista : listaMayoristas) {
-            if (mayorista.getNombre() == nombreMayorista) {
+            if (mayorista.getRut() == rut) {
                 listaItems.addAll(mayorista.getListaItems());
             }
         }
         return listaItems;
     }
 
-    public static Boolean mayoristaUnico(String rut) {
+    public static Boolean mayoristaUnico(int rut) {
         Boolean existe = false;
         for (Mayorista mayorista : listaMayoristas) {
-            if (mayorista.getRut().contains(rut)) {
+            if (mayorista.getRut() == rut) {
                 existe = true;
                 System.out.println("ya hay un mayorista con ese rut");
             }
@@ -133,12 +153,12 @@ public class Sistema {
         return existe;
     }
 
-    public static void agregarItemAMayorista(String nombreMayorista, String nombre, String descripcion, String tipo, String formaVenta, String imagen) {
+    public static void agregarItemAMayorista(int rutMayorista, String nombre, String descripcion, String tipo, String formaVenta, String imagen) {
 
         Item unItem = new Item(nombre, descripcion, tipo, formaVenta, imagen);
 
         for (int i = 0; i < Sistema.getListaMayoristas().size(); i++) {
-            if (Sistema.getListaMayoristas().get(i).getNombre().equals(nombreMayorista)) {
+            if (Sistema.getListaMayoristas().get(i).getRut() == rutMayorista) {
                 if (Sistema.getListaMayoristas().get(i).itemUnico(nombre)) {
                     Sistema.getListaMayoristas().get(i).getListaItems().add(unItem);
                     System.out.println("item agregado");
