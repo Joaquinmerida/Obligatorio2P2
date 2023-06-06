@@ -10,14 +10,14 @@ public class Transaccion {
 
     private int rutVendedor;
     private String comprador;
-    private Item itemsVenta;
+    private Item itemVenta;
     private int precio;
     private int cantidad;
 
     public Transaccion(int rutVendedor, String comprador, Item itemsVenta, int precio, int cantidad) {
         this.rutVendedor = rutVendedor;
         this.comprador = comprador;
-        this.itemsVenta = itemsVenta;
+        this.itemVenta = itemsVenta;
         this.precio = precio;
         this.cantidad = cantidad;
     }
@@ -39,7 +39,7 @@ public class Transaccion {
     }
 
     public Item getItemsVenta() {
-        return itemsVenta;
+        return itemVenta;
     }
 
     public void setVendedor(int vendedor) {
@@ -50,15 +50,14 @@ public class Transaccion {
         this.rutVendedor = comprador;
     }
 
-    public void agregarItem(Item unItem) {
-        this.getItemsVenta().add(unItem);
+    public void setItem(Item unItem) {
+        this.itemVenta = unItem;
     }
 
     public void setPrecio(int precio) {
         this.precio = precio;
     }
 
-    
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }

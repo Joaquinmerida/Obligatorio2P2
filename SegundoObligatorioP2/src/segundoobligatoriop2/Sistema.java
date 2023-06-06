@@ -53,14 +53,48 @@ public class Sistema {
         Item itemVendido = null;
         Mayorista mayorista = getMayorista(vendedor);
         for (Item itemMayorista : mayorista.getListaItems()) {
-            if (itemMayorista.getNombre() == item) {
-                itemVendido = itemMayorista;
+            if (itemMayorista.getNombre().equals(item)) {
+                itemVendido = new Item(itemMayorista.getNombre(),itemMayorista.getDescripcion(),itemMayorista.getTipo(),itemMayorista.getFormaVenta(),itemMayorista.getImagen());
+                itemVendido.setCantidad(cantidad);
             }
         }
-        listaTransacciones.add(new Transaccion(vendedor, comprador,itemVendido,precio,cantidad));
-        for(Transaccion transaccion : listaTransacciones){
-            System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad()+" " + transaccion.getItemsVenta().getNombre() + " a " + transaccion.getPrecio() );
+        realizarCompraDePuesto(vendedor, comprador, itemVendido, precio, cantidad);
+        listaTransacciones.add(new Transaccion(vendedor, comprador, itemVendido, precio, cantidad));
+
+    }
+
+    public static void realizarCompraDePuesto(int vendedor, String comprador, Item itemVendido, int precio, int cantidad) {
+
+        for (Puesto puesto : listaPuesto) {
+            if (puesto.getIdentificacion().equals(comprador)) {
+                boolean itemEncontrado = false;
+                for (Item itemEnStock : puesto.getStock()) {
+                    if (itemEnStock.getNombre().equals(itemVendido.getNombre())) {
+                        itemEncontrado = true;
+                        itemEnStock.sumarCantidad(cantidad);
+                        break;
+                    }
+                }
+                if (!itemEncontrado) {
+                    itemVendido.setCantidad(cantidad);
+                    puesto.añadirItem(itemVendido);
+                }
+            }
         }
+        for (Transaccion transaccion : listaTransacciones) {
+            System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemsVenta().getNombre() + " a " + transaccion.getPrecio());
+        }
+
+    }
+
+    public static Boolean itemUnico(String nombreItem, ArrayList<Item> listaItems) {
+        Boolean existe = false;
+        for (Item item : listaItems) {
+            if (item.getNombre().equals(nombreItem)) {
+                existe = true;
+            }
+        }
+        return existe;
     }
 
     public static void ventaAPuesto(int rutVendedor, String comprador, String item, int cantidad, int precio) {
@@ -73,7 +107,7 @@ public class Sistema {
     }
 
     public static void agregarMayorista(String nombre, int rut, String direccion) {
-        if (mayoristaUnico(rut)) {
+        if (!mayoristaUnico(rut)) {
             System.out.println("ya existe ese mayorista");
         } else {
             Mayorista unMayorista = new Mayorista(rut, nombre, direccion);
@@ -96,10 +130,10 @@ public class Sistema {
     }
 
     public static Boolean mayoristaUnico(int rut) {
-        Boolean existe = false;
+        Boolean existe = true;
         for (Mayorista mayorista : listaMayoristas) {
             if (mayorista.getRut() == rut) {
-                existe = true;
+                existe = false;
                 System.out.println("ya hay un mayorista con ese rut");
             }
         }
