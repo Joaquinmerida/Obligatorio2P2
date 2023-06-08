@@ -5,11 +5,14 @@
 package segundoobligatoriop2.interfaz;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,6 +28,7 @@ public class Interfaz extends javax.swing.JFrame {
         inicializarListaPuestos();
         inicializarListaMayoristas();
         inicializarListaItemsAComprar();
+        inicializarComboPuestos();
     }
 
     private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
@@ -39,6 +43,11 @@ public class Interfaz extends javax.swing.JFrame {
     private void inicializarComboDuenos() {
         registroPuestoCombo.setModel(new DefaultComboBoxModel<>());
         actualizarComboDuenos();
+    }
+
+    private void inicializarComboPuestos() {
+        movimientoComboDePuestosVenta.setModel(new DefaultComboBoxModel<>());
+        actualizarPuestoQueVende();
     }
 
     private void inicializarListaItemsAComprar() {
@@ -127,6 +136,40 @@ public class Interfaz extends javax.swing.JFrame {
         comboBoxModel.removeAllElements();
         for (Mayorista mayorista : listaMayoristas) {
             comboBoxModel.addElement(mayorista.getNombre() + "/" + mayorista.getRut());
+        }
+    }
+
+    public void actualizarPuestoQueVende() {
+        ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
+        DefaultComboBoxModel<String> comboBoxModel = (DefaultComboBoxModel<String>) movimientoComboDePuestosVenta.getModel();
+        if (listaPuestos.isEmpty()) {
+            comboBoxModel.addElement("No hay niungun puesto registrado");
+            return;
+        }
+        comboBoxModel.removeAllElements();
+        for (Puesto puesto : listaPuestos) {
+            comboBoxModel.addElement(puesto.getIdentificacion());
+        }
+    }
+
+    public void actualizarGrilla(String idPuesto) {
+        contenedorProductos.removeAll();
+        ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
+        for (Puesto puesto : listaPuestos) {
+            if (puesto.getIdentificacion().equals(idPuesto)) {
+                for (Item item : puesto.getStock()) {
+                    JButton nuevo = new JButton(item.getNombre());
+                    nuevo.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Lógica del evento al hacer clic en el botón
+                            // Puedes acceder al Item asociado al botón utilizando la variable 'item'
+                            // Ejemplo: Item itemSeleccionado = item;
+                        }
+                    });
+                    contenedorProductos.add(nuevo);
+                }
+            }
         }
     }
 
@@ -270,6 +313,8 @@ public class Interfaz extends javax.swing.JFrame {
         registroNumeroEmpleados = new javax.swing.JTextField();
         registroPuestoCombo = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -278,8 +323,6 @@ public class Interfaz extends javax.swing.JFrame {
         precioVentaAPuesto = new javax.swing.JTextField();
         cantidadVentaAPuesto = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        movimientocomboDePuestosVenta = new javax.swing.JComboBox<>();
         contenedorListaPuestos = new javax.swing.JScrollPane(seleccionListaMayoristas);
         seleccionListaPuestos = new javax.swing.JList<>();
         contenedorListaMayoristas = new javax.swing.JScrollPane(seleccionListaMayoristas);
@@ -289,6 +332,10 @@ public class Interfaz extends javax.swing.JFrame {
         contenedorListaItemsAComprar = new javax.swing.JScrollPane();
         listaItemsAComprar = new javax.swing.JList<>();
         jButton3 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        movimientoComboDePuestosVenta = new javax.swing.JComboBox<>();
+        contenedorProductos = new java.awt.Panel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -909,60 +956,37 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel5.setLayout(null);
 
+        jPanel6.setLayout(null);
+
         jLabel6.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
         jLabel6.setText("Registrar compra de productos");
-        jPanel5.add(jLabel6);
+        jPanel6.add(jLabel6);
         jLabel6.setBounds(350, 10, 500, 25);
 
         jLabel7.setText("Puesto que realiza la compra:");
-        jPanel5.add(jLabel7);
+        jPanel6.add(jLabel7);
         jLabel7.setBounds(80, 60, 210, 16);
 
         jLabel8.setText("Mayorista al que le compran:");
-        jPanel5.add(jLabel8);
+        jPanel6.add(jLabel8);
         jLabel8.setBounds(80, 250, 210, 16);
 
         jLabel9.setText("Precio individual:");
-        jPanel5.add(jLabel9);
+        jPanel6.add(jLabel9);
         jLabel9.setBounds(800, 110, 100, 20);
 
         jLabel10.setText("Cantidad:");
-        jPanel5.add(jLabel10);
+        jPanel6.add(jLabel10);
         jLabel10.setBounds(840, 160, 60, 20);
-
-        precioVentaAPuesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                precioVentaAPuestoActionPerformed(evt);
-            }
-        });
-        jPanel5.add(precioVentaAPuesto);
+        jPanel6.add(precioVentaAPuesto);
         precioVentaAPuesto.setBounds(920, 100, 160, 40);
-
-        cantidadVentaAPuesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cantidadVentaAPuestoActionPerformed(evt);
-            }
-        });
-        jPanel5.add(cantidadVentaAPuesto);
+        jPanel6.add(cantidadVentaAPuesto);
         cantidadVentaAPuesto.setBounds(920, 150, 160, 40);
 
         jLabel11.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
         jLabel11.setText("Registrar venta de productos");
-        jPanel5.add(jLabel11);
+        jPanel6.add(jLabel11);
         jLabel11.setBounds(360, 440, 420, 25);
-
-        jLabel12.setText("Puestos:");
-        jPanel5.add(jLabel12);
-        jLabel12.setBounds(30, 500, 60, 16);
-
-        movimientocomboDePuestosVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        movimientocomboDePuestosVenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                movimientocomboDePuestosVentaActionPerformed(evt);
-            }
-        });
-        jPanel5.add(movimientocomboDePuestosVenta);
-        movimientocomboDePuestosVenta.setBounds(90, 490, 120, 40);
 
         seleccionListaPuestos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -971,14 +995,9 @@ public class Interfaz extends javax.swing.JFrame {
         });
         contenedorListaPuestos.setViewportView(seleccionListaPuestos);
 
-        jPanel5.add(contenedorListaPuestos);
+        jPanel6.add(contenedorListaPuestos);
         contenedorListaPuestos.setBounds(80, 80, 300, 150);
 
-        seleccionListaMayoristas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                seleccionListaMayoristasMouseClicked(evt);
-            }
-        });
         seleccionListaMayoristas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 seleccionListaMayoristasValueChanged(evt);
@@ -986,12 +1005,12 @@ public class Interfaz extends javax.swing.JFrame {
         });
         contenedorListaMayoristas.setViewportView(seleccionListaMayoristas);
 
-        jPanel5.add(contenedorListaMayoristas);
+        jPanel6.add(contenedorListaMayoristas);
         contenedorListaMayoristas.setBounds(80, 270, 300, 150);
 
         jLabel2.setText("Item:");
-        jPanel5.add(jLabel2);
-        jLabel2.setBounds(540, 90, 27, 16);
+        jPanel6.add(jLabel2);
+        jLabel2.setBounds(490, 90, 50, 16);
 
         botonCompraDePuesto.setText("Realizar compra");
         botonCompraDePuesto.addActionListener(new java.awt.event.ActionListener() {
@@ -999,7 +1018,7 @@ public class Interfaz extends javax.swing.JFrame {
                 botonCompraDePuestoActionPerformed(evt);
             }
         });
-        jPanel5.add(botonCompraDePuesto);
+        jPanel6.add(botonCompraDePuesto);
         botonCompraDePuesto.setBounds(530, 270, 380, 130);
 
         listaItemsAComprar.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -1009,8 +1028,8 @@ public class Interfaz extends javax.swing.JFrame {
         });
         contenedorListaItemsAComprar.setViewportView(listaItemsAComprar);
 
-        jPanel5.add(contenedorListaItemsAComprar);
-        contenedorListaItemsAComprar.setBounds(580, 90, 190, 130);
+        jPanel6.add(contenedorListaItemsAComprar);
+        contenedorListaItemsAComprar.setBounds(560, 90, 210, 130);
 
         jButton3.setText("jButton3");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -1018,8 +1037,43 @@ public class Interfaz extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton3);
+        jPanel6.add(jButton3);
         jButton3.setBounds(960, 470, 75, 23);
+
+        jTabbedPane1.addTab("Compra de puesto", jPanel6);
+
+        jPanel7.setLayout(null);
+
+        jLabel12.setText("Puestos:");
+        jPanel7.add(jLabel12);
+        jLabel12.setBounds(90, 100, 60, 16);
+
+        movimientoComboDePuestosVenta.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                movimientoComboDePuestosVentaItemStateChanged(evt);
+            }
+        });
+        movimientoComboDePuestosVenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                movimientoComboDePuestosVentaMouseReleased(evt);
+            }
+        });
+        movimientoComboDePuestosVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                movimientoComboDePuestosVentaActionPerformed(evt);
+            }
+        });
+        jPanel7.add(movimientoComboDePuestosVenta);
+        movimientoComboDePuestosVenta.setBounds(140, 90, 160, 40);
+
+        contenedorProductos.setLayout(new java.awt.GridLayout(1, 2));
+        jPanel7.add(contenedorProductos);
+        contenedorProductos.setBounds(480, 40, 590, 220);
+
+        jTabbedPane1.addTab("Compra de puesto", jPanel7);
+
+        jPanel5.add(jTabbedPane1);
+        jTabbedPane1.setBounds(20, 20, 1210, 560);
 
         jTabbedPane4.addTab("Movimientos", jPanel5);
 
@@ -1036,18 +1090,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void consultasDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasDescripcionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_consultasDescripcionActionPerformed
-
-    private void precioVentaAPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioVentaAPuestoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_precioVentaAPuestoActionPerformed
-
-    private void cantidadVentaAPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantidadVentaAPuestoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cantidadVentaAPuestoActionPerformed
-
-    private void movimientocomboDePuestosVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movimientocomboDePuestosVentaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_movimientocomboDePuestosVentaActionPerformed
 
     private void consultasBotonIzquierdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasBotonIzquierdaActionPerformed
         // TODO add your handling code here:
@@ -1186,6 +1228,7 @@ public class Interfaz extends javax.swing.JFrame {
             registroUbicacion.setText("");
             registroNumeroEmpleados.setText("0");
             actualizarListaPuestos();
+            actualizarPuestoQueVende();
         } else {
             JOptionPane.showMessageDialog(this, "Error: La identificación del puesto ya está registrada", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1279,17 +1322,31 @@ public class Interfaz extends javax.swing.JFrame {
 
     }//GEN-LAST:event_registroPuestoComboActionPerformed
 
+    private void movimientoComboDePuestosVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movimientoComboDePuestosVentaActionPerformed
+        String selectedOption = (String) movimientoComboDePuestosVenta.getSelectedItem();
+        actualizarGrilla(selectedOption);
+    }//GEN-LAST:event_movimientoComboDePuestosVentaActionPerformed
+
+    private void botonCompraDePuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCompraDePuestoActionPerformed
+        String itemSeleccionado = getSelectedItem("listaItemsAComprar");
+        String mayoristaSeleccionado = getSelectedItem("seleccionListaMayoristas");
+        String puestoSeleccionado = getSelectedItem("seleccionListaPuestos");
+        String corte = "/";
+        String[] fragmentos = mayoristaSeleccionado.split(corte);
+        int rutMayorista = Integer.parseInt(fragmentos[1]);
+        int precio = Integer.parseInt(precioVentaAPuesto.getText());
+        int cantidad = Integer.parseInt(cantidadVentaAPuesto.getText());
+        Sistema.agregarTransaccion(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
+
+        System.out.println(rutMayorista + " " + puestoSeleccionado + " " + itemSeleccionado + " " + precio + " " + cantidad);
+    }//GEN-LAST:event_botonCompraDePuestoActionPerformed
+
     private void seleccionListaPuestosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaPuestosValueChanged
         if (!evt.getValueIsAdjusting()) {
             String selectedItem = getSelectedItem("seleccionListaPuestos");
             System.out.println("Ítem seleccionado en jList1: " + selectedItem);
         }
-        ///CAMBIAR EL CODIGO DE ACA PARA QUE SEA DINAMICO DE LA LISTA QUE SE ELIJA
     }//GEN-LAST:event_seleccionListaPuestosValueChanged
-
-    private void seleccionListaMayoristasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionListaMayoristasMouseClicked
-
-    }//GEN-LAST:event_seleccionListaMayoristasMouseClicked
 
     private void seleccionListaMayoristasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaMayoristasValueChanged
         if (!evt.getValueIsAdjusting()) {
@@ -1301,40 +1358,35 @@ public class Interfaz extends javax.swing.JFrame {
 
             actualizarListaItemsAComprar(rutMayorista);
         }
-        ///CAMBIAR EL CODIGO DE ACA PARA QUE SEA DINAMICO DE LA LISTA QUE SE ELIJA
     }//GEN-LAST:event_seleccionListaMayoristasValueChanged
-
-    private void botonCompraDePuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCompraDePuestoActionPerformed
-
-        String itemSeleccionado = getSelectedItem("listaItemsAComprar");
-        String mayoristaSeleccionado = getSelectedItem("seleccionListaMayoristas");
-        String puestoSeleccionado = getSelectedItem("seleccionListaPuestos");
-        String corte = "/";
-        String[] fragmentos = mayoristaSeleccionado.split(corte);
-        int rutMayorista = Integer.parseInt(fragmentos[1]);
-        int precio = Integer.parseInt(precioVentaAPuesto.getText());
-        int cantidad = Integer.parseInt(cantidadVentaAPuesto.getText());
-        Sistema.agregarTransaccion(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
-        
-        System.out.println(rutMayorista+" "+ puestoSeleccionado+" "+ itemSeleccionado+" "+ precio+" "+ cantidad);
-    }//GEN-LAST:event_botonCompraDePuestoActionPerformed
 
     private void listaItemsAComprarValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaItemsAComprarValueChanged
         // TODO add your handling code here:
+        String selectedOption = (String) movimientoComboDePuestosVenta.getSelectedItem();
+        actualizarGrilla(selectedOption);
     }//GEN-LAST:event_listaItemsAComprarValueChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
-       for(Puesto puesto: listaPuestos){
-           ArrayList <Item> listaItems = puesto.getStock();
-           System.out.println(puesto.getIdentificacion());
-           for(Item item: listaItems){
-               System.out.println("item: " + item.getNombre() + "  cantidad: " + item.getCantidad());
-           }   
-           System.out.println("-----------------------------------------------");
-       }
-
+        ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
+        for (Puesto puesto : listaPuestos) {
+            ArrayList<Item> listaItems = puesto.getStock();
+            System.out.println(puesto.getIdentificacion());
+            for (Item item : listaItems) {
+                System.out.println("item: " + item.getNombre() + "  cantidad: " + item.getCantidad());
+            }
+            System.out.println("-----------------------------------------------");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void movimientoComboDePuestosVentaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_movimientoComboDePuestosVentaItemStateChanged
+        String selectedOption = (String) movimientoComboDePuestosVenta.getSelectedItem();
+        actualizarGrilla(selectedOption);
+    }//GEN-LAST:event_movimientoComboDePuestosVentaItemStateChanged
+
+    private void movimientoComboDePuestosVentaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_movimientoComboDePuestosVentaMouseReleased
+        String selectedOption = (String) movimientoComboDePuestosVenta.getSelectedItem();
+        actualizarGrilla(selectedOption);
+    }//GEN-LAST:event_movimientoComboDePuestosVentaMouseReleased
 
     public static void main(String args[]) {
         try {
@@ -1402,6 +1454,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane contenedorListaItemsAComprar;
     private javax.swing.JScrollPane contenedorListaMayoristas;
     private javax.swing.JScrollPane contenedorListaPuestos;
+    private java.awt.Panel contenedorProductos;
     private javax.swing.JTextField direccionMayorista;
     private javax.swing.JLabel inicioImagen;
     private javax.swing.JButton jButton1;
@@ -1464,18 +1517,21 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JList<String> listaItemsAComprar;
     private javax.swing.JTabbedPane menuRegistro;
-    private javax.swing.JComboBox<String> movimientocomboDePuestosVenta;
+    private javax.swing.JComboBox<String> movimientoComboDePuestosVenta;
     private javax.swing.JTextField nombreMayorista;
     private javax.swing.JPanel panelRegistroItem;
     private javax.swing.JPanel panelRegistroMayorista;

@@ -1,7 +1,6 @@
 package segundoobligatoriop2;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import segundoobligatoriop2.interfaz.*;
 import segundoobligatoriop2.auxiliar.*;
 
