@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class Transaccion {
 
-    private int rutVendedor;
+    private String rutVendedor;
     private String comprador;
     private Item itemVenta;
     private int precio;
     private int cantidad;
 
-    public Transaccion(int rutVendedor, String comprador, Item itemsVenta, int precio, int cantidad) {
+    public Transaccion(String rutVendedor, String comprador, Item itemsVenta, int precio, int cantidad) {
         this.rutVendedor = rutVendedor;
         this.comprador = comprador;
         this.itemVenta = itemsVenta;
@@ -22,7 +22,7 @@ public class Transaccion {
         this.cantidad = cantidad;
     }
 
-    public int getRutVendedor() {
+    public String getRutVendedor() {
         return rutVendedor;
     }
 
@@ -42,11 +42,11 @@ public class Transaccion {
         return itemVenta;
     }
 
-    public void setVendedor(int vendedor) {
+    public void setVendedor(String vendedor) {
         this.rutVendedor = vendedor;
     }
 
-    public void setComprador(int comprador) {
+    public void setComprador(String comprador) {
         this.rutVendedor = comprador;
     }
 

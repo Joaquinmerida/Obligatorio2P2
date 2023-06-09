@@ -47,43 +47,60 @@ public class Sistema {
         return mayoristaEncontrado;
     }
 
-    public static void agregarTransaccion(int vendedor, String comprador, String item, int precio, int cantidad) {
-
-        Item itemVendido = null;
-        Mayorista mayorista = getMayorista(vendedor);
-        for (Item itemMayorista : mayorista.getListaItems()) {
-            if (itemMayorista.getNombre().equals(item)) {
-                itemVendido = new Item(itemMayorista.getNombre(),itemMayorista.getDescripcion(),itemMayorista.getTipo(),itemMayorista.getFormaVenta(),itemMayorista.getImagen());
-                itemVendido.setCantidad(cantidad);
-            }
-        }
-        realizarCompraDePuesto(vendedor, comprador, itemVendido, precio, cantidad);
-        listaTransacciones.add(new Transaccion(vendedor, comprador, itemVendido, precio, cantidad));
-
+    public static void agregarTransaccion(String vendedor, String comprador, Item item, int precio, int cantidad) {
+        listaTransacciones.add(new Transaccion(vendedor, comprador, item, precio, cantidad));
     }
 
-    public static void realizarCompraDePuesto(int vendedor, String comprador, Item itemVendido, int precio, int cantidad) {
+    public static void realizarCompraDePuesto(int vendedor, String comprador, String itemVendido, int precio, int cantidad) {
+        Item itemObjeto = null;
+        Mayorista mayorista = getMayorista(vendedor);
+        
+       
+        for (Item itemMayorista : mayorista.getListaItems()) {
+            if (itemMayorista.getNombre().equals(itemVendido)) {
+                itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
+                itemObjeto.setCantidad(cantidad);
+            }
+        }
 
         for (Puesto puesto : listaPuesto) {
             if (puesto.getIdentificacion().equals(comprador)) {
                 boolean itemEncontrado = false;
                 for (Item itemEnStock : puesto.getStock()) {
-                    if (itemEnStock.getNombre().equals(itemVendido.getNombre())) {
+                    if (itemEnStock.getNombre().equals(itemObjeto.getNombre())) {
                         itemEncontrado = true;
                         itemEnStock.sumarCantidad(cantidad);
+                        agregarTransaccion(vendedor+"", comprador, itemObjeto, precio, cantidad);
                         break;
                     }
                 }
                 if (!itemEncontrado) {
-                    itemVendido.setCantidad(cantidad);
-                    puesto.añadirItem(itemVendido);
+                    itemObjeto.setCantidad(cantidad);
+                    puesto.añadirItem(itemObjeto);
+                    agregarTransaccion(vendedor+"", comprador, itemObjeto, precio, cantidad);
                 }
             }
         }
         for (Transaccion transaccion : listaTransacciones) {
             System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemsVenta().getNombre() + " a " + transaccion.getPrecio());
         }
+    }
 
+    public static void realizarCompraDePublico(String idVendedor, String comprador, Item itemVendido, int precio, int cantidad) {
+        for (Puesto puesto : listaPuesto) {
+            if (puesto.getIdentificacion().equals(idVendedor)) {
+                for (Item item : puesto.getStock()) {
+                    if (itemVendido.getNombre().equals(item.getNombre())) {
+                        if (item.getCantidad() >= cantidad) {
+                            agregarTransaccion(idVendedor, "Publico", itemVendido,precio,cantidad);
+                            System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
+                        }else{
+                            System.out.println("compra no valida");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static Boolean itemUnico(String nombreItem, ArrayList<Item> listaItems) {

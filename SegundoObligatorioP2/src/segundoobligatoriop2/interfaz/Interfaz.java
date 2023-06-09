@@ -4,7 +4,9 @@
  */
 package segundoobligatoriop2.interfaz;
 
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
@@ -13,8 +15,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.*;
@@ -153,26 +159,59 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     public void actualizarGrilla(String idPuesto) {
-        contenedorProductos.removeAll();
         ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
         for (Puesto puesto : listaPuestos) {
             if (puesto.getIdentificacion().equals(idPuesto)) {
+                contenedorProductos.removeAll();
                 for (Item item : puesto.getStock()) {
-                    JButton nuevo = new JButton(item.getNombre());
-                    nuevo.addActionListener(new ActionListener() {
+                    JButton botonItem = new JButton();
+                    botonItem.setSize(80, 80);
+                    ImageIcon imageIcon = new ImageIcon(item.getImagen());
+                    botonItem.setToolTipText(item.getNombre());
+                    Image image = imageIcon.getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT);
+                    botonItem.setIcon(new ImageIcon(image));
+                    botonItem.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            // Lógica del evento al hacer clic en el botón
-                            // Puedes acceder al Item asociado al botón utilizando la variable 'item'
-                            // Ejemplo: Item itemSeleccionado = item;
+                            mostrarPopupCompra(puesto.getIdentificacion(), item);
                         }
                     });
-                    contenedorProductos.add(nuevo);
+                    contenedorProductos.add(botonItem);
                 }
             }
         }
     }
 
+    private static void mostrarPopupCompra(String idVendedor, Item itemVendido) {
+        JPanel panel = new JPanel();
+        JLabel lblPrecio = new JLabel("Precio:");
+        JTextField txtPrecio = new JTextField(10);
+        JLabel lblCantidad = new JLabel("Cantidad:");
+        JTextField txtCantidad = new JTextField(10);
+        panel.add(lblPrecio);
+        panel.add(txtPrecio);
+        panel.add(lblCantidad);
+        panel.add(txtCantidad);
+        int opcion = JOptionPane.showOptionDialog(null, panel, "Realizar compra",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+                new String[]{"Comprar", "Cancelar"}, "Comprar");
+        if (opcion == JOptionPane.OK_OPTION) {
+            System.out.println("aaaa");
+            int precio =  Integer.parseInt(txtPrecio.getText());
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            Sistema.realizarCompraDePublico(idVendedor, "Publico", itemVendido, precio, cantidad);
+            double total = precio * cantidad;
+            JOptionPane.showMessageDialog(null, "Total a pagar: $" + total);
+        } else {
+            JOptionPane.showMessageDialog(null, "Compra cancelada");
+        }
+        Window dialog = SwingUtilities.windowForComponent(panel);
+        if (dialog != null) {
+            dialog.setLocationRelativeTo(null);
+        }
+    }
+
+    //public static void 
     public String getSelectedItem(String nombreLista) {
         try {
             Field field = getClass().getDeclaredField(nombreLista);
@@ -1042,6 +1081,16 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Compra de puesto", jPanel6);
 
+        jPanel7.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jPanel7MouseMoved(evt);
+            }
+        });
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel7MouseEntered(evt);
+            }
+        });
         jPanel7.setLayout(null);
 
         jLabel12.setText("Puestos:");
@@ -1066,9 +1115,10 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel7.add(movimientoComboDePuestosVenta);
         movimientoComboDePuestosVenta.setBounds(140, 90, 160, 40);
 
-        contenedorProductos.setLayout(new java.awt.GridLayout(1, 2));
+        contenedorProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        contenedorProductos.setLayout(new java.awt.GridLayout(3, 2));
         jPanel7.add(contenedorProductos);
-        contenedorProductos.setBounds(480, 40, 590, 220);
+        contenedorProductos.setBounds(480, 40, 440, 390);
 
         jTabbedPane1.addTab("Compra de puesto", jPanel7);
 
@@ -1336,8 +1386,8 @@ public class Interfaz extends javax.swing.JFrame {
         int rutMayorista = Integer.parseInt(fragmentos[1]);
         int precio = Integer.parseInt(precioVentaAPuesto.getText());
         int cantidad = Integer.parseInt(cantidadVentaAPuesto.getText());
-        Sistema.agregarTransaccion(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
 
+        Sistema.realizarCompraDePuesto(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
         System.out.println(rutMayorista + " " + puestoSeleccionado + " " + itemSeleccionado + " " + precio + " " + cantidad);
     }//GEN-LAST:event_botonCompraDePuestoActionPerformed
 
@@ -1361,9 +1411,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_seleccionListaMayoristasValueChanged
 
     private void listaItemsAComprarValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaItemsAComprarValueChanged
-        // TODO add your handling code here:
-        String selectedOption = (String) movimientoComboDePuestosVenta.getSelectedItem();
-        actualizarGrilla(selectedOption);
+
     }//GEN-LAST:event_listaItemsAComprarValueChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1384,9 +1432,16 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_movimientoComboDePuestosVentaItemStateChanged
 
     private void movimientoComboDePuestosVentaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_movimientoComboDePuestosVentaMouseReleased
-        String selectedOption = (String) movimientoComboDePuestosVenta.getSelectedItem();
-        actualizarGrilla(selectedOption);
+
     }//GEN-LAST:event_movimientoComboDePuestosVentaMouseReleased
+
+    private void jPanel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseEntered
+
+    }//GEN-LAST:event_jPanel7MouseEntered
+
+    private void jPanel7MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseMoved
+
+    }//GEN-LAST:event_jPanel7MouseMoved
 
     public static void main(String args[]) {
         try {
