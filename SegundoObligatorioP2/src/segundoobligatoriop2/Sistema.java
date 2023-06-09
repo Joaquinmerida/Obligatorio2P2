@@ -54,8 +54,7 @@ public class Sistema {
     public static void realizarCompraDePuesto(int vendedor, String comprador, String itemVendido, int precio, int cantidad) {
         Item itemObjeto = null;
         Mayorista mayorista = getMayorista(vendedor);
-        
-       
+
         for (Item itemMayorista : mayorista.getListaItems()) {
             if (itemMayorista.getNombre().equals(itemVendido)) {
                 itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
@@ -70,14 +69,14 @@ public class Sistema {
                     if (itemEnStock.getNombre().equals(itemObjeto.getNombre())) {
                         itemEncontrado = true;
                         itemEnStock.sumarCantidad(cantidad);
-                        agregarTransaccion(vendedor+"", comprador, itemObjeto, precio, cantidad);
+                        agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
                         break;
                     }
                 }
                 if (!itemEncontrado) {
                     itemObjeto.setCantidad(cantidad);
                     puesto.añadirItem(itemObjeto);
-                    agregarTransaccion(vendedor+"", comprador, itemObjeto, precio, cantidad);
+                    agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
                 }
             }
         }
@@ -92,9 +91,13 @@ public class Sistema {
                 for (Item item : puesto.getStock()) {
                     if (itemVendido.getNombre().equals(item.getNombre())) {
                         if (item.getCantidad() >= cantidad) {
-                            agregarTransaccion(idVendedor, "Publico", itemVendido,precio,cantidad);
+                            agregarTransaccion(idVendedor, "Publico", itemVendido, precio, cantidad);
+                            item.sumarCantidad(cantidad * -1);
+                            if (item.getCantidad() == 0) {
+                                puesto.eleminarItem(item);
+                            }
                             System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
-                        }else{
+                        } else {
                             System.out.println("compra no valida");
                         }
                     }

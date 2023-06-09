@@ -1,6 +1,8 @@
 package segundoobligatoriop2.auxiliar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Puesto {
 
@@ -58,4 +60,37 @@ public class Puesto {
         this.stock.add(unItem);
     }
 
+    public void eleminarItem(Item unItem) {
+        for (Item item : this.stock) {
+            if (item.getNombre().equals(unItem.getNombre())) {
+                this.stock.remove(item);
+            }
+        }
+
+    }
+
+    public void ordenarStock() {
+        stock.sort(new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                // Primero, verifica si ambos items son frutas o verduras
+                boolean esFruta1 = item1.getTipo().equals("Fruta");
+                boolean esFruta2 = item2.getTipo().equals("Fruta");
+
+                // Si los dos items son del mismo tipo (ambos frutas o ambos verduras), ordena alfabéticamente
+                if (esFruta1 == esFruta2) {
+                    return item1.getNombre().compareTo(item2.getNombre());
+                }
+
+                // Si el primer item es una fruta, lo colocamos antes que el segundo item
+                if (esFruta1) {
+                    return -1;
+                }
+
+                // Si el primer item es una verdura, lo colocamos después del segundo item
+                return 1;
+            }
+
+        });
+    }
 }

@@ -42,9 +42,9 @@ public class Item {
     this.cantidad = cantidad;
     }
     
-public void sumarCantidad(int cantidad) {
+    public void sumarCantidad(int cantidad) {
     this.cantidad += cantidad;
-}
+    }
      
     public String getNombre() {
         return nombre;
