@@ -1,7 +1,6 @@
 package segundoobligatoriop2.auxiliar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 public class Puesto {

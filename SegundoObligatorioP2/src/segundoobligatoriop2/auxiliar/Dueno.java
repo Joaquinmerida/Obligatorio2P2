@@ -1,16 +1,16 @@
 
 package segundoobligatoriop2.auxiliar;
 
-import java.util.ArrayList;
+
 
 public class Dueno {
 
     private String nombre;
     private int edad;
     private int añosExperiencia;
-    private ArrayList <Dueno> listaDuenos;
 
-    public Dueno(String nombre, int Edad, int añosExperiencia) {
+
+    public Dueno(String nombre, int edad, int añosExperiencia) {
         this.nombre = nombre;
         this.edad = edad;
         this.añosExperiencia = añosExperiencia;
