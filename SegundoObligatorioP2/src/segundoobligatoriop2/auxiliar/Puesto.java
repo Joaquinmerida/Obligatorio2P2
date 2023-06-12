@@ -59,14 +59,7 @@ public class Puesto {
         this.stock.add(unItem);
     }
 
-    public void eleminarItem(Item unItem) {
-        for (Item item : this.stock) {
-            if (item.getNombre().equals(unItem.getNombre())) {
-                this.stock.remove(item);
-            }
-        }
 
-    }
 
     public void ordenarStock() {
         stock.sort(new Comparator<Item>() {

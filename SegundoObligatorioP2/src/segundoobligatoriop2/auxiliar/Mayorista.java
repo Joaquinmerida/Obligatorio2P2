@@ -9,11 +9,11 @@ public class Mayorista {
     private String direccion;
     private ArrayList<Item> listaItems;
 
-    public Mayorista(int rut, String nombre, String direccion) {
+    public Mayorista(int rut, String nombre, String direccion,ArrayList<Item> listaItems) {
         this.rut = rut;
         this.nombre = nombre;
         this.direccion = direccion;
-        this.listaItems = new ArrayList<Item>();
+        this.listaItems = listaItems;
     }
 
     public int getRut() {
@@ -57,4 +57,6 @@ public class Mayorista {
         return true;
     }
 
+
+    
 }

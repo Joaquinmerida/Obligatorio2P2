@@ -6,18 +6,24 @@ import segundoobligatoriop2.auxiliar.*;
 
 public class Sistema {
 
+    private static ArrayList<Item> listaItems;
     private static ArrayList<Mayorista> listaMayoristas;
     private static ArrayList<Puesto> listaPuesto;
     private static ArrayList<Dueno> listaDuenos;
     private static ArrayList<Transaccion> listaTransacciones;
 
     public static void main(String[] args) {
+        listaItems = new ArrayList<>();
         listaMayoristas = new ArrayList<>();
         listaDuenos = new ArrayList<>();
         listaPuesto = new ArrayList<>();
         listaTransacciones = new ArrayList<>();
         Interfaz v = new Interfaz();
         v.setVisible(true);
+    }
+
+    public static ArrayList<Item> getListaItems() {
+        return listaItems;
     }
 
     public static ArrayList<Mayorista> getListaMayoristas() {
@@ -34,6 +40,20 @@ public class Sistema {
 
     public static ArrayList<Transaccion> getListaTransacciones() {
         return listaTransacciones;
+    }
+
+    public static void agregarItem(Item unItem) {
+        listaItems.add(unItem);
+    }
+
+    public static Boolean itemUnico(String nombreItem, ArrayList<Item> listaItems) {
+        Boolean existe = true;
+        for (Item item : listaItems) {
+            if (item.getNombre().equals(nombreItem)) {
+                existe = false;
+            }
+        }
+        return existe;
     }
 
     public static Mayorista getMayorista(int rut) {
@@ -93,9 +113,6 @@ public class Sistema {
                         if (item.getCantidad() >= cantidad) {
                             agregarTransaccion(idVendedor, "Publico", itemVendido, precio, cantidad);
                             item.sumarCantidad(cantidad * -1);
-                            if (item.getCantidad() == 0) {
-                                puesto.eleminarItem(item);
-                            }
                             System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
                         } else {
                             System.out.println("compra no valida");
@@ -104,16 +121,6 @@ public class Sistema {
                 }
             }
         }
-    }
-
-    public static Boolean itemUnico(String nombreItem, ArrayList<Item> listaItems) {
-        Boolean existe = false;
-        for (Item item : listaItems) {
-            if (item.getNombre().equals(nombreItem)) {
-                existe = true;
-            }
-        }
-        return existe;
     }
 
     public static void ventaAPuesto(int rutVendedor, String comprador, String item, int cantidad, int precio) {
@@ -125,16 +132,33 @@ public class Sistema {
 //        }
     }
 
-    public static void agregarMayorista(String nombre, int rut, String direccion) {
+    public static void agregarMayorista(String nombre, int rut, String direccion, ArrayList<String> items) {
+        ArrayList<Item> itemsDelNuevoMayorista = new ArrayList<>();
         if (!mayoristaUnico(rut)) {
             System.out.println("ya existe ese mayorista");
         } else {
-            Mayorista unMayorista = new Mayorista(rut, nombre, direccion);
-            Sistema.getListaMayoristas().add(unMayorista);
+            for (String itemString : items) {
+                for (Item item : listaItems) {
+                    if (item.getNombre().equals(itemString)) {
+                        itemsDelNuevoMayorista.add(new Item(item.getNombre(), item.getDescripcion(), item.getTipo(), item.getFormaVenta(), item.getImagen()));
+                        System.out.println("se agrega al mayorista: " + itemString);
+                    }
+                }
+            }
+
+            Mayorista unMayorista = new Mayorista(rut, nombre, direccion, itemsDelNuevoMayorista);
+            listaMayoristas.add(unMayorista);
             System.out.println("se agrega mayorista");
         }
+        
+        
         for (Mayorista mayorista : listaMayoristas) {
             System.out.println(mayorista.getNombre());
+            System.out.println("items que vende:");
+            for(Item item: mayorista.getListaItems()){
+                System.out.println(mayorista.getNombre() + " vende " +item.getNombre());
+            }
+                System.out.println("................");
         }
     }
 
@@ -206,22 +230,6 @@ public class Sistema {
         return existe;
     }
 
-    public static void agregarItemAMayorista(int rutMayorista, String nombre, String descripcion, String tipo, String formaVenta, String imagen) {
-
-        Item unItem = new Item(nombre, descripcion, tipo, formaVenta, imagen);
-
-        for (int i = 0; i < Sistema.getListaMayoristas().size(); i++) {
-            if (Sistema.getListaMayoristas().get(i).getRut() == rutMayorista) {
-                if (Sistema.getListaMayoristas().get(i).itemUnico(nombre)) {
-                    Sistema.getListaMayoristas().get(i).getListaItems().add(unItem);
-                    System.out.println("item agregado");
-                } else {
-                    System.out.println("ese item ya existe en este mayorista");
-                }
-            }
-        }
-
-    }
 
     public void agregarPuesto(Puesto unPuesto) {
         this.getListaPuesto().add(unPuesto);
