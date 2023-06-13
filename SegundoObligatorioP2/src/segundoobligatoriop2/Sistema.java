@@ -67,6 +67,36 @@ public class Sistema {
         return mayoristaEncontrado;
     }
 
+    public static int getIndexItem(String nombreItem) {
+        int index = 0;
+        for (Item item : listaItems) {
+            if (item.getNombre().equals(nombreItem)) {
+                index = listaItems.indexOf(item);
+            }
+        }
+        return index;
+    }
+
+    public static int getTotalDineroVentaPuestos(Item unItem) {
+        int total = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && transaccion.getComprador().equals("Publico")) {
+                total += transaccion.getPrecio() * transaccion.getCantidad();
+            }
+        }
+        return total;
+    }
+
+        public static int getTotalDineroVentaMayoristas(Item unItem) {
+        int total = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && !transaccion.getComprador().equals("Publico")) {
+                total += transaccion.getPrecio() * transaccion.getCantidad();
+            }
+        }
+        return total;
+    }
+    
     public static void agregarTransaccion(String vendedor, String comprador, Item item, int precio, int cantidad) {
         listaTransacciones.add(new Transaccion(vendedor, comprador, item, precio, cantidad));
     }
@@ -101,7 +131,7 @@ public class Sistema {
             }
         }
         for (Transaccion transaccion : listaTransacciones) {
-            System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemsVenta().getNombre() + " a " + transaccion.getPrecio());
+            System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemVenta().getNombre() + " a " + transaccion.getPrecio());
         }
     }
 
@@ -150,15 +180,14 @@ public class Sistema {
             listaMayoristas.add(unMayorista);
             System.out.println("se agrega mayorista");
         }
-        
-        
+
         for (Mayorista mayorista : listaMayoristas) {
             System.out.println(mayorista.getNombre());
             System.out.println("items que vende:");
-            for(Item item: mayorista.getListaItems()){
-                System.out.println(mayorista.getNombre() + " vende " +item.getNombre());
+            for (Item item : mayorista.getListaItems()) {
+                System.out.println(mayorista.getNombre() + " vende " + item.getNombre());
             }
-                System.out.println("................");
+            System.out.println("................");
         }
     }
 
@@ -229,7 +258,6 @@ public class Sistema {
         }
         return existe;
     }
-
 
     public void agregarPuesto(Puesto unPuesto) {
         this.getListaPuesto().add(unPuesto);

@@ -38,7 +38,7 @@ public class Transaccion {
         return cantidad;
     }
 
-    public Item getItemsVenta() {
+    public Item getItemVenta() {
         return itemVenta;
     }
 
