@@ -79,6 +79,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void inicializarListaPuestos() {
         seleccionListaPuestos.setModel(seleccionListaPuestosModel);
         contenedorListaPuestos.setViewportView(seleccionListaPuestos);
+        seleccionPuestoGenerarArchivo.setModel(seleccionListaPuestosModel);
+        seleccionPuestoGenerarArchivoModel.setViewportView(seleccionPuestoGenerarArchivo);
     }
 
     private void inicializarListaMayoristas() {
@@ -131,7 +133,6 @@ public class Interfaz extends javax.swing.JFrame {
             return;
         } else {
             seleccionListaItemsAVenderModel.clear();
-
             for (Item item : listaItems) {
                 String nombreItem = item.getNombre();
                 seleccionListaItemsAVenderModel.addElement(nombreItem);
@@ -236,7 +237,7 @@ public class Interfaz extends javax.swing.JFrame {
                 new String[]{"Comprar", "Cancelar"}, "Comprar");
         if (opcion == JOptionPane.OK_OPTION) {
             int precio = Integer.parseInt(txtPrecio.getText());
-            int cantidad = Integer.parseInt(txtCantidad.getText());
+            double cantidad = Double.parseDouble(txtCantidad.getText());
             Sistema.realizarCompraDePublico(idVendedor, "Publico", itemVendido, precio, cantidad);
             double total = precio * cantidad;
             JOptionPane.showMessageDialog(null, "Total a pagar: $" + total);
@@ -287,7 +288,7 @@ public class Interfaz extends javax.swing.JFrame {
     public void actualizarTablaMayoristas() {
         ArrayList<Mayorista> listaMayorista = Sistema.getListaMayoristas();
         DefaultTableModel model = (DefaultTableModel) tablaConsultaMayoristas.getModel();
-        
+
         model.setRowCount(0);
         for (Mayorista mayorista : listaMayorista) {
             Object[] rowData = new Object[4];
@@ -297,16 +298,16 @@ public class Interfaz extends javax.swing.JFrame {
 
             ArrayList<Item> items = mayorista.getListaItems();
             StringBuilder itemsString = new StringBuilder();
-            
-             Collections.sort(items, new Comparator<Item>() {
-            @Override
-            public int compare(Item item1, Item item2) {
-                return item1.getNombre().compareTo(item2.getNombre());
-            }
-        });
-            
+
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item item1, Item item2) {
+                    return item1.getNombre().compareTo(item2.getNombre());
+                }
+            });
+
             for (Item item : items) {
-                itemsString.append(item.getNombre()+ " ");
+                itemsString.append(item.getNombre() + " ");
             }
             rowData[3] = itemsString.toString();
             model.addRow(rowData);
@@ -337,7 +338,6 @@ public class Interfaz extends javax.swing.JFrame {
 
     public void mostrarItemConsulta() {
         ArrayList<Item> listaItems = Sistema.getListaItems();
-        int length = listaItems.size();
         if (!listaItems.isEmpty()) {
             consultasNombre.setText(listaItems.get(0).getNombre());
             consultasDescripcion.setText(listaItems.get(0).getDescripcion());
@@ -352,14 +352,12 @@ public class Interfaz extends javax.swing.JFrame {
 
     public void cambiarItemConsulta(int cambio, String itemMostrado) {
         ArrayList<Item> listaItems = Sistema.getListaItems();
-        int length = listaItems.size();
         Collections.sort(listaItems, new Comparator<Item>() {
             @Override
             public int compare(Item item1, Item item2) {
                 return item1.getNombre().compareTo(item2.getNombre());
             }
         });
-
         int j = Sistema.getIndexItem(itemMostrado);
 
         if (j + cambio >= 0 && j + cambio < listaItems.size()) {
@@ -384,10 +382,12 @@ public class Interfaz extends javax.swing.JFrame {
                 consultasImagen.setIcon(mIcono);
                 consultaTotalVendidoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaPuestos(listaItems.get(j))));
                 consultaTotalCompradoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaMayoristas(listaItems.get(j))));
-                consultaCantidadKgVendidaPuestos.setText(Integer.toString(Sistema.getKgTotalVendidoPuestos(listaItems.get(j))));
+                consultaCantidadKgVendidaPuestos.setText(Double.toString(Sistema.getKgTotalVendidoPuestos(listaItems.get(j))));
                 consultaCantidadUnidadesVendidaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalVendidoPuestos(listaItems.get(j))));
-                consultaCantidadKilogramosCompradaPuestos.setText(Integer.toString(Sistema.getKgTotalCompradoPuestos(listaItems.get(j))));
-                consultaCantidadUnidadesCompradaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalCompradoPuestos(listaItems.get(j))));;
+                consultaCantidadKilogramosCompradaPuestos.setText(Double.toString(Sistema.getKgTotalCompradoPuestos(listaItems.get(j))));
+                consultaCantidadUnidadesCompradaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalCompradoPuestos(listaItems.get(j))));
+                consultaPrecioMinimoVendido.setText(Integer.toString(Sistema.getMinimoVendido(listaItems.get(j))));
+                consultaPrecioMaximoVendido.setText(Integer.toString(Sistema.getMaximoVendido(listaItems.get(j))));
             }
         }
     }
@@ -431,22 +431,18 @@ public class Interfaz extends javax.swing.JFrame {
         nombreIntegrante2 = new javax.swing.JLabel();
         panelGenerarArchivo = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        tipoMovimientoGeneracion = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        rangoGeneracionDesde = new javax.swing.JTextField();
+        rangoGeneracionHasta = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
         jLabel34 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        nombreGeneracionArchivo = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        seleccionPuestoGenerarArchivoModel = new javax.swing.JScrollPane();
+        seleccionPuestoGenerarArchivo = new javax.swing.JList<>();
         panelRegistro = new javax.swing.JPanel();
         menuRegistro = new javax.swing.JTabbedPane();
         panelRegistroItem = new javax.swing.JPanel();
@@ -544,11 +540,11 @@ public class Interfaz extends javax.swing.JFrame {
         consultasBotonIzquierda = new javax.swing.JButton();
         consultasVentaPor = new javax.swing.JTextField();
         consultasTipo = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        consultaPrecioMaximoVendido = new javax.swing.JTextField();
         consultaTotalVendidoEntrePuestos = new javax.swing.JTextField();
         consultaTotalCompradoEntrePuestos = new javax.swing.JTextField();
         consultaCantidadKgVendidaPuestos = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        consultaPrecioMinimoVendido = new javax.swing.JTextField();
         consultaCantidadUnidadesVendidaPuestos = new javax.swing.JTextField();
         textoConsultaUnidadesVendidasPuestos = new javax.swing.JLabel();
         textoConsultaKilogramosVendidosPuestos = new javax.swing.JLabel();
@@ -626,9 +622,9 @@ public class Interfaz extends javax.swing.JFrame {
         panelGenerarArchivo.add(jLabel29);
         jLabel29.setBounds(30, 60, 120, 16);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        panelGenerarArchivo.add(jComboBox1);
-        jComboBox1.setBounds(190, 60, 110, 30);
+        tipoMovimientoGeneracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Compras", "Ventas", "Todo" }));
+        panelGenerarArchivo.add(tipoMovimientoGeneracion);
+        tipoMovimientoGeneracion.setBounds(190, 60, 110, 30);
 
         jLabel30.setText("Rango de movimiento:");
         panelGenerarArchivo.add(jLabel30);
@@ -641,50 +637,20 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel32.setText("Hasta:");
         panelGenerarArchivo.add(jLabel32);
         jLabel32.setBounds(400, 140, 33, 16);
-
-        jTextField1.setText("jTextField1");
-        panelGenerarArchivo.add(jTextField1);
-        jTextField1.setBounds(250, 130, 90, 40);
-
-        jTextField2.setText("jTextField2");
-        panelGenerarArchivo.add(jTextField2);
-        jTextField2.setBounds(460, 130, 90, 40);
+        panelGenerarArchivo.add(rangoGeneracionDesde);
+        rangoGeneracionDesde.setBounds(250, 130, 90, 40);
+        panelGenerarArchivo.add(rangoGeneracionHasta);
+        rangoGeneracionHasta.setBounds(460, 130, 90, 40);
 
         jLabel33.setText("Puesto:");
         panelGenerarArchivo.add(jLabel33);
         jLabel33.setBounds(30, 220, 43, 16);
 
-        jCheckBox1.setText("jCheckBox1");
-        panelGenerarArchivo.add(jCheckBox1);
-        jCheckBox1.setBounds(90, 220, 100, 20);
-
-        jCheckBox2.setText("jCheckBox2");
-        panelGenerarArchivo.add(jCheckBox2);
-        jCheckBox2.setBounds(90, 250, 85, 20);
-
-        jCheckBox3.setText("jCheckBox3");
-        panelGenerarArchivo.add(jCheckBox3);
-        jCheckBox3.setBounds(90, 280, 85, 20);
-
-        jCheckBox4.setText("jCheckBox4");
-        panelGenerarArchivo.add(jCheckBox4);
-        jCheckBox4.setBounds(90, 310, 85, 20);
-
-        jCheckBox5.setText("jCheckBox5");
-        panelGenerarArchivo.add(jCheckBox5);
-        jCheckBox5.setBounds(90, 340, 85, 20);
-
-        jCheckBox6.setText("jCheckBox6");
-        panelGenerarArchivo.add(jCheckBox6);
-        jCheckBox6.setBounds(90, 370, 85, 20);
-
         jLabel34.setText("Nombre del archivo a generar:");
         panelGenerarArchivo.add(jLabel34);
         jLabel34.setBounds(270, 220, 170, 16);
-
-        jTextField3.setText("jTextField3");
-        panelGenerarArchivo.add(jTextField3);
-        jTextField3.setBounds(450, 220, 240, 22);
+        panelGenerarArchivo.add(nombreGeneracionArchivo);
+        nombreGeneracionArchivo.setBounds(450, 220, 240, 22);
 
         jButton1.setText("Generar Archivo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -694,6 +660,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
         panelGenerarArchivo.add(jButton1);
         jButton1.setBounds(450, 260, 190, 90);
+
+        seleccionPuestoGenerarArchivoModel.setViewportView(seleccionPuestoGenerarArchivo);
+
+        panelGenerarArchivo.add(seleccionPuestoGenerarArchivoModel);
+        seleccionPuestoGenerarArchivoModel.setBounds(90, 220, 120, 210);
 
         jTabbedPane4.addTab("Generar archivo", panelGenerarArchivo);
 
@@ -1165,11 +1136,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoCantidadVendidaConsultaProducto.setText("Cantidad total vendida entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadVendidaConsultaProducto);
-        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 260, 16);
+        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 360, 16);
 
         textoCantidadTotalCompradaConsultaProducto.setText("Cantidad total comprada entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadTotalCompradaConsultaProducto);
-        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 290, 16);
+        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 390, 16);
 
         textoPrecioMinimoConsultaProducto.setText("Precio minimo vendido:");
         panelConsultaProducto.add(textoPrecioMinimoConsultaProducto);
@@ -1238,14 +1209,14 @@ public class Interfaz extends javax.swing.JFrame {
         panelConsultaProducto.add(consultasTipo);
         consultasTipo.setBounds(290, 160, 230, 22);
 
-        jTextField4.setEnabled(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        consultaPrecioMaximoVendido.setEnabled(false);
+        consultaPrecioMaximoVendido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                consultaPrecioMaximoVendidoActionPerformed(evt);
             }
         });
-        panelConsultaProducto.add(jTextField4);
-        jTextField4.setBounds(910, 260, 40, 20);
+        panelConsultaProducto.add(consultaPrecioMaximoVendido);
+        consultaPrecioMaximoVendido.setBounds(910, 260, 40, 20);
 
         consultaTotalVendidoEntrePuestos.setEnabled(false);
         consultaTotalVendidoEntrePuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1272,16 +1243,16 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultaCantidadKgVendidaPuestos);
-        consultaCantidadKgVendidaPuestos.setBounds(890, 180, 30, 20);
+        consultaCantidadKgVendidaPuestos.setBounds(920, 180, 30, 20);
 
-        jTextField9.setEnabled(false);
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        consultaPrecioMinimoVendido.setEnabled(false);
+        consultaPrecioMinimoVendido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                consultaPrecioMinimoVendidoActionPerformed(evt);
             }
         });
-        panelConsultaProducto.add(jTextField9);
-        jTextField9.setBounds(700, 260, 40, 20);
+        panelConsultaProducto.add(consultaPrecioMinimoVendido);
+        consultaPrecioMinimoVendido.setBounds(700, 260, 40, 20);
 
         consultaCantidadUnidadesVendidaPuestos.setEnabled(false);
         consultaCantidadUnidadesVendidaPuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1290,19 +1261,19 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultaCantidadUnidadesVendidaPuestos);
-        consultaCantidadUnidadesVendidaPuestos.setBounds(1000, 180, 30, 20);
+        consultaCantidadUnidadesVendidaPuestos.setBounds(1030, 180, 30, 20);
 
         textoConsultaUnidadesVendidasPuestos.setText("Unidades");
         panelConsultaProducto.add(textoConsultaUnidadesVendidasPuestos);
-        textoConsultaUnidadesVendidasPuestos.setBounds(940, 180, 60, 16);
+        textoConsultaUnidadesVendidasPuestos.setBounds(970, 180, 60, 16);
 
         textoConsultaKilogramosVendidosPuestos.setText("Kilogramos");
         panelConsultaProducto.add(textoConsultaKilogramosVendidosPuestos);
-        textoConsultaKilogramosVendidosPuestos.setBounds(820, 180, 70, 16);
+        textoConsultaKilogramosVendidosPuestos.setBounds(850, 180, 70, 16);
 
         textoConsultaUnidadesCompradasPuestos.setText("Unidades");
         panelConsultaProducto.add(textoConsultaUnidadesCompradasPuestos);
-        textoConsultaUnidadesCompradasPuestos.setBounds(950, 220, 60, 16);
+        textoConsultaUnidadesCompradasPuestos.setBounds(980, 220, 60, 16);
 
         consultaCantidadUnidadesCompradaPuestos.setEnabled(false);
         consultaCantidadUnidadesCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1311,11 +1282,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultaCantidadUnidadesCompradaPuestos);
-        consultaCantidadUnidadesCompradaPuestos.setBounds(1010, 220, 30, 20);
+        consultaCantidadUnidadesCompradaPuestos.setBounds(1040, 220, 30, 20);
 
         textoConsultaKilogramosCompradosPuestos.setText("Kilogramos");
         panelConsultaProducto.add(textoConsultaKilogramosCompradosPuestos);
-        textoConsultaKilogramosCompradosPuestos.setBounds(830, 220, 70, 16);
+        textoConsultaKilogramosCompradosPuestos.setBounds(860, 220, 70, 16);
 
         consultaCantidadKilogramosCompradaPuestos.setEnabled(false);
         consultaCantidadKilogramosCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1324,7 +1295,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultaCantidadKilogramosCompradaPuestos);
-        consultaCantidadKilogramosCompradaPuestos.setBounds(900, 220, 30, 20);
+        consultaCantidadKilogramosCompradaPuestos.setBounds(930, 220, 30, 20);
 
         menuConsultas.addTab("Consulta por producto", panelConsultaProducto);
 
@@ -1416,7 +1387,13 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+        int desde = Integer.parseInt(rangoGeneracionDesde.getText());
+        int hasta = Integer.parseInt(rangoGeneracionHasta.getText());
+        String nombreArchivo = nombreGeneracionArchivo.getText();
+        String tipoMovimiento = tipoMovimientoGeneracion.getSelectedItem().toString();
+
+        GeneradorArchivo.GenerarPDF();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void registroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreActionPerformed
@@ -1633,11 +1610,10 @@ public class Interfaz extends javax.swing.JFrame {
         String[] fragmentos = mayoristaSeleccionado.split(corte);
         int rutMayorista = Integer.parseInt(fragmentos[1]);
         int precio = Integer.parseInt(precioVentaAPuesto.getText());
-        int cantidad = Integer.parseInt(cantidadVentaAPuesto.getText());
+        double cantidad = Double.parseDouble(cantidadVentaAPuesto.getText());
 
         Sistema.realizarCompraDePuesto(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
         actualizarGrilla(puestoSeleccionado);
-        System.out.println(rutMayorista + " " + puestoSeleccionado + " " + itemSeleccionado + " " + precio + " " + cantidad);
     }//GEN-LAST:event_botonCompraDePuestoActionPerformed
 
     private void seleccionListaPuestosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaPuestosValueChanged
@@ -1693,9 +1669,9 @@ public class Interfaz extends javax.swing.JFrame {
         cambiarItemConsulta(-1, itemMostrado);
     }//GEN-LAST:event_consultasBotonIzquierdaActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void consultaPrecioMaximoVendidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaPrecioMaximoVendidoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_consultaPrecioMaximoVendidoActionPerformed
 
     private void consultaTotalVendidoEntrePuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaTotalVendidoEntrePuestosActionPerformed
         // TODO add your handling code here:
@@ -1709,9 +1685,9 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_consultaCantidadKgVendidaPuestosActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void consultaPrecioMinimoVendidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaPrecioMinimoVendidoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_consultaPrecioMinimoVendidoActionPerformed
 
     private void consultaCantidadUnidadesVendidaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadUnidadesVendidaPuestosActionPerformed
         // TODO add your handling code here:
@@ -1779,6 +1755,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField consultaCantidadKilogramosCompradaPuestos;
     private javax.swing.JTextField consultaCantidadUnidadesCompradaPuestos;
     private javax.swing.JTextField consultaCantidadUnidadesVendidaPuestos;
+    private javax.swing.JTextField consultaPrecioMaximoVendido;
+    private javax.swing.JTextField consultaPrecioMinimoVendido;
     private javax.swing.JTextField consultaTotalCompradoEntrePuestos;
     private javax.swing.JTextField consultaTotalVendidoEntrePuestos;
     private javax.swing.JButton consultasBotonDerecha;
@@ -1798,16 +1776,9 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField direccionMayorista;
     private javax.swing.JLabel inicioImagen;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
@@ -1823,11 +1794,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JList<String> listaItemsAComprar;
     private javax.swing.JScrollPane listaPuestosMayorPrecioConsultaProducto;
     private javax.swing.JScrollPane listaPuestosMenorPrecioConsultaProducto;
@@ -1837,6 +1803,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTabbedPane menuConsultas;
     private javax.swing.JTabbedPane menuRegistro;
     private javax.swing.JComboBox<String> movimientoComboDePuestosVenta;
+    private javax.swing.JTextField nombreGeneracionArchivo;
     private javax.swing.JLabel nombreIntegrante1;
     private javax.swing.JLabel nombreIntegrante2;
     private javax.swing.JTextField nombreMayorista;
@@ -1855,6 +1822,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel panelVentaPublico;
     private javax.swing.JTextField precioVentaAPuesto;
     private javax.swing.JLabel productosMayorista;
+    private javax.swing.JTextField rangoGeneracionDesde;
+    private javax.swing.JTextField rangoGeneracionHasta;
     private javax.swing.JTextField registroDescripcion;
     private javax.swing.JTextField registroEdadDueño;
     private javax.swing.JTextField registroEdadExperiencia;
@@ -1869,6 +1838,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField rutMayorista;
     private javax.swing.JList<String> seleccionListaMayoristas;
     private javax.swing.JList<String> seleccionListaPuestos;
+    private javax.swing.JList<String> seleccionPuestoGenerarArchivo;
+    private javax.swing.JScrollPane seleccionPuestoGenerarArchivoModel;
     private javax.swing.JFileChooser seleccionarImagen;
     private javax.swing.JTable tablaConsultaDuenos;
     private javax.swing.JTable tablaConsultaMayoristas;
@@ -1911,6 +1882,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel textoUbicacion;
     private javax.swing.JLabel textoVenntaPorConsultaProducto;
     private javax.swing.JLabel textoVentaPor;
+    private javax.swing.JComboBox<String> tipoMovimientoGeneracion;
     private javax.swing.JLabel tituloCompraPuesto;
     private javax.swing.JLabel tituloConsultaDuenos;
     private javax.swing.JLabel tituloConsultaPuestos;

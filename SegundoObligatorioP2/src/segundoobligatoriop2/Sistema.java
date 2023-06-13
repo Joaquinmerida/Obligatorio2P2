@@ -11,6 +11,7 @@ public class Sistema {
     private static ArrayList<Puesto> listaPuesto;
     private static ArrayList<Dueno> listaDuenos;
     private static ArrayList<Transaccion> listaTransacciones;
+    private static int numeroTransaccion;
 
     public static void main(String[] args) {
         listaItems = new ArrayList<>();
@@ -26,6 +27,14 @@ public class Sistema {
         return listaItems;
     }
 
+    public static int getNumeroTransaccion() {
+        return numeroTransaccion;
+    }
+
+    public static void aumentarNumeroTransaccion(){
+    numeroTransaccion++;
+    }
+    
     public static ArrayList<Mayorista> getListaMayoristas() {
         return listaMayoristas;
     }
@@ -126,8 +135,8 @@ public class Sistema {
         }
         return totalKg;
     }
-    
-        public static int getUnidadesTotalCompradoPuestos(Item unItem) {
+
+    public static int getUnidadesTotalCompradoPuestos(Item unItem) {
         int totalUnidades = 0;
         for (Transaccion transaccion : listaTransacciones) {
             if (!transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getFormaVenta().equalsIgnoreCase("Unidad") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre())) {
@@ -137,18 +146,51 @@ public class Sistema {
         return totalUnidades;
     }
 
-    public static void agregarTransaccion(String vendedor, String comprador, Item item, int precio, int cantidad) {
-        listaTransacciones.add(new Transaccion(vendedor, comprador, item, precio, cantidad));
+    public static int getMinimoVendido(Item unItem) {
+        int minimo = Integer.MAX_VALUE;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getComprador().equals("Publico") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && transaccion.getPrecio() < minimo) {
+                minimo = transaccion.getPrecio();
+            }
+        }
+        if (minimo == Integer.MAX_VALUE) {
+            minimo = 0;
+        }
+        return minimo;
     }
 
-    public static void realizarCompraDePuesto(int vendedor, String comprador, String itemVendido, int precio, int cantidad) {
+    public static int getMaximoVendido(Item unItem) {
+        int maximo = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getComprador().equals("Publico") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && transaccion.getPrecio() > maximo) {
+                maximo = transaccion.getPrecio();
+            }
+        }
+        return maximo;
+    }
+
+    public static void agregarTransaccion(String vendedor, String comprador, Item item, int precio, double cantidad) {
+        aumentarNumeroTransaccion();
+        int numeroTransaccion= getNumeroTransaccion();
+        listaTransacciones.add(new Transaccion(numeroTransaccion,vendedor, comprador, item, precio, cantidad));
+    }
+
+    public static void realizarCompraDePuesto(int vendedor, String comprador, String itemVendido, int precio, double cantidad) {
         Item itemObjeto = null;
         Mayorista mayorista = getMayorista(vendedor);
 
         for (Item itemMayorista : mayorista.getListaItems()) {
             if (itemMayorista.getNombre().equals(itemVendido)) {
-                itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
-                itemObjeto.setCantidad(cantidad);
+                if (itemMayorista.getFormaVenta().equalsIgnoreCase("Kilogramo")) {
+                    itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
+                    itemObjeto.setCantidad(cantidad);
+                    System.out.println("se agrega con , porque es kg" + cantidad);
+                } else {
+                    itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
+                    itemObjeto.setCantidad((int) Math.floor(cantidad));
+                    System.out.println("se agrega sin , porque es unidad" + (int) Math.floor(cantidad));
+                }
+
             }
         }
 
@@ -157,35 +199,58 @@ public class Sistema {
                 boolean itemEncontrado = false;
                 for (Item itemEnStock : puesto.getStock()) {
                     if (itemEnStock.getNombre().equals(itemObjeto.getNombre())) {
-                        itemEncontrado = true;
-                        itemEnStock.sumarCantidad(cantidad);
-                        agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
-                        break;
+                        if (itemEnStock.getFormaVenta().equalsIgnoreCase("Kilogramo")) {
+                            itemEncontrado = true;
+                            itemEnStock.sumarCantidad(cantidad);
+                            agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
+                        } else {
+                            itemEncontrado = true;
+                            itemEnStock.sumarCantidad((int) Math.floor(cantidad));
+                            agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, (int) Math.floor(cantidad));
+                        }
                     }
                 }
                 if (!itemEncontrado) {
-                    itemObjeto.setCantidad(cantidad);
-                    puesto.añadirItem(itemObjeto);
-                    agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
+                    if (itemObjeto.getFormaVenta().equalsIgnoreCase("Kilogramo")) {
+                        itemObjeto.setCantidad(cantidad);
+                        puesto.añadirItem(itemObjeto);
+                        agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
+                        System.out.println("se agrega un item nuevo al stock porque no existia cantidad: " + cantidad);
+                    } else {
+                        itemObjeto.setCantidad((int) Math.floor(cantidad));
+                        puesto.añadirItem(itemObjeto);
+                        agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, (int) Math.floor(cantidad));
+                        System.out.println("se agrega un item nuevo al stock porque no existia cantidad: " + (int) Math.floor(cantidad));
+                    }
                 }
             }
         }
         for (Transaccion transaccion : listaTransacciones) {
-            System.out.println(transaccion.getRutVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemVenta().getNombre() + " a " + transaccion.getPrecio());
+            System.out.println(transaccion.getVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemVenta().getNombre() + " a " + transaccion.getPrecio());
         }
     }
 
-    public static void realizarCompraDePublico(String idVendedor, String comprador, Item itemVendido, int precio, int cantidad) {
+    public static void realizarCompraDePublico(String idVendedor, String comprador, Item itemVendido, int precio, double cantidad) {
         for (Puesto puesto : listaPuesto) {
             if (puesto.getIdentificacion().equals(idVendedor)) {
                 for (Item item : puesto.getStock()) {
                     if (itemVendido.getNombre().equals(item.getNombre())) {
-                        if (item.getCantidad() >= cantidad) {
-                            agregarTransaccion(idVendedor, "Publico", itemVendido, precio, cantidad);
-                            item.sumarCantidad(cantidad * -1);
-                            System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
+                        if (item.getFormaVenta().equalsIgnoreCase("Kilogramo")) {
+                            if (item.getCantidad() >= cantidad) {
+                                agregarTransaccion(idVendedor, "Publico", itemVendido, precio, cantidad);
+                                item.sumarCantidad(cantidad * -1);
+                                System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
+                            } else {
+                                System.out.println("compra no valida");
+                            }
                         } else {
-                            System.out.println("compra no valida");
+                            if (item.getCantidad() >= (int) Math.floor(cantidad)) {
+                                agregarTransaccion(idVendedor, "Publico", itemVendido, precio, (int) Math.floor(cantidad));
+                                item.sumarCantidad(cantidad * -1);
+                                System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
+                            } else {
+                                System.out.println("compra no valida");
+                            }
                         }
                     }
                 }

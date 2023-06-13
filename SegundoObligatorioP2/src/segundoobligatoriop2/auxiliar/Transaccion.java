@@ -4,26 +4,32 @@
  */
 package segundoobligatoriop2.auxiliar;
 
-import java.util.ArrayList;
+
 
 public class Transaccion {
 
-    private String rutVendedor;
+    private int numeroTransaccion;
+    private String vendedor;
     private String comprador;
     private Item itemVenta;
     private int precio;
-    private int cantidad;
+    private double cantidad;
 
-    public Transaccion(String rutVendedor, String comprador, Item itemsVenta, int precio, int cantidad) {
-        this.rutVendedor = rutVendedor;
+    public Transaccion(int numeroTransaccion, String vendedor, String comprador, Item itemsVenta, int precio, double cantidad) {
+        this.numeroTransaccion = numeroTransaccion;
+        this.vendedor = vendedor;
         this.comprador = comprador;
         this.itemVenta = itemsVenta;
         this.precio = precio;
         this.cantidad = cantidad;
     }
 
-    public String getRutVendedor() {
-        return rutVendedor;
+    public int getNumeroTransaccion(){
+    return numeroTransaccion;
+    }
+    
+    public String getVendedor() {
+        return vendedor;
     }
 
     public String getComprador() {
@@ -34,7 +40,7 @@ public class Transaccion {
         return precio;
     }
 
-    public int getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
 
@@ -43,11 +49,11 @@ public class Transaccion {
     }
 
     public void setVendedor(String vendedor) {
-        this.rutVendedor = vendedor;
+        this.vendedor = vendedor;
     }
 
     public void setComprador(String comprador) {
-        this.rutVendedor = comprador;
+        this.vendedor = comprador;
     }
 
     public void setItem(Item unItem) {

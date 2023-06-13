@@ -7,7 +7,7 @@ public class Item {
     private String tipo;
     private String formaVenta;
     private String imagen;
-    private int cantidad;
+    private double cantidad;
 
     public Item(String nombre, String descripcion, String tipo, String formaVenta, String imagen) {
         this.nombre = nombre;
@@ -38,11 +38,11 @@ public class Item {
         this.imagen = imagen;
     }
     
-    public void setCantidad(int cantidad){
+    public void setCantidad(double cantidad){
     this.cantidad = cantidad;
     }
     
-    public void sumarCantidad(int cantidad) {
+    public void sumarCantidad(double cantidad) {
     this.cantidad += cantidad;
     }
      
@@ -66,7 +66,7 @@ public class Item {
         return imagen;
     }
     
-    public int getCantidad(){
+    public double getCantidad(){
     return cantidad;
     }
 
