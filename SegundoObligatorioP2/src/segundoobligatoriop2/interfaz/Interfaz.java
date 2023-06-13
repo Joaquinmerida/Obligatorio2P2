@@ -8,8 +8,6 @@ import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +41,7 @@ public class Interfaz extends javax.swing.JFrame {
         generarTablaDuenos();
         generarTablaPuestos();
         inicializarListaItemsAVender();
+        generarTablaMayoristas();
     }
 
     private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
@@ -259,6 +258,15 @@ public class Interfaz extends javax.swing.JFrame {
         tablaConsultaDuenos.setModel(model);
     }
 
+    public void generarTablaMayoristas() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nombre");
+        model.addColumn("RUT");
+        model.addColumn("Dirección");
+        model.addColumn("Items");
+        tablaConsultaMayoristas.setModel(model);
+    }
+
     public void actualizarTablaDuenos() {
         ArrayList<Dueno> listaDuenos = Sistema.getListaDuenos();
         Collections.sort(listaDuenos, new Comparator<Dueno>() {
@@ -274,6 +282,37 @@ public class Interfaz extends javax.swing.JFrame {
         }
         tablaConsultaDuenos.revalidate();
         tablaConsultaDuenos.repaint();
+    }
+
+    public void actualizarTablaMayoristas() {
+        ArrayList<Mayorista> listaMayorista = Sistema.getListaMayoristas();
+        DefaultTableModel model = (DefaultTableModel) tablaConsultaMayoristas.getModel();
+        
+        model.setRowCount(0);
+        for (Mayorista mayorista : listaMayorista) {
+            Object[] rowData = new Object[4];
+            rowData[0] = mayorista.getNombre();
+            rowData[1] = mayorista.getRut();
+            rowData[2] = mayorista.getDireccion();
+
+            ArrayList<Item> items = mayorista.getListaItems();
+            StringBuilder itemsString = new StringBuilder();
+            
+             Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                return item1.getNombre().compareTo(item2.getNombre());
+            }
+        });
+            
+            for (Item item : items) {
+                itemsString.append(item.getNombre()+ " ");
+            }
+            rowData[3] = itemsString.toString();
+            model.addRow(rowData);
+        }
+        tablaConsultaMayoristas.revalidate();
+        tablaConsultaMayoristas.repaint();
     }
 
     public void generarTablaPuestos() {
@@ -333,7 +372,6 @@ public class Interfaz extends javax.swing.JFrame {
                 j = listaItems.size() - 1;
             }
         }
-
         for (int i = 0; i < listaItems.size(); i++) {
             if (j == i) {
                 consultasNombre.setText(listaItems.get(j).getNombre());
@@ -346,10 +384,14 @@ public class Interfaz extends javax.swing.JFrame {
                 consultasImagen.setIcon(mIcono);
                 consultaTotalVendidoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaPuestos(listaItems.get(j))));
                 consultaTotalCompradoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaMayoristas(listaItems.get(j))));
+                consultaCantidadKgVendidaPuestos.setText(Integer.toString(Sistema.getKgTotalVendidoPuestos(listaItems.get(j))));
+                consultaCantidadUnidadesVendidaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalVendidoPuestos(listaItems.get(j))));
+                consultaCantidadKilogramosCompradaPuestos.setText(Integer.toString(Sistema.getKgTotalCompradoPuestos(listaItems.get(j))));
+                consultaCantidadUnidadesCompradaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalCompradoPuestos(listaItems.get(j))));;
             }
         }
     }
-    
+
     public String getSelectedItem(String nombreLista) {
         try {
             Field field = getClass().getDeclaredField(nombreLista);
@@ -505,9 +547,15 @@ public class Interfaz extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         consultaTotalVendidoEntrePuestos = new javax.swing.JTextField();
         consultaTotalCompradoEntrePuestos = new javax.swing.JTextField();
-        consultaCantidadVendidaPuestos = new javax.swing.JTextField();
-        consultaCantidadCompradaPuestos = new javax.swing.JTextField();
+        consultaCantidadKgVendidaPuestos = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
+        consultaCantidadUnidadesVendidaPuestos = new javax.swing.JTextField();
+        textoConsultaUnidadesVendidasPuestos = new javax.swing.JLabel();
+        textoConsultaKilogramosVendidosPuestos = new javax.swing.JLabel();
+        textoConsultaUnidadesCompradasPuestos = new javax.swing.JLabel();
+        consultaCantidadUnidadesCompradaPuestos = new javax.swing.JTextField();
+        textoConsultaKilogramosCompradosPuestos = new javax.swing.JLabel();
+        consultaCantidadKilogramosCompradaPuestos = new javax.swing.JTextField();
         panelConsultaDueno = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaConsultaDuenos = new javax.swing.JTable();
@@ -517,6 +565,9 @@ public class Interfaz extends javax.swing.JFrame {
         tablaConsultaPuestos = new javax.swing.JTable();
         tituloConsultaPuestos = new javax.swing.JLabel();
         menuConsultaMayorista = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaConsultaMayoristas = new javax.swing.JTable();
+        tituloConsultaPuestos1 = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -573,7 +624,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel29.setText("Tipo de movimiento:");
         panelGenerarArchivo.add(jLabel29);
-        jLabel29.setBounds(30, 60, 120, 17);
+        jLabel29.setBounds(30, 60, 120, 16);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         panelGenerarArchivo.add(jComboBox1);
@@ -581,15 +632,15 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel30.setText("Rango de movimiento:");
         panelGenerarArchivo.add(jLabel30);
-        jLabel30.setBounds(30, 140, 130, 17);
+        jLabel30.setBounds(30, 140, 130, 16);
 
         jLabel31.setText("Desde:");
         panelGenerarArchivo.add(jLabel31);
-        jLabel31.setBounds(190, 140, 42, 17);
+        jLabel31.setBounds(190, 140, 35, 16);
 
         jLabel32.setText("Hasta:");
         panelGenerarArchivo.add(jLabel32);
-        jLabel32.setBounds(400, 140, 38, 17);
+        jLabel32.setBounds(400, 140, 33, 16);
 
         jTextField1.setText("jTextField1");
         panelGenerarArchivo.add(jTextField1);
@@ -601,39 +652,39 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel33.setText("Puesto:");
         panelGenerarArchivo.add(jLabel33);
-        jLabel33.setBounds(30, 220, 43, 17);
+        jLabel33.setBounds(30, 220, 43, 16);
 
         jCheckBox1.setText("jCheckBox1");
         panelGenerarArchivo.add(jCheckBox1);
-        jCheckBox1.setBounds(90, 220, 100, 21);
+        jCheckBox1.setBounds(90, 220, 100, 20);
 
         jCheckBox2.setText("jCheckBox2");
         panelGenerarArchivo.add(jCheckBox2);
-        jCheckBox2.setBounds(90, 250, 93, 21);
+        jCheckBox2.setBounds(90, 250, 85, 20);
 
         jCheckBox3.setText("jCheckBox3");
         panelGenerarArchivo.add(jCheckBox3);
-        jCheckBox3.setBounds(90, 280, 93, 21);
+        jCheckBox3.setBounds(90, 280, 85, 20);
 
         jCheckBox4.setText("jCheckBox4");
         panelGenerarArchivo.add(jCheckBox4);
-        jCheckBox4.setBounds(90, 310, 93, 21);
+        jCheckBox4.setBounds(90, 310, 85, 20);
 
         jCheckBox5.setText("jCheckBox5");
         panelGenerarArchivo.add(jCheckBox5);
-        jCheckBox5.setBounds(90, 340, 93, 21);
+        jCheckBox5.setBounds(90, 340, 85, 20);
 
         jCheckBox6.setText("jCheckBox6");
         panelGenerarArchivo.add(jCheckBox6);
-        jCheckBox6.setBounds(90, 370, 93, 21);
+        jCheckBox6.setBounds(90, 370, 85, 20);
 
         jLabel34.setText("Nombre del archivo a generar:");
         panelGenerarArchivo.add(jLabel34);
-        jLabel34.setBounds(270, 220, 170, 17);
+        jLabel34.setBounds(270, 220, 170, 16);
 
         jTextField3.setText("jTextField3");
         panelGenerarArchivo.add(jTextField3);
-        jTextField3.setBounds(450, 220, 240, 23);
+        jTextField3.setBounds(450, 220, 240, 22);
 
         jButton1.setText("Generar Archivo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -652,7 +703,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreItem.setText("Nombre:");
         panelRegistroItem.add(textoNombreItem);
-        textoNombreItem.setBounds(100, 80, 60, 17);
+        textoNombreItem.setBounds(100, 80, 60, 16);
 
         registroNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -660,11 +711,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroNombre);
-        registroNombre.setBounds(260, 80, 260, 23);
+        registroNombre.setBounds(260, 80, 260, 22);
 
         textoDescripcion.setText("Descripcion:");
         panelRegistroItem.add(textoDescripcion);
-        textoDescripcion.setBounds(100, 140, 90, 17);
+        textoDescripcion.setBounds(100, 140, 90, 16);
 
         registroDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -672,11 +723,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroDescripcion);
-        registroDescripcion.setBounds(260, 140, 260, 23);
+        registroDescripcion.setBounds(260, 140, 260, 22);
 
         textoTipo.setText("Tipo:");
         panelRegistroItem.add(textoTipo);
-        textoTipo.setBounds(100, 200, 29, 17);
+        textoTipo.setBounds(100, 200, 26, 16);
 
         registroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
         registroTipo.setName("");
@@ -690,11 +741,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoVentaPor.setText("Venta por:");
         panelRegistroItem.add(textoVentaPor);
-        textoVentaPor.setBounds(100, 240, 110, 17);
+        textoVentaPor.setBounds(100, 240, 110, 16);
 
         registroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
         panelRegistroItem.add(registroVentaPor);
-        registroVentaPor.setBounds(260, 240, 200, 23);
+        registroVentaPor.setBounds(260, 240, 200, 22);
 
         botonLimpiarRegistro.setText("Limpiar");
         botonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -716,7 +767,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoImagen.setText("Imagen:");
         panelRegistroItem.add(textoImagen);
-        textoImagen.setBounds(590, 40, 60, 17);
+        textoImagen.setBounds(590, 40, 60, 16);
         panelRegistroItem.add(AparicionImagenRegistro);
         AparicionImagenRegistro.setBounds(50, 360, 180, 140);
 
@@ -724,7 +775,7 @@ public class Interfaz extends javax.swing.JFrame {
         seleccionarImagen.setApproveButtonText("Abrir");
         seleccionarImagen.setApproveButtonToolTipText("Cancelar");
         seleccionarImagen.setDialogTitle("");
-        seleccionarImagen.setSelectedFile(new java.io.File("/C:/Users/joaqu/OneDrive/Escritorio/Obligatorio2P2/Obligatorio2P2/SegundoObligatorioP2/src/segundoobligatoriop2/ImagenesOblig"));
+        seleccionarImagen.setSelectedFile(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
         seleccionarImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         seleccionarImagen.setDoubleBuffered(true);
         seleccionarImagen.setName("seleccionarImagen");
@@ -742,7 +793,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreMayorista.setText("Nombre:");
         panelRegistroMayorista.add(textoNombreMayorista);
-        textoNombreMayorista.setBounds(100, 119, 60, 17);
+        textoNombreMayorista.setBounds(100, 119, 60, 16);
 
         nombreMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -750,11 +801,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(nombreMayorista);
-        nombreMayorista.setBounds(260, 119, 120, 23);
+        nombreMayorista.setBounds(260, 119, 120, 22);
 
         textoRut.setText("Rut:");
         panelRegistroMayorista.add(textoRut);
-        textoRut.setBounds(100, 179, 90, 17);
+        textoRut.setBounds(100, 179, 90, 16);
 
         rutMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -762,11 +813,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(rutMayorista);
-        rutMayorista.setBounds(260, 179, 300, 23);
+        rutMayorista.setBounds(260, 179, 300, 22);
 
         textoDireccion.setText("Dirección:");
         panelRegistroMayorista.add(textoDireccion);
-        textoDireccion.setBounds(100, 230, 70, 17);
+        textoDireccion.setBounds(100, 230, 70, 16);
 
         direccionMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -774,11 +825,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(direccionMayorista);
-        direccionMayorista.setBounds(260, 230, 300, 23);
+        direccionMayorista.setBounds(260, 230, 300, 22);
 
         productosMayorista.setText("Productos que ofrece:");
         panelRegistroMayorista.add(productosMayorista);
-        productosMayorista.setBounds(580, 20, 140, 17);
+        productosMayorista.setBounds(580, 20, 140, 16);
 
         botonLimpiarRegistroMayorista.setText("Limpiar");
         botonLimpiarRegistroMayorista.addActionListener(new java.awt.event.ActionListener() {
@@ -808,7 +859,7 @@ public class Interfaz extends javax.swing.JFrame {
         contenedorListaSeleccionItemsMayorista.setViewportView(listaSeleccionItemsMayorista);
 
         panelRegistroMayorista.add(contenedorListaSeleccionItemsMayorista);
-        contenedorListaSeleccionItemsMayorista.setBounds(730, 70, 180, 154);
+        contenedorListaSeleccionItemsMayorista.setBounds(730, 70, 180, 146);
 
         menuRegistro.addTab("Mayorista", panelRegistroMayorista);
 
@@ -816,7 +867,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombre.setText("Nombre");
         panelRegistroPuesto1.add(textoNombre);
-        textoNombre.setBounds(100, 119, 90, 17);
+        textoNombre.setBounds(100, 119, 90, 16);
 
         registroNombreDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -824,11 +875,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroNombreDueño);
-        registroNombreDueño.setBounds(260, 119, 120, 23);
+        registroNombreDueño.setBounds(260, 119, 120, 22);
 
         textoEdadDueño.setText("Edad:");
         panelRegistroPuesto1.add(textoEdadDueño);
-        textoEdadDueño.setBounds(100, 179, 90, 17);
+        textoEdadDueño.setBounds(100, 179, 90, 16);
 
         registroEdadDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -836,11 +887,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadDueño);
-        registroEdadDueño.setBounds(260, 179, 130, 23);
+        registroEdadDueño.setBounds(260, 179, 130, 22);
 
         textoExperienciaDueño.setText("Años de experiencia:");
         panelRegistroPuesto1.add(textoExperienciaDueño);
-        textoExperienciaDueño.setBounds(100, 239, 150, 17);
+        textoExperienciaDueño.setBounds(100, 239, 150, 16);
 
         registroEdadExperiencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -848,7 +899,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadExperiencia);
-        registroEdadExperiencia.setBounds(260, 240, 40, 23);
+        registroEdadExperiencia.setBounds(260, 240, 40, 22);
 
         botonLimpiarRegistro2.setText("Limpiar");
         botonLimpiarRegistro2.addActionListener(new java.awt.event.ActionListener() {
@@ -878,23 +929,23 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroIdentificacion);
-        registroIdentificacion.setBounds(260, 119, 230, 23);
+        registroIdentificacion.setBounds(260, 119, 230, 22);
 
         textoIdentificacion.setText("Identificacion:");
         panelRegistroPuesto.add(textoIdentificacion);
-        textoIdentificacion.setBounds(100, 119, 90, 17);
+        textoIdentificacion.setBounds(100, 119, 90, 16);
 
         textoDueño.setText("Dueño:");
         panelRegistroPuesto.add(textoDueño);
-        textoDueño.setBounds(100, 179, 90, 17);
+        textoDueño.setBounds(100, 179, 90, 16);
 
         textoUbicacion.setText("Ubicación:");
         panelRegistroPuesto.add(textoUbicacion);
-        textoUbicacion.setBounds(100, 239, 100, 17);
+        textoUbicacion.setBounds(100, 239, 100, 16);
 
         textoCantidadEmpleados.setText("Cantidad empleados:");
         panelRegistroPuesto.add(textoCantidadEmpleados);
-        textoCantidadEmpleados.setBounds(100, 290, 120, 17);
+        textoCantidadEmpleados.setBounds(100, 290, 120, 16);
 
         botonLimpiarRegistro1.setText("Limpiar");
         botonLimpiarRegistro1.addActionListener(new java.awt.event.ActionListener() {
@@ -920,7 +971,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroUbicacion);
-        registroUbicacion.setBounds(260, 240, 230, 23);
+        registroUbicacion.setBounds(260, 240, 230, 22);
 
         registroNumeroEmpleados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         registroNumeroEmpleados.setText("0");
@@ -930,7 +981,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroNumeroEmpleados);
-        registroNumeroEmpleados.setBounds(260, 290, 30, 23);
+        registroNumeroEmpleados.setBounds(260, 290, 30, 22);
 
         registroPuestoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         registroPuestoCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -939,7 +990,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroPuestoCombo);
-        registroPuestoCombo.setBounds(260, 180, 230, 23);
+        registroPuestoCombo.setBounds(260, 180, 230, 22);
 
         menuRegistro.addTab("Puesto", panelRegistroPuesto);
 
@@ -955,15 +1006,15 @@ public class Interfaz extends javax.swing.JFrame {
         tituloCompraPuesto.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
         tituloCompraPuesto.setText("Registrar compra de productos");
         panelCompraPuesto.add(tituloCompraPuesto);
-        tituloCompraPuesto.setBounds(350, 10, 500, 30);
+        tituloCompraPuesto.setBounds(350, 10, 500, 25);
 
         textoSeleccionPuesto.setText("Puesto que realiza la compra:");
         panelCompraPuesto.add(textoSeleccionPuesto);
-        textoSeleccionPuesto.setBounds(80, 60, 210, 17);
+        textoSeleccionPuesto.setBounds(80, 60, 210, 16);
 
         textoSeleccionMayoristaVendedor.setText("Mayorista al que le compran:");
         panelCompraPuesto.add(textoSeleccionMayoristaVendedor);
-        textoSeleccionMayoristaVendedor.setBounds(80, 250, 210, 17);
+        textoSeleccionMayoristaVendedor.setBounds(80, 250, 210, 16);
 
         textoPrecioVentaMayorista.setText("Precio individual:");
         panelCompraPuesto.add(textoPrecioVentaMayorista);
@@ -999,7 +1050,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoSeleccionItemAComprar.setText("Item:");
         panelCompraPuesto.add(textoSeleccionItemAComprar);
-        textoSeleccionItemAComprar.setBounds(490, 90, 50, 17);
+        textoSeleccionItemAComprar.setBounds(490, 90, 50, 16);
 
         botonCompraDePuesto.setText("Realizar compra");
         botonCompraDePuesto.addActionListener(new java.awt.event.ActionListener() {
@@ -1036,7 +1087,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoSeleccionPuestoQueVende.setText("Puestos:");
         panelVentaPublico.add(textoSeleccionPuestoQueVende);
-        textoSeleccionPuestoQueVende.setBounds(90, 100, 60, 17);
+        textoSeleccionPuestoQueVende.setBounds(90, 100, 60, 16);
 
         movimientoComboDePuestosVenta.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1076,65 +1127,65 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreConsultaProducto.setText("Nombre:");
         panelConsultaProducto.add(textoNombreConsultaProducto);
-        textoNombreConsultaProducto.setBounds(190, 60, 70, 17);
+        textoNombreConsultaProducto.setBounds(190, 60, 70, 16);
 
         textoDescripcionConsultaProducto.setText("Descripcion:");
         panelConsultaProducto.add(textoDescripcionConsultaProducto);
-        textoDescripcionConsultaProducto.setBounds(190, 110, 80, 17);
+        textoDescripcionConsultaProducto.setBounds(190, 110, 80, 16);
 
         textoTipoConsultaProducto.setText("Tipo:");
         panelConsultaProducto.add(textoTipoConsultaProducto);
-        textoTipoConsultaProducto.setBounds(190, 160, 29, 17);
+        textoTipoConsultaProducto.setBounds(190, 160, 26, 16);
 
         textoVenntaPorConsultaProducto.setText("Venta por:");
         panelConsultaProducto.add(textoVenntaPorConsultaProducto);
-        textoVenntaPorConsultaProducto.setBounds(190, 220, 60, 17);
+        textoVenntaPorConsultaProducto.setBounds(190, 220, 60, 16);
 
         consultasNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         consultasNombre.setEnabled(false);
         consultasNombre.setFocusable(false);
         panelConsultaProducto.add(consultasNombre);
-        consultasNombre.setBounds(290, 60, 230, 23);
+        consultasNombre.setBounds(290, 60, 230, 22);
 
         consultasDescripcion.setEnabled(false);
         panelConsultaProducto.add(consultasDescripcion);
-        consultasDescripcion.setBounds(290, 110, 230, 23);
+        consultasDescripcion.setBounds(290, 110, 230, 22);
 
         textoInfoConsultaProducto.setText("Informacion del producto:");
         panelConsultaProducto.add(textoInfoConsultaProducto);
-        textoInfoConsultaProducto.setBounds(560, 60, 190, 17);
+        textoInfoConsultaProducto.setBounds(560, 60, 190, 16);
 
         textoTotalVendidoConsultaProducto.setText("Total $ vendido entre todos los puestos:");
         panelConsultaProducto.add(textoTotalVendidoConsultaProducto);
-        textoTotalVendidoConsultaProducto.setBounds(560, 100, 250, 17);
+        textoTotalVendidoConsultaProducto.setBounds(560, 100, 250, 16);
 
         textoTotalCompradoConsultaProducto.setText("Total $ comprado por todos los puestos:");
         panelConsultaProducto.add(textoTotalCompradoConsultaProducto);
-        textoTotalCompradoConsultaProducto.setBounds(560, 140, 250, 17);
+        textoTotalCompradoConsultaProducto.setBounds(560, 140, 250, 16);
 
-        textoCantidadVendidaConsultaProducto.setText("Cantidad total vendida entre todos los puestos (kilo/unidad):");
+        textoCantidadVendidaConsultaProducto.setText("Cantidad total vendida entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadVendidaConsultaProducto);
-        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 370, 17);
+        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 260, 16);
 
-        textoCantidadTotalCompradaConsultaProducto.setText("Cantidad total comprada entre todos los puestos(kilo/unidad):");
+        textoCantidadTotalCompradaConsultaProducto.setText("Cantidad total comprada entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadTotalCompradaConsultaProducto);
-        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 370, 17);
+        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 290, 16);
 
         textoPrecioMinimoConsultaProducto.setText("Precio minimo vendido:");
         panelConsultaProducto.add(textoPrecioMinimoConsultaProducto);
-        textoPrecioMinimoConsultaProducto.setBounds(560, 260, 140, 17);
+        textoPrecioMinimoConsultaProducto.setBounds(560, 260, 140, 16);
 
         textoPrecioMaximoConsultaProducto.setText("Precio maximo vendido:");
         panelConsultaProducto.add(textoPrecioMaximoConsultaProducto);
-        textoPrecioMaximoConsultaProducto.setBounds(760, 260, 170, 17);
+        textoPrecioMaximoConsultaProducto.setBounds(760, 260, 170, 16);
 
         textoPrecioVentaMinimoConsultaProducto.setText("Puestos con el precio de venta minimo:");
         panelConsultaProducto.add(textoPrecioVentaMinimoConsultaProducto);
-        textoPrecioVentaMinimoConsultaProducto.setBounds(560, 300, 250, 17);
+        textoPrecioVentaMinimoConsultaProducto.setBounds(560, 300, 250, 16);
 
         textoPrecioVentaMaximoConsultaProducto.setText("Puestos con el precio de venta maximo:");
         panelConsultaProducto.add(textoPrecioVentaMaximoConsultaProducto);
-        textoPrecioVentaMaximoConsultaProducto.setBounds(820, 300, 270, 17);
+        textoPrecioVentaMaximoConsultaProducto.setBounds(820, 300, 270, 16);
 
         consultasPrecioMin.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1181,11 +1232,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultasVentaPor);
-        consultasVentaPor.setBounds(290, 220, 230, 23);
+        consultasVentaPor.setBounds(290, 220, 230, 22);
 
         consultasTipo.setEnabled(false);
         panelConsultaProducto.add(consultasTipo);
-        consultasTipo.setBounds(290, 160, 230, 23);
+        consultasTipo.setBounds(290, 160, 230, 22);
 
         jTextField4.setEnabled(false);
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
@@ -1203,7 +1254,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultaTotalVendidoEntrePuestos);
-        consultaTotalVendidoEntrePuestos.setBounds(820, 100, 80, 20);
+        consultaTotalVendidoEntrePuestos.setBounds(820, 100, 130, 20);
 
         consultaTotalCompradoEntrePuestos.setEnabled(false);
         consultaTotalCompradoEntrePuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1212,25 +1263,16 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultaTotalCompradoEntrePuestos);
-        consultaTotalCompradoEntrePuestos.setBounds(820, 140, 80, 20);
+        consultaTotalCompradoEntrePuestos.setBounds(820, 140, 130, 20);
 
-        consultaCantidadVendidaPuestos.setEnabled(false);
-        consultaCantidadVendidaPuestos.addActionListener(new java.awt.event.ActionListener() {
+        consultaCantidadKgVendidaPuestos.setEnabled(false);
+        consultaCantidadKgVendidaPuestos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consultaCantidadVendidaPuestosActionPerformed(evt);
+                consultaCantidadKgVendidaPuestosActionPerformed(evt);
             }
         });
-        panelConsultaProducto.add(consultaCantidadVendidaPuestos);
-        consultaCantidadVendidaPuestos.setBounds(930, 180, 80, 20);
-
-        consultaCantidadCompradaPuestos.setEnabled(false);
-        consultaCantidadCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consultaCantidadCompradaPuestosActionPerformed(evt);
-            }
-        });
-        panelConsultaProducto.add(consultaCantidadCompradaPuestos);
-        consultaCantidadCompradaPuestos.setBounds(930, 220, 80, 20);
+        panelConsultaProducto.add(consultaCantidadKgVendidaPuestos);
+        consultaCantidadKgVendidaPuestos.setBounds(890, 180, 30, 20);
 
         jTextField9.setEnabled(false);
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
@@ -1240,6 +1282,49 @@ public class Interfaz extends javax.swing.JFrame {
         });
         panelConsultaProducto.add(jTextField9);
         jTextField9.setBounds(700, 260, 40, 20);
+
+        consultaCantidadUnidadesVendidaPuestos.setEnabled(false);
+        consultaCantidadUnidadesVendidaPuestos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultaCantidadUnidadesVendidaPuestosActionPerformed(evt);
+            }
+        });
+        panelConsultaProducto.add(consultaCantidadUnidadesVendidaPuestos);
+        consultaCantidadUnidadesVendidaPuestos.setBounds(1000, 180, 30, 20);
+
+        textoConsultaUnidadesVendidasPuestos.setText("Unidades");
+        panelConsultaProducto.add(textoConsultaUnidadesVendidasPuestos);
+        textoConsultaUnidadesVendidasPuestos.setBounds(940, 180, 60, 16);
+
+        textoConsultaKilogramosVendidosPuestos.setText("Kilogramos");
+        panelConsultaProducto.add(textoConsultaKilogramosVendidosPuestos);
+        textoConsultaKilogramosVendidosPuestos.setBounds(820, 180, 70, 16);
+
+        textoConsultaUnidadesCompradasPuestos.setText("Unidades");
+        panelConsultaProducto.add(textoConsultaUnidadesCompradasPuestos);
+        textoConsultaUnidadesCompradasPuestos.setBounds(950, 220, 60, 16);
+
+        consultaCantidadUnidadesCompradaPuestos.setEnabled(false);
+        consultaCantidadUnidadesCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultaCantidadUnidadesCompradaPuestosActionPerformed(evt);
+            }
+        });
+        panelConsultaProducto.add(consultaCantidadUnidadesCompradaPuestos);
+        consultaCantidadUnidadesCompradaPuestos.setBounds(1010, 220, 30, 20);
+
+        textoConsultaKilogramosCompradosPuestos.setText("Kilogramos");
+        panelConsultaProducto.add(textoConsultaKilogramosCompradosPuestos);
+        textoConsultaKilogramosCompradosPuestos.setBounds(830, 220, 70, 16);
+
+        consultaCantidadKilogramosCompradaPuestos.setEnabled(false);
+        consultaCantidadKilogramosCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultaCantidadKilogramosCompradaPuestosActionPerformed(evt);
+            }
+        });
+        panelConsultaProducto.add(consultaCantidadKilogramosCompradaPuestos);
+        consultaCantidadKilogramosCompradaPuestos.setBounds(900, 220, 30, 20);
 
         menuConsultas.addTab("Consulta por producto", panelConsultaProducto);
 
@@ -1295,6 +1380,28 @@ public class Interfaz extends javax.swing.JFrame {
         menuConsultas.addTab("Consulta de puestos", menuConsultaPuesto);
 
         menuConsultaMayorista.setLayout(null);
+
+        tablaConsultaMayoristas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tablaConsultaMayoristas);
+
+        menuConsultaMayorista.add(jScrollPane4);
+        jScrollPane4.setBounds(150, 70, 880, 402);
+
+        tituloConsultaPuestos1.setFont(new java.awt.Font("Segoe UI Symbol", 0, 36)); // NOI18N
+        tituloConsultaPuestos1.setText("Mayoristas");
+        menuConsultaMayorista.add(tituloConsultaPuestos1);
+        tituloConsultaPuestos1.setBounds(500, 20, 240, 40);
+
         menuConsultas.addTab("Consulta de mayoristas", menuConsultaMayorista);
 
         panelConsultas.add(menuConsultas);
@@ -1394,6 +1501,7 @@ public class Interfaz extends javax.swing.JFrame {
             if (Sistema.mayoristaUnico(rut)) {
                 Sistema.agregarMayorista(nombre, rut, direccion, elementosSeleccionados);
                 actualizarListaMayoristas();
+                actualizarTablaMayoristas();
                 nombreMayorista.setText("");
                 rutMayorista.setText("");
                 direccionMayorista.setText("");
@@ -1597,17 +1705,25 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_consultaTotalCompradoEntrePuestosActionPerformed
 
-    private void consultaCantidadVendidaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadVendidaPuestosActionPerformed
+    private void consultaCantidadKgVendidaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadKgVendidaPuestosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_consultaCantidadVendidaPuestosActionPerformed
-
-    private void consultaCantidadCompradaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadCompradaPuestosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_consultaCantidadCompradaPuestosActionPerformed
+    }//GEN-LAST:event_consultaCantidadKgVendidaPuestosActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
+
+    private void consultaCantidadUnidadesVendidaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadUnidadesVendidaPuestosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_consultaCantidadUnidadesVendidaPuestosActionPerformed
+
+    private void consultaCantidadUnidadesCompradaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadUnidadesCompradaPuestosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_consultaCantidadUnidadesCompradaPuestosActionPerformed
+
+    private void consultaCantidadKilogramosCompradaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaCantidadKilogramosCompradaPuestosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_consultaCantidadKilogramosCompradaPuestosActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -1659,8 +1775,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton botonLimpiarRegistro2;
     private javax.swing.JButton botonLimpiarRegistroMayorista;
     private javax.swing.JTextField cantidadVentaAPuesto;
-    private javax.swing.JTextField consultaCantidadCompradaPuestos;
-    private javax.swing.JTextField consultaCantidadVendidaPuestos;
+    private javax.swing.JTextField consultaCantidadKgVendidaPuestos;
+    private javax.swing.JTextField consultaCantidadKilogramosCompradaPuestos;
+    private javax.swing.JTextField consultaCantidadUnidadesCompradaPuestos;
+    private javax.swing.JTextField consultaCantidadUnidadesVendidaPuestos;
     private javax.swing.JTextField consultaTotalCompradoEntrePuestos;
     private javax.swing.JTextField consultaTotalVendidoEntrePuestos;
     private javax.swing.JButton consultasBotonDerecha;
@@ -1702,6 +1820,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextField jTextField1;
@@ -1752,11 +1871,16 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JList<String> seleccionListaPuestos;
     private javax.swing.JFileChooser seleccionarImagen;
     private javax.swing.JTable tablaConsultaDuenos;
+    private javax.swing.JTable tablaConsultaMayoristas;
     private javax.swing.JTable tablaConsultaPuestos;
     private javax.swing.JLabel textoCantidadEmpleados;
     private javax.swing.JLabel textoCantidadTotalCompradaConsultaProducto;
     private javax.swing.JLabel textoCantidadVendidaConsultaProducto;
     private javax.swing.JLabel textoCantidadVentaMayorista;
+    private javax.swing.JLabel textoConsultaKilogramosCompradosPuestos;
+    private javax.swing.JLabel textoConsultaKilogramosVendidosPuestos;
+    private javax.swing.JLabel textoConsultaUnidadesCompradasPuestos;
+    private javax.swing.JLabel textoConsultaUnidadesVendidasPuestos;
     private javax.swing.JLabel textoDescripcion;
     private javax.swing.JLabel textoDescripcionConsultaProducto;
     private javax.swing.JLabel textoDireccion;
@@ -1790,6 +1914,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel tituloCompraPuesto;
     private javax.swing.JLabel tituloConsultaDuenos;
     private javax.swing.JLabel tituloConsultaPuestos;
+    private javax.swing.JLabel tituloConsultaPuestos1;
     private javax.swing.JLabel tituloInicio;
     // End of variables declaration//GEN-END:variables
 

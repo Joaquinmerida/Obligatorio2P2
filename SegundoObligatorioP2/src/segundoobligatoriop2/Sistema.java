@@ -87,16 +87,56 @@ public class Sistema {
         return total;
     }
 
-        public static int getTotalDineroVentaMayoristas(Item unItem) {
+    public static int getTotalDineroVentaMayoristas(Item unItem) {
         int total = 0;
         for (Transaccion transaccion : listaTransacciones) {
-            if (transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && !transaccion.getComprador().equals("Publico")) {
+            if (transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && !transaccion.getComprador().equalsIgnoreCase("Publico")) {
                 total += transaccion.getPrecio() * transaccion.getCantidad();
             }
         }
         return total;
     }
+
+    public static int getKgTotalVendidoPuestos(Item unItem) {
+        int totalKg = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getFormaVenta().equalsIgnoreCase("Kilogramo") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre())) {
+                totalKg += transaccion.getCantidad();
+            }
+        }
+        return totalKg;
+    }
+
+    public static int getUnidadesTotalVendidoPuestos(Item unItem) {
+        int totalUnidades = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getFormaVenta().equalsIgnoreCase("Unidad") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre())) {
+                totalUnidades += transaccion.getCantidad();
+            }
+        }
+        return totalUnidades;
+    }
+
+    public static int getKgTotalCompradoPuestos(Item unItem) {
+        int totalKg = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (!transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getFormaVenta().equalsIgnoreCase("Kilogramo") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre())) {
+                totalKg += transaccion.getCantidad();
+            }
+        }
+        return totalKg;
+    }
     
+        public static int getUnidadesTotalCompradoPuestos(Item unItem) {
+        int totalUnidades = 0;
+        for (Transaccion transaccion : listaTransacciones) {
+            if (!transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getFormaVenta().equalsIgnoreCase("Unidad") && transaccion.getItemVenta().getNombre().equals(unItem.getNombre())) {
+                totalUnidades += transaccion.getCantidad();
+            }
+        }
+        return totalUnidades;
+    }
+
     public static void agregarTransaccion(String vendedor, String comprador, Item item, int precio, int cantidad) {
         listaTransacciones.add(new Transaccion(vendedor, comprador, item, precio, cantidad));
     }
