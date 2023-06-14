@@ -31,10 +31,10 @@ public class Sistema {
         return numeroTransaccion;
     }
 
-    public static void aumentarNumeroTransaccion(){
-    numeroTransaccion++;
+    public static void aumentarNumeroTransaccion() {
+        numeroTransaccion++;
     }
-    
+
     public static ArrayList<Mayorista> getListaMayoristas() {
         return listaMayoristas;
     }
@@ -171,8 +171,8 @@ public class Sistema {
 
     public static void agregarTransaccion(String vendedor, String comprador, Item item, int precio, double cantidad) {
         aumentarNumeroTransaccion();
-        int numeroTransaccion= getNumeroTransaccion();
-        listaTransacciones.add(new Transaccion(numeroTransaccion,vendedor, comprador, item, precio, cantidad));
+        int numeroTransaccion = getNumeroTransaccion();
+        listaTransacciones.add(new Transaccion(numeroTransaccion, vendedor, comprador, item, precio, cantidad));
     }
 
     public static void realizarCompraDePuesto(int vendedor, String comprador, String itemVendido, int precio, double cantidad) {
@@ -366,6 +366,11 @@ public class Sistema {
 
     public void agregarPuesto(Puesto unPuesto) {
         this.getListaPuesto().add(unPuesto);
+    }
+
+    public static void generarArchivo(int desde, int hasta, String nombreArchivo, String tipoMovimiento) {
+        GeneradorArchivo.GenerarPDF(desde, hasta, nombreArchivo, tipoMovimiento);
+
     }
 
     public static void altaItem(String nombre, String descripcion, String tipo, String formaVenta, String imagen) {

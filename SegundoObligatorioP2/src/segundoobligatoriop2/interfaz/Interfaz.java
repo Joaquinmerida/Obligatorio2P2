@@ -632,11 +632,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel31.setText("Desde:");
         panelGenerarArchivo.add(jLabel31);
-        jLabel31.setBounds(190, 140, 35, 16);
+        jLabel31.setBounds(190, 140, 60, 16);
 
         jLabel32.setText("Hasta:");
         panelGenerarArchivo.add(jLabel32);
-        jLabel32.setBounds(400, 140, 33, 16);
+        jLabel32.setBounds(400, 140, 60, 16);
         panelGenerarArchivo.add(rangoGeneracionDesde);
         rangoGeneracionDesde.setBounds(250, 130, 90, 40);
         panelGenerarArchivo.add(rangoGeneracionHasta);
@@ -1387,13 +1387,11 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         int desde = Integer.parseInt(rangoGeneracionDesde.getText());
         int hasta = Integer.parseInt(rangoGeneracionHasta.getText());
         String nombreArchivo = nombreGeneracionArchivo.getText();
         String tipoMovimiento = tipoMovimientoGeneracion.getSelectedItem().toString();
-
-        GeneradorArchivo.GenerarPDF();
+        Sistema.generarArchivo(desde, hasta, nombreArchivo, tipoMovimiento);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void registroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreActionPerformed
