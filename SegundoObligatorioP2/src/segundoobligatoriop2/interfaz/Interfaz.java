@@ -28,6 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.*;
+import segundoobligatoriop2.interfaz.SeleccionInicio;
 
 public class Interfaz extends javax.swing.JFrame {
 
@@ -42,6 +43,8 @@ public class Interfaz extends javax.swing.JFrame {
         generarTablaPuestos();
         inicializarListaItemsAVender();
         generarTablaMayoristas();
+        SeleccionInicio dialog = new SeleccionInicio(null, true);
+        dialog.setVisible(true);
     }
 
     private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
@@ -279,7 +282,7 @@ public class Interfaz extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tablaConsultaDuenos.getModel();
         model.setRowCount(0);
         for (Dueno dueno : listaDuenos) {
-            model.addRow(new Object[]{dueno.getNombre(), dueno.getEdad(), dueno.getAñosExperiencia()});
+            model.addRow(new Object[]{dueno.getNombre(), dueno.getEdad(), dueno.getAExperiencia()});
         }
         tablaConsultaDuenos.revalidate();
         tablaConsultaDuenos.repaint();
@@ -330,7 +333,7 @@ public class Interfaz extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tablaConsultaPuestos.getModel();
         model.setRowCount(0);
         for (Puesto puesto : listaPuesto) {
-            model.addRow(new Object[]{puesto.getIdentificacion(), puesto.getDueño(), puesto.getUbicacion(), puesto.getCantidadEmpleados()});
+            model.addRow(new Object[]{puesto.getIdentificacion(), puesto.getDueno(), puesto.getUbicacion(), puesto.getCantidadEmpleados()});
         }
         tablaConsultaPuestos.revalidate();
         tablaConsultaPuestos.repaint();
@@ -429,6 +432,7 @@ public class Interfaz extends javax.swing.JFrame {
         inicioImagen = new javax.swing.JLabel();
         nombreIntegrante1 = new javax.swing.JLabel();
         nombreIntegrante2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         panelGenerarArchivo = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         tipoMovimientoGeneracion = new javax.swing.JComboBox<>();
@@ -613,6 +617,15 @@ public class Interfaz extends javax.swing.JFrame {
         nombreIntegrante2.setText("Joaquin Merida");
         panelInicio.add(nombreIntegrante2);
         nombreIntegrante2.setBounds(780, 620, 350, 70);
+
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        panelInicio.add(jButton2);
+        jButton2.setBounds(1050, 80, 75, 23);
 
         jTabbedPane4.addTab("Inicio", panelInicio);
 
@@ -1391,7 +1404,8 @@ public class Interfaz extends javax.swing.JFrame {
         int hasta = Integer.parseInt(rangoGeneracionHasta.getText());
         String nombreArchivo = nombreGeneracionArchivo.getText();
         String tipoMovimiento = tipoMovimientoGeneracion.getSelectedItem().toString();
-        Sistema.generarArchivo(desde, hasta, nombreArchivo, tipoMovimiento);
+        ArrayList<String> elementosSeleccionados = new ArrayList<>(seleccionPuestoGenerarArchivo.getSelectedValuesList());
+        Sistema.generarArchivo(desde, hasta, nombreArchivo, tipoMovimiento, elementosSeleccionados);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void registroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreActionPerformed
@@ -1699,6 +1713,10 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_consultaCantidadKilogramosCompradaPuestosActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Sistema.guardarProceso();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1774,6 +1792,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField direccionMayorista;
     private javax.swing.JLabel inicioImagen;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;

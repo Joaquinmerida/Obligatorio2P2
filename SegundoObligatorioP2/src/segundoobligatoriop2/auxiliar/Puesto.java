@@ -6,14 +6,14 @@ import java.util.Comparator;
 public class Puesto {
 
     private String identificacion;
-    private Object dueño;
+    private Dueno dueno;
     private String ubicacion;
     private int cantidadEmpleados;
     private ArrayList<Item> stock;
 
-    public Puesto(String identificacion, Object dueño, String ubicacion, int cantidadEmpleados) {
+    public Puesto(String identificacion, Dueno dueno, String ubicacion, int cantidadEmpleados) {
         this.identificacion = identificacion;
-        this.dueño = dueño;
+        this.dueno = dueno;
         this.ubicacion = ubicacion;
         this.cantidadEmpleados = cantidadEmpleados;
         this.stock = new ArrayList<>();
@@ -27,12 +27,12 @@ public class Puesto {
         this.identificacion = identificacion;
     }
 
-    public Object getDueño() {
-        return dueño;
+    public Dueno getDueno() {
+        return dueno;
     }
 
-    public void setDueño(Object dueño) {
-        this.dueño = dueño;
+    public void setDueno(Dueno dueño) {
+        this.dueno = dueño;
     }
 
     public String getUbicacion() {

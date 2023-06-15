@@ -17,7 +17,7 @@ import segundoobligatoriop2.Sistema;
 
 public class GeneradorArchivo {
 
-    public static void GenerarPDF(int desde, int hasta, String nombreArchivo, String tipoMovimiento) {
+    public static void GenerarPDF(int desde, int hasta, String nombreArchivo, String tipoMovimiento, ArrayList<String> elementosSeleccionados) {
 
         ArrayList<Transaccion> listaTransacciones = Sistema.getListaTransacciones();
 
@@ -51,38 +51,47 @@ public class GeneradorArchivo {
             añadirCelda(table, "Precio", fontEncabezado);
 
             for (Transaccion transaccion : listaTransacciones) {
-                if (tipoMovimiento.equalsIgnoreCase("Ventas") && transaccion.getComprador().equalsIgnoreCase("Publico")) {
-                    añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
-                    añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
-                    añadirCelda(table, transaccion.getVendedor(), fontContenido);
-                    añadirCelda(table, "V", fontContenido);
-                    añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
-                    añadirCelda(table, Double.toString(transaccion.getPrecio()), fontContenido);
-                }
+                for (String nombre : elementosSeleccionados) {
 
-                if (tipoMovimiento.equalsIgnoreCase("Compras") && !transaccion.getComprador().equalsIgnoreCase("Publico")) {
-                    añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
-                    añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
-                    añadirCelda(table, transaccion.getComprador(), fontContenido);
-                    añadirCelda(table, "C", fontContenido);
-                    añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
-                    añadirCelda(table, Double.toString(transaccion.getPrecio()), fontContenido);
-                }
+                    if (transaccion.getNumeroTransaccion() >= desde && transaccion.getNumeroTransaccion() <= hasta) {
+                        if ((tipoMovimiento.equalsIgnoreCase("Ventas") && transaccion.getComprador().equalsIgnoreCase("Publico"))&&(transaccion.getVendedor().equals(nombre))) {
+                            añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
+                            añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
+                            añadirCelda(table, transaccion.getVendedor(), fontContenido);
+                            añadirCelda(table, "V", fontContenido);
+                            añadirCelda(table, Double.toString(transaccion.getCantidad()), fontContenido);
+                            añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
 
-                if (tipoMovimiento.equalsIgnoreCase("Todo")) {
-                        añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
-                        añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
-                        
-                    if (transaccion.getComprador().equalsIgnoreCase("Publico")) {
-                        añadirCelda(table, transaccion.getVendedor(), fontContenido);
-                        añadirCelda(table, "V", fontContenido);
-                    } else {
-                        añadirCelda(table, transaccion.getComprador(), fontContenido);
-                        añadirCelda(table, "C", fontContenido);
+                        }
+
+                        if ((tipoMovimiento.equalsIgnoreCase("Compras") && !transaccion.getComprador().equalsIgnoreCase("Publico"))&&(transaccion.getComprador().equals(nombre))) {
+                            añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
+                            añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
+                            añadirCelda(table, transaccion.getComprador(), fontContenido);
+                            añadirCelda(table, "C", fontContenido);
+                            añadirCelda(table, Double.toString(transaccion.getCantidad()), fontContenido);
+                            añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
+
+                        }
+
+                        if ((tipoMovimiento.equalsIgnoreCase("Todo"))&&((transaccion.getComprador().equals(nombre)||(transaccion.getVendedor().equals(nombre))))) {
+                            añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
+                            añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
+
+                            if (transaccion.getComprador().equalsIgnoreCase("Publico")) {
+                                añadirCelda(table, transaccion.getVendedor(), fontContenido);
+                                añadirCelda(table, "V", fontContenido);
+                            } else {
+                                añadirCelda(table, transaccion.getComprador(), fontContenido);
+                                añadirCelda(table, "C", fontContenido);
+                            }
+                            añadirCelda(table, Double.toString(transaccion.getCantidad()), fontContenido);
+                            añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
+                        }
                     }
-                        añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
-                        añadirCelda(table, Double.toString(transaccion.getPrecio()), fontContenido);
+
                 }
+
             }
             document.add(table);
             document.close();

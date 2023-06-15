@@ -1,6 +1,14 @@
 package segundoobligatoriop2;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Scanner;
 import segundoobligatoriop2.interfaz.*;
 import segundoobligatoriop2.auxiliar.*;
 
@@ -21,6 +29,7 @@ public class Sistema {
         listaTransacciones = new ArrayList<>();
         Interfaz v = new Interfaz();
         v.setVisible(true);
+        guardarProceso();
     }
 
     public static ArrayList<Item> getListaItems() {
@@ -321,7 +330,13 @@ public class Sistema {
         if (identificacionUnico(identificacion)) {
             System.out.println("Ya existe un puesto con esa identificacion");
         } else {
-            Puesto unpuesto = new Puesto(identificacion, dueno, ubicacion, empleados);
+            Dueno nuevoDueno = null;
+            for (Dueno verDueno : listaDuenos) {
+                if (verDueno.getNombre().equals(dueno)) {
+                    nuevoDueno = new Dueno(verDueno.getNombre(), verDueno.getEdad(), verDueno.getAExperiencia());
+                }
+            }
+            Puesto unpuesto = new Puesto(identificacion, nuevoDueno, ubicacion, empleados);
             Sistema.getListaPuesto().add(unpuesto);
         }
 
@@ -368,8 +383,8 @@ public class Sistema {
         this.getListaPuesto().add(unPuesto);
     }
 
-    public static void generarArchivo(int desde, int hasta, String nombreArchivo, String tipoMovimiento) {
-        GeneradorArchivo.GenerarPDF(desde, hasta, nombreArchivo, tipoMovimiento);
+    public static void generarArchivo(int desde, int hasta, String nombreArchivo, String tipoMovimiento, ArrayList<String> elementosSeleccionados) {
+        GeneradorArchivo.GenerarPDF(desde, hasta, nombreArchivo, tipoMovimiento, elementosSeleccionados);
 
     }
 
@@ -377,6 +392,153 @@ public class Sistema {
 
         System.out.println("se agrega");
 
+    }
+
+    public static void guardarProceso() {
+        try {
+
+            Formatter arch = new Formatter("archiv.txt");
+            arch.format("%s%n","-items-");
+            for (Item item : listaItems) {
+                arch.format("%s%n",item.getNombre() + "/" + item.getDescripcion() + "/" + item.getTipo() + "/" + item.getFormaVenta() + "/" + item.getImagen() + "/" + item.getCantidad());
+            }
+            arch.format("%s%n","-mayoristas-");
+            for (Mayorista mayorista : listaMayoristas) {
+                String items = "";
+                for (Item item : mayorista.getListaItems()) {
+
+                    items += item.getNombre() + "#";
+                }
+                arch.format("%s%n",mayorista.getRut() + "/" + mayorista.getNombre() + "/" + mayorista.getDireccion() + "/" + items);
+            }
+            for (Puesto puesto : listaPuesto) {
+                String items = "";
+                for (Item item : puesto.getStock()) {
+
+                    items += item.getNombre() + "#";
+                }
+
+                arch.format("%s%n",puesto.getIdentificacion() + "/" + puesto.getDueno().getNombre() + "/" + puesto.getUbicacion() + "/" + puesto.getCantidadEmpleados() + "/" + items);
+
+            }
+            arch.format("%s%n","-Duenos-");
+            for (Dueno dueno : listaDuenos) {
+                arch.format("%s%n",dueno.getNombre() + "/" + dueno.getEdad() + "/" + dueno.getAExperiencia());
+            }
+            arch.format("%s%n","-Transacciones-");
+            for (Transaccion transaccion : listaTransacciones) {
+                arch.format("%s%n",transaccion.getNumeroTransaccion() + "/" + transaccion.getVendedor() + "/" + transaccion.getComprador() + "/" + transaccion.getItemVenta() + "/" + transaccion.getPrecio() + "/" + transaccion.getCantidad());
+            }
+            arch.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("no se pudo cargar el archivo");
+
+        }
+
+    }
+
+    public static void leerArchivo() {
+        try {
+            Scanner scanner = new Scanner(new File("archiv.txt"));
+
+            String currentSection = "";
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+
+                if (line.startsWith("-")) {
+                    // Detectar el inicio de una nueva sección
+                    currentSection = line.substring(1); // Ignorar el primer carácter "-"
+                } else {
+                    // Leer los datos correspondientes a la sección actual
+                    switch (currentSection) {
+                        case "items":
+                            // Procesar datos de items
+                            if (line.equals("-mayoristas-")) {
+                                currentSection = ""; // Cambiar a la siguiente sección
+                            } else {
+                                // Leer y procesar la línea de datos del item
+                                String[] itemValues = line.split("/");
+                                // Crear objeto Item y hacer algo con los valores leídos
+                                String nombre = itemValues[0];
+                                String descripcion = itemValues[1];
+                                String tipo = itemValues[2];
+                                String formaVenta = itemValues[3];
+                                String imagen = itemValues[4];
+                                Item item = new Item(nombre, descripcion, tipo, formaVenta, imagen);
+                                agregarItem(item);
+                            }
+                            break;
+                        case "mayoristas":
+                            // Procesar datos de mayoristas
+                            if (line.equals("-Duenos-")) {
+                                currentSection = ""; // Cambiar a la siguiente sección
+                            } else {
+                                // Leer y procesar la línea de datos del mayorista
+                                String[] mayoristaValues = line.split("/");
+                                // Crear objeto Mayorista y hacer algo con los valores leídos
+                                String rut = mayoristaValues[0];
+                                String nombre = mayoristaValues[1];
+                                String direccion = mayoristaValues[2];
+                                String items = mayoristaValues[3];
+                                // Parsear los nombres de los items separados por "#"
+                                String[] itemNames = items.split("#");
+                                ArrayList<Item> listaItemsDelMayorista = new ArrayList<>();
+                                ArrayList<String> itemsMayorista = new ArrayList<>();
+                                for (String nombreItem : itemsMayorista) {
+                                    for (Item item : listaItems) {
+                                        if (nombreItem.equals(item.getNombre())) {
+                                            listaItemsDelMayorista.add(new Item(item.getNombre(), item.getDescripcion(), item.getTipo(), item.getFormaVenta(), item.getImagen()));
+
+                                        }
+                                    }
+                                }
+
+                                Mayorista mayorista = new Mayorista(Integer.parseInt(rut), nombre, direccion, listaItems);
+                                listaMayoristas.add(mayorista);
+                            }
+                            break;
+                        case "Duenos":
+                            // Procesar datos de dueños
+                            if (line.equals("-Transacciones-")) {
+                                currentSection = ""; // Cambiar a la siguiente sección
+                            } else {
+                                // Leer y procesar la línea de datos del dueño
+                                String[] duenoValues = line.split("/");
+                                // Crear objeto Dueno y hacer algo con los valores leídos
+                                String nombre = duenoValues[0];
+                                int edad = Integer.parseInt(duenoValues[1]);
+                                boolean aExperiencia = Boolean.parseBoolean(duenoValues[2]);
+                                // Crear objeto Dueno con los valores leídos
+                                //Dueno dueno = new Dueno(nombre, edad, aExperiencia);
+                                // Hacer algo con el objeto Dueno, como agregarlo a una lista
+                            }
+                            break;
+                        case "Transacciones":
+                            // Procesar datos de transacciones
+                            // Leer y procesar la línea de datos de la transacción
+                            String[] transaccionValues = line.split("/");
+                            // Crear objeto Transaccion y hacer algo con los valores leídos
+                            int numeroTransaccion = Integer.parseInt(transaccionValues[0]);
+                            String vendedor = transaccionValues[1];
+                            String comprador = transaccionValues[2];
+                            String itemVenta = transaccionValues[3];
+                            double precio = Double.parseDouble(transaccionValues[4]);
+                            int cantidad = Integer.parseInt(transaccionValues[5]);
+                            // Crear objeto Transaccion con los valores leídos
+                            //Transaccion transaccion = new Transaccion(numeroTransaccion, vendedor, comprador, itemVenta, precio, cantidad);
+                            // Hacer algo con el objeto Transaccion, como agregarlo a una lista
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("No se pudo encontrar el archivo.");
+        }
     }
 
 }
