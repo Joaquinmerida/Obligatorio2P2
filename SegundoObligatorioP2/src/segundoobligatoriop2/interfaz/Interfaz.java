@@ -333,7 +333,7 @@ public class Interfaz extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tablaConsultaPuestos.getModel();
         model.setRowCount(0);
         for (Puesto puesto : listaPuesto) {
-            model.addRow(new Object[]{puesto.getIdentificacion(), puesto.getDueno(), puesto.getUbicacion(), puesto.getCantidadEmpleados()});
+            model.addRow(new Object[]{puesto.getIdentificacion(), puesto.getDueno().getNombre(), puesto.getUbicacion(), puesto.getCantidadEmpleados()});
         }
         tablaConsultaPuestos.revalidate();
         tablaConsultaPuestos.repaint();
@@ -1389,7 +1389,7 @@ public class Interfaz extends javax.swing.JFrame {
         menuConsultas.addTab("Consulta de mayoristas", menuConsultaMayorista);
 
         panelConsultas.add(menuConsultas);
-        menuConsultas.setBounds(10, 30, 1220, 620);
+        menuConsultas.setBounds(20, 30, 1220, 620);
 
         jTabbedPane4.addTab("Consultas", panelConsultas);
 

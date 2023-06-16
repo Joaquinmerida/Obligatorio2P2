@@ -1,6 +1,4 @@
-
 package segundoobligatoriop2.auxiliar;
-
 
 
 public class Dueno {
@@ -8,7 +6,6 @@ public class Dueno {
     private String nombre;
     private int edad;
     private int aExperiencia;
-
 
     public Dueno(String nombre, int edad, int aExperiencia) {
         this.nombre = nombre;

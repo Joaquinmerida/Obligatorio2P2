@@ -1,0 +1,4 @@
+-items
+pera@amarilla@Verdura@Kilogramos@0.0
+manzana@verde@fruta@Unidad@0.0
+anana@roja@fruta@Unidad@0.0

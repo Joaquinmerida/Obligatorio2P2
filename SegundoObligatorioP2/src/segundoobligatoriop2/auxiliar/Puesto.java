@@ -59,7 +59,9 @@ public class Puesto {
         this.stock.add(unItem);
     }
 
-
+    public void setStock(ArrayList<Item> stock) {
+        this.stock = new ArrayList<>(stock);
+    }
 
     public void ordenarStock() {
         stock.sort(new Comparator<Item>() {

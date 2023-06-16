@@ -50,7 +50,9 @@ public class GeneradorArchivo {
             añadirCelda(table, "Cantidad", fontEncabezado);
             añadirCelda(table, "Precio", fontEncabezado);
 
+
             for (Transaccion transaccion : listaTransacciones) {
+               
                 for (String nombre : elementosSeleccionados) {
 
                     if (transaccion.getNumeroTransaccion() >= desde && transaccion.getNumeroTransaccion() <= hasta) {

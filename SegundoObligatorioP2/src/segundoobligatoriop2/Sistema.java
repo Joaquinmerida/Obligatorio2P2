@@ -2,12 +2,8 @@ package segundoobligatoriop2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import static java.lang.Double.parseDouble;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.List;
 import java.util.Scanner;
 import segundoobligatoriop2.interfaz.*;
 import segundoobligatoriop2.auxiliar.*;
@@ -98,7 +94,7 @@ public class Sistema {
     public static int getTotalDineroVentaPuestos(Item unItem) {
         int total = 0;
         for (Transaccion transaccion : listaTransacciones) {
-            if (transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && transaccion.getComprador().equals("Publico")) {
+            if (transaccion.getItemVenta().getNombre().equals(unItem.getNombre()) && transaccion.getComprador().equals("Publico") && transaccion.getItemVenta() != null) {
                 total += transaccion.getPrecio() * transaccion.getCantidad();
             }
         }
@@ -234,9 +230,6 @@ public class Sistema {
                 }
             }
         }
-        for (Transaccion transaccion : listaTransacciones) {
-            System.out.println(transaccion.getVendedor() + " le vendio : " + transaccion.getCantidad() + " " + transaccion.getItemVenta().getNombre() + " a " + transaccion.getPrecio());
-        }
     }
 
     public static void realizarCompraDePublico(String idVendedor, String comprador, Item itemVendido, int precio, double cantidad) {
@@ -336,8 +329,8 @@ public class Sistema {
                     nuevoDueno = new Dueno(verDueno.getNombre(), verDueno.getEdad(), verDueno.getAExperiencia());
                 }
             }
-            Puesto unpuesto = new Puesto(identificacion, nuevoDueno, ubicacion, empleados);
-            Sistema.getListaPuesto().add(unpuesto);
+            Puesto unPuesto = new Puesto(identificacion, nuevoDueno, ubicacion, empleados);
+            listaPuesto.add(unPuesto);
         }
 
     }
@@ -385,93 +378,83 @@ public class Sistema {
 
     public static void generarArchivo(int desde, int hasta, String nombreArchivo, String tipoMovimiento, ArrayList<String> elementosSeleccionados) {
         GeneradorArchivo.GenerarPDF(desde, hasta, nombreArchivo, tipoMovimiento, elementosSeleccionados);
-
-    }
-
-    public static void altaItem(String nombre, String descripcion, String tipo, String formaVenta, String imagen) {
-
-        System.out.println("se agrega");
-
     }
 
     public static void guardarProceso() {
         try {
-
             Formatter arch = new Formatter("archiv.txt");
-            arch.format("%s%n","-items-");
+            arch.format("%s%n", "-items");
             for (Item item : listaItems) {
-                arch.format("%s%n",item.getNombre() + "/" + item.getDescripcion() + "/" + item.getTipo() + "/" + item.getFormaVenta() + "/" + item.getImagen() + "/" + item.getCantidad());
+                arch.format("%s%n", item.getNombre() + "@" + item.getDescripcion() + "@" + item.getTipo() + "@" + item.getFormaVenta() + "@" + item.getImagen() + "@" + item.getCantidad());
             }
-            arch.format("%s%n","-mayoristas-");
+            arch.format("%s%n", "-mayoristas");
             for (Mayorista mayorista : listaMayoristas) {
                 String items = "";
                 for (Item item : mayorista.getListaItems()) {
-
                     items += item.getNombre() + "#";
                 }
-                arch.format("%s%n",mayorista.getRut() + "/" + mayorista.getNombre() + "/" + mayorista.getDireccion() + "/" + items);
+                arch.format("%s%n", mayorista.getRut() + "/" + mayorista.getNombre() + "/" + mayorista.getDireccion() + "/" + items);
             }
+            arch.format("%s%n", "-duenos");
+            for (Dueno dueno : listaDuenos) {
+                arch.format("%s%n", dueno.getNombre() + "/" + dueno.getEdad() + "/" + dueno.getAExperiencia());
+            }
+            arch.format("%s%n", "-puestos");
             for (Puesto puesto : listaPuesto) {
                 String items = "";
                 for (Item item : puesto.getStock()) {
-
                     items += item.getNombre() + "#";
                 }
-
-                arch.format("%s%n",puesto.getIdentificacion() + "/" + puesto.getDueno().getNombre() + "/" + puesto.getUbicacion() + "/" + puesto.getCantidadEmpleados() + "/" + items);
-
+                arch.format("%s%n", puesto.getIdentificacion() + "/" + puesto.getDueno().getNombre() + "/" + puesto.getUbicacion() + "/" + puesto.getCantidadEmpleados() + "/" + items);
             }
-            arch.format("%s%n","-Duenos-");
-            for (Dueno dueno : listaDuenos) {
-                arch.format("%s%n",dueno.getNombre() + "/" + dueno.getEdad() + "/" + dueno.getAExperiencia());
-            }
-            arch.format("%s%n","-Transacciones-");
+            arch.format("%s%n", "-transacciones");
             for (Transaccion transaccion : listaTransacciones) {
-                arch.format("%s%n",transaccion.getNumeroTransaccion() + "/" + transaccion.getVendedor() + "/" + transaccion.getComprador() + "/" + transaccion.getItemVenta() + "/" + transaccion.getPrecio() + "/" + transaccion.getCantidad());
+                arch.format("%s%n", transaccion.getNumeroTransaccion() + "/" + transaccion.getVendedor() + "/" + transaccion.getComprador() + "/" + transaccion.getItemVenta() + "/" + transaccion.getPrecio() + "/" + transaccion.getCantidad());
             }
             arch.close();
         } catch (FileNotFoundException e) {
             System.out.println("no se pudo cargar el archivo");
-
         }
-
     }
 
-    public static void leerArchivo() {
+    public static void leerArchivo(int opcion) {
         try {
-            Scanner scanner = new Scanner(new File("archiv.txt"));
-
+            String ruta = "";
+            if (opcion == 1) {
+                ruta = "archiv.txt";
+                System.out.println("se lee opcion 1");
+            } else if (opcion == 2) {
+                ruta = "productos.txt";
+                System.out.println("se lee opcion 2");
+            }
+            Scanner scanner = new Scanner(new File(ruta));
             String currentSection = "";
-
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-
                 if (line.startsWith("-")) {
-                    // Detectar el inicio de una nueva sección
-                    currentSection = line.substring(1); // Ignorar el primer carácter "-"
+                    currentSection = line.substring(1);
                 } else {
-                    // Leer los datos correspondientes a la sección actual
                     switch (currentSection) {
                         case "items":
-                            // Procesar datos de items
-                            if (line.equals("-mayoristas-")) {
-                                currentSection = ""; // Cambiar a la siguiente sección
+                            if (line.equals("-mayoristas")) {
+                                currentSection = "";
                             } else {
-                                // Leer y procesar la línea de datos del item
-                                String[] itemValues = line.split("/");
-                                // Crear objeto Item y hacer algo con los valores leídos
+                                String[] itemValues = line.split("@");
                                 String nombre = itemValues[0];
                                 String descripcion = itemValues[1];
                                 String tipo = itemValues[2];
                                 String formaVenta = itemValues[3];
-                                String imagen = itemValues[4];
+                                String imagen = "";
+                                if (itemValues.length >= 4) {
+                                    imagen = itemValues[4];
+                                }
                                 Item item = new Item(nombre, descripcion, tipo, formaVenta, imagen);
                                 agregarItem(item);
                             }
                             break;
                         case "mayoristas":
                             // Procesar datos de mayoristas
-                            if (line.equals("-Duenos-")) {
+                            if (line.equals("-duenos")) {
                                 currentSection = ""; // Cambiar a la siguiente sección
                             } else {
                                 // Leer y procesar la línea de datos del mayorista
@@ -482,52 +465,82 @@ public class Sistema {
                                 String direccion = mayoristaValues[2];
                                 String items = mayoristaValues[3];
                                 // Parsear los nombres de los items separados por "#"
-                                String[] itemNames = items.split("#");
+                                String[] itemsGuardados = items.split("#");
                                 ArrayList<Item> listaItemsDelMayorista = new ArrayList<>();
-                                ArrayList<String> itemsMayorista = new ArrayList<>();
-                                for (String nombreItem : itemsMayorista) {
+                                for (String nombreItem : itemsGuardados) {
                                     for (Item item : listaItems) {
                                         if (nombreItem.equals(item.getNombre())) {
                                             listaItemsDelMayorista.add(new Item(item.getNombre(), item.getDescripcion(), item.getTipo(), item.getFormaVenta(), item.getImagen()));
-
                                         }
                                     }
                                 }
-
                                 Mayorista mayorista = new Mayorista(Integer.parseInt(rut), nombre, direccion, listaItems);
                                 listaMayoristas.add(mayorista);
                             }
                             break;
-                        case "Duenos":
-                            // Procesar datos de dueños
-                            if (line.equals("-Transacciones-")) {
-                                currentSection = ""; // Cambiar a la siguiente sección
+                        case "duenos":
+                            if (line.equals("-puestos")) {
+                                currentSection = "";
                             } else {
                                 // Leer y procesar la línea de datos del dueño
                                 String[] duenoValues = line.split("/");
                                 // Crear objeto Dueno y hacer algo con los valores leídos
                                 String nombre = duenoValues[0];
                                 int edad = Integer.parseInt(duenoValues[1]);
-                                boolean aExperiencia = Boolean.parseBoolean(duenoValues[2]);
+                                int aExperiencia = Integer.parseInt(duenoValues[2]);
+                                agregarDueno(nombre, edad, aExperiencia);
                                 // Crear objeto Dueno con los valores leídos
                                 //Dueno dueno = new Dueno(nombre, edad, aExperiencia);
                                 // Hacer algo con el objeto Dueno, como agregarlo a una lista
                             }
                             break;
-                        case "Transacciones":
-                            // Procesar datos de transacciones
-                            // Leer y procesar la línea de datos de la transacción
+                        case "puestos":
+                            if (line.equals("-transacciones")) {
+                                currentSection = "";
+                            } else {
+                                String[] puestoValues = line.split("/");
+                                String identificacion = puestoValues[0];
+                                String dueno = puestoValues[1];
+                                String ubicacion = puestoValues[2];
+                                int cantidadEmpleados = Integer.parseInt(puestoValues[3]);
+                                String stock = puestoValues[4];
+                                String[] stockItems = stock.split("#");
+                                ArrayList<Item> itemsDelPuesto = new ArrayList<>();
+                                for (String nombreItem : stockItems) {
+                                    for (Item itemAGuardar : listaItems) {
+                                        if (nombreItem.equalsIgnoreCase(itemAGuardar.getNombre())) {
+                                            itemsDelPuesto.add(new Item(itemAGuardar.getNombre(), itemAGuardar.getDescripcion(), itemAGuardar.getTipo(), itemAGuardar.getFormaVenta(), itemAGuardar.getImagen()));
+                                        }
+                                    }
+                                }
+                                Dueno duenoParaAgregar = null;
+                                for (Dueno duenoParaPuesto : listaDuenos) {
+                                    if (duenoParaPuesto.getNombre().equalsIgnoreCase(dueno)) {
+                                        duenoParaAgregar = new Dueno(duenoParaPuesto.getNombre(), duenoParaPuesto.getEdad(), duenoParaPuesto.getAExperiencia());
+                                    }
+                                }
+                                Puesto puestoAAgregar = new Puesto(identificacion, duenoParaAgregar, ubicacion, cantidadEmpleados);
+                                puestoAAgregar.setStock(itemsDelPuesto);
+                                listaPuesto.add(puestoAAgregar);
+                            }
+                            break;
+                        case "transacciones":
                             String[] transaccionValues = line.split("/");
-                            // Crear objeto Transaccion y hacer algo con los valores leídos
                             int numeroTransaccion = Integer.parseInt(transaccionValues[0]);
                             String vendedor = transaccionValues[1];
                             String comprador = transaccionValues[2];
                             String itemVenta = transaccionValues[3];
-                            double precio = Double.parseDouble(transaccionValues[4]);
-                            int cantidad = Integer.parseInt(transaccionValues[5]);
-                            // Crear objeto Transaccion con los valores leídos
-                            //Transaccion transaccion = new Transaccion(numeroTransaccion, vendedor, comprador, itemVenta, precio, cantidad);
-                            // Hacer algo con el objeto Transaccion, como agregarlo a una lista
+                            int precio = Integer.parseInt(transaccionValues[4]);
+                            double cantidad = Double.parseDouble(transaccionValues[5]);
+
+                            Item itemParaAgregar = null;
+                            for (Item itemTransaccion : listaItems) {
+                                if (itemTransaccion.getNombre().equalsIgnoreCase(itemVenta)) {
+                                    itemParaAgregar = new Item(itemTransaccion.getNombre(), itemTransaccion.getDescripcion(), itemTransaccion.getTipo(), itemTransaccion.getFormaVenta(), itemTransaccion.getImagen());
+                                    itemParaAgregar.setCantidad(cantidad);
+                                }
+                            }
+                            listaTransacciones.add(new Transaccion(numeroTransaccion, vendedor, comprador, itemParaAgregar, precio, cantidad));
                             break;
                         default:
                             break;
