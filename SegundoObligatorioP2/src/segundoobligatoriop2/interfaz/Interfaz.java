@@ -350,6 +350,14 @@ public class Interfaz extends javax.swing.JFrame {
             Image mImagen = new ImageIcon(Ruta).getImage();
             ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
             consultasImagen.setIcon(mIcono);
+            consultaTotalVendidoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaPuestos(listaItems.get(0))));
+            consultaTotalCompradoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaMayoristas(listaItems.get(0))));
+            consultaCantidadKgVendidaPuestos.setText(Double.toString(Sistema.getKgTotalVendidoPuestos(listaItems.get(0))));
+            consultaCantidadUnidadesVendidaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalVendidoPuestos(listaItems.get(0))));
+            consultaCantidadKilogramosCompradaPuestos.setText(Double.toString(Sistema.getKgTotalCompradoPuestos(listaItems.get(0))));
+            consultaCantidadUnidadesCompradaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalCompradoPuestos(listaItems.get(0))));
+            consultaPrecioMinimoVendido.setText(Integer.toString(Sistema.getMinimoVendido(listaItems.get(0))));
+            consultaPrecioMaximoVendido.setText(Integer.toString(Sistema.getMaximoVendido(listaItems.get(0))));
         }
     }
 
@@ -589,6 +597,12 @@ public class Interfaz extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
+        jTabbedPane4.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane4StateChanged(evt);
+            }
+        });
+
         panelInicio.setLayout(null);
 
         tituloInicio.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
@@ -625,7 +639,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelInicio.add(jButton2);
-        jButton2.setBounds(1050, 80, 75, 23);
+        jButton2.setBounds(1050, 80, 78, 23);
 
         jTabbedPane4.addTab("Inicio", panelInicio);
 
@@ -633,7 +647,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel29.setText("Tipo de movimiento:");
         panelGenerarArchivo.add(jLabel29);
-        jLabel29.setBounds(30, 60, 120, 16);
+        jLabel29.setBounds(30, 60, 120, 17);
 
         tipoMovimientoGeneracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Compras", "Ventas", "Todo" }));
         panelGenerarArchivo.add(tipoMovimientoGeneracion);
@@ -641,15 +655,15 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel30.setText("Rango de movimiento:");
         panelGenerarArchivo.add(jLabel30);
-        jLabel30.setBounds(30, 140, 130, 16);
+        jLabel30.setBounds(30, 140, 130, 17);
 
         jLabel31.setText("Desde:");
         panelGenerarArchivo.add(jLabel31);
-        jLabel31.setBounds(190, 140, 60, 16);
+        jLabel31.setBounds(190, 140, 60, 17);
 
         jLabel32.setText("Hasta:");
         panelGenerarArchivo.add(jLabel32);
-        jLabel32.setBounds(400, 140, 60, 16);
+        jLabel32.setBounds(400, 140, 60, 17);
         panelGenerarArchivo.add(rangoGeneracionDesde);
         rangoGeneracionDesde.setBounds(250, 130, 90, 40);
         panelGenerarArchivo.add(rangoGeneracionHasta);
@@ -657,13 +671,13 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel33.setText("Puesto:");
         panelGenerarArchivo.add(jLabel33);
-        jLabel33.setBounds(30, 220, 43, 16);
+        jLabel33.setBounds(30, 220, 43, 17);
 
         jLabel34.setText("Nombre del archivo a generar:");
         panelGenerarArchivo.add(jLabel34);
-        jLabel34.setBounds(270, 220, 170, 16);
+        jLabel34.setBounds(270, 220, 170, 17);
         panelGenerarArchivo.add(nombreGeneracionArchivo);
-        nombreGeneracionArchivo.setBounds(450, 220, 240, 22);
+        nombreGeneracionArchivo.setBounds(450, 220, 240, 23);
 
         jButton1.setText("Generar Archivo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -687,7 +701,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreItem.setText("Nombre:");
         panelRegistroItem.add(textoNombreItem);
-        textoNombreItem.setBounds(100, 80, 60, 16);
+        textoNombreItem.setBounds(100, 80, 60, 17);
 
         registroNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -695,11 +709,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroNombre);
-        registroNombre.setBounds(260, 80, 260, 22);
+        registroNombre.setBounds(260, 80, 260, 23);
 
         textoDescripcion.setText("Descripcion:");
         panelRegistroItem.add(textoDescripcion);
-        textoDescripcion.setBounds(100, 140, 90, 16);
+        textoDescripcion.setBounds(100, 140, 90, 17);
 
         registroDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -707,11 +721,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroItem.add(registroDescripcion);
-        registroDescripcion.setBounds(260, 140, 260, 22);
+        registroDescripcion.setBounds(260, 140, 260, 23);
 
         textoTipo.setText("Tipo:");
         panelRegistroItem.add(textoTipo);
-        textoTipo.setBounds(100, 200, 26, 16);
+        textoTipo.setBounds(100, 200, 29, 17);
 
         registroTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruta", "Verdura" }));
         registroTipo.setName("");
@@ -725,11 +739,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoVentaPor.setText("Venta por:");
         panelRegistroItem.add(textoVentaPor);
-        textoVentaPor.setBounds(100, 240, 110, 16);
+        textoVentaPor.setBounds(100, 240, 110, 17);
 
         registroVentaPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogramo", "Unidad" }));
         panelRegistroItem.add(registroVentaPor);
-        registroVentaPor.setBounds(260, 240, 200, 22);
+        registroVentaPor.setBounds(260, 240, 200, 23);
 
         botonLimpiarRegistro.setText("Limpiar");
         botonLimpiarRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -751,7 +765,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoImagen.setText("Imagen:");
         panelRegistroItem.add(textoImagen);
-        textoImagen.setBounds(590, 40, 60, 16);
+        textoImagen.setBounds(590, 40, 60, 17);
         panelRegistroItem.add(AparicionImagenRegistro);
         AparicionImagenRegistro.setBounds(50, 360, 180, 140);
 
@@ -759,7 +773,7 @@ public class Interfaz extends javax.swing.JFrame {
         seleccionarImagen.setApproveButtonText("Abrir");
         seleccionarImagen.setApproveButtonToolTipText("Cancelar");
         seleccionarImagen.setDialogTitle("");
-        seleccionarImagen.setSelectedFile(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
+        seleccionarImagen.setSelectedFile(new java.io.File("/C:/Users/joaqu/OneDrive/Escritorio/Obligatorio2P2/Obligatorio2P2/SegundoObligatorioP2/src/segundoobligatoriop2/ImagenesOblig"));
         seleccionarImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         seleccionarImagen.setDoubleBuffered(true);
         seleccionarImagen.setName("seleccionarImagen");
@@ -777,7 +791,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreMayorista.setText("Nombre:");
         panelRegistroMayorista.add(textoNombreMayorista);
-        textoNombreMayorista.setBounds(100, 119, 60, 16);
+        textoNombreMayorista.setBounds(100, 119, 60, 17);
 
         nombreMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -785,11 +799,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(nombreMayorista);
-        nombreMayorista.setBounds(260, 119, 120, 22);
+        nombreMayorista.setBounds(260, 119, 120, 23);
 
         textoRut.setText("Rut:");
         panelRegistroMayorista.add(textoRut);
-        textoRut.setBounds(100, 179, 90, 16);
+        textoRut.setBounds(100, 179, 90, 17);
 
         rutMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -797,11 +811,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(rutMayorista);
-        rutMayorista.setBounds(260, 179, 300, 22);
+        rutMayorista.setBounds(260, 179, 300, 23);
 
         textoDireccion.setText("Dirección:");
         panelRegistroMayorista.add(textoDireccion);
-        textoDireccion.setBounds(100, 230, 70, 16);
+        textoDireccion.setBounds(100, 230, 70, 17);
 
         direccionMayorista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -809,11 +823,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroMayorista.add(direccionMayorista);
-        direccionMayorista.setBounds(260, 230, 300, 22);
+        direccionMayorista.setBounds(260, 230, 300, 23);
 
         productosMayorista.setText("Productos que ofrece:");
         panelRegistroMayorista.add(productosMayorista);
-        productosMayorista.setBounds(580, 20, 140, 16);
+        productosMayorista.setBounds(580, 20, 140, 17);
 
         botonLimpiarRegistroMayorista.setText("Limpiar");
         botonLimpiarRegistroMayorista.addActionListener(new java.awt.event.ActionListener() {
@@ -843,7 +857,7 @@ public class Interfaz extends javax.swing.JFrame {
         contenedorListaSeleccionItemsMayorista.setViewportView(listaSeleccionItemsMayorista);
 
         panelRegistroMayorista.add(contenedorListaSeleccionItemsMayorista);
-        contenedorListaSeleccionItemsMayorista.setBounds(730, 70, 180, 146);
+        contenedorListaSeleccionItemsMayorista.setBounds(730, 70, 180, 154);
 
         menuRegistro.addTab("Mayorista", panelRegistroMayorista);
 
@@ -851,7 +865,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombre.setText("Nombre");
         panelRegistroPuesto1.add(textoNombre);
-        textoNombre.setBounds(100, 119, 90, 16);
+        textoNombre.setBounds(100, 119, 90, 17);
 
         registroNombreDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -859,11 +873,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroNombreDueño);
-        registroNombreDueño.setBounds(260, 119, 120, 22);
+        registroNombreDueño.setBounds(260, 119, 120, 23);
 
         textoEdadDueño.setText("Edad:");
         panelRegistroPuesto1.add(textoEdadDueño);
-        textoEdadDueño.setBounds(100, 179, 90, 16);
+        textoEdadDueño.setBounds(100, 179, 90, 17);
 
         registroEdadDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -871,11 +885,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadDueño);
-        registroEdadDueño.setBounds(260, 179, 130, 22);
+        registroEdadDueño.setBounds(260, 179, 130, 23);
 
         textoExperienciaDueño.setText("Años de experiencia:");
         panelRegistroPuesto1.add(textoExperienciaDueño);
-        textoExperienciaDueño.setBounds(100, 239, 150, 16);
+        textoExperienciaDueño.setBounds(100, 239, 150, 17);
 
         registroEdadExperiencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -883,7 +897,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadExperiencia);
-        registroEdadExperiencia.setBounds(260, 240, 40, 22);
+        registroEdadExperiencia.setBounds(260, 240, 40, 23);
 
         botonLimpiarRegistro2.setText("Limpiar");
         botonLimpiarRegistro2.addActionListener(new java.awt.event.ActionListener() {
@@ -913,23 +927,23 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroIdentificacion);
-        registroIdentificacion.setBounds(260, 119, 230, 22);
+        registroIdentificacion.setBounds(260, 119, 230, 23);
 
         textoIdentificacion.setText("Identificacion:");
         panelRegistroPuesto.add(textoIdentificacion);
-        textoIdentificacion.setBounds(100, 119, 90, 16);
+        textoIdentificacion.setBounds(100, 119, 90, 17);
 
         textoDueño.setText("Dueño:");
         panelRegistroPuesto.add(textoDueño);
-        textoDueño.setBounds(100, 179, 90, 16);
+        textoDueño.setBounds(100, 179, 90, 17);
 
         textoUbicacion.setText("Ubicación:");
         panelRegistroPuesto.add(textoUbicacion);
-        textoUbicacion.setBounds(100, 239, 100, 16);
+        textoUbicacion.setBounds(100, 239, 100, 17);
 
         textoCantidadEmpleados.setText("Cantidad empleados:");
         panelRegistroPuesto.add(textoCantidadEmpleados);
-        textoCantidadEmpleados.setBounds(100, 290, 120, 16);
+        textoCantidadEmpleados.setBounds(100, 290, 120, 17);
 
         botonLimpiarRegistro1.setText("Limpiar");
         botonLimpiarRegistro1.addActionListener(new java.awt.event.ActionListener() {
@@ -955,7 +969,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroUbicacion);
-        registroUbicacion.setBounds(260, 240, 230, 22);
+        registroUbicacion.setBounds(260, 240, 230, 23);
 
         registroNumeroEmpleados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         registroNumeroEmpleados.setText("0");
@@ -965,7 +979,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroNumeroEmpleados);
-        registroNumeroEmpleados.setBounds(260, 290, 30, 22);
+        registroNumeroEmpleados.setBounds(260, 290, 30, 23);
 
         registroPuestoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         registroPuestoCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -974,7 +988,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroPuestoCombo);
-        registroPuestoCombo.setBounds(260, 180, 230, 22);
+        registroPuestoCombo.setBounds(260, 180, 230, 23);
 
         menuRegistro.addTab("Puesto", panelRegistroPuesto);
 
@@ -990,15 +1004,15 @@ public class Interfaz extends javax.swing.JFrame {
         tituloCompraPuesto.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
         tituloCompraPuesto.setText("Registrar compra de productos");
         panelCompraPuesto.add(tituloCompraPuesto);
-        tituloCompraPuesto.setBounds(350, 10, 500, 25);
+        tituloCompraPuesto.setBounds(350, 10, 500, 30);
 
         textoSeleccionPuesto.setText("Puesto que realiza la compra:");
         panelCompraPuesto.add(textoSeleccionPuesto);
-        textoSeleccionPuesto.setBounds(80, 60, 210, 16);
+        textoSeleccionPuesto.setBounds(80, 60, 210, 17);
 
         textoSeleccionMayoristaVendedor.setText("Mayorista al que le compran:");
         panelCompraPuesto.add(textoSeleccionMayoristaVendedor);
-        textoSeleccionMayoristaVendedor.setBounds(80, 250, 210, 16);
+        textoSeleccionMayoristaVendedor.setBounds(80, 250, 210, 17);
 
         textoPrecioVentaMayorista.setText("Precio individual:");
         panelCompraPuesto.add(textoPrecioVentaMayorista);
@@ -1034,7 +1048,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoSeleccionItemAComprar.setText("Item:");
         panelCompraPuesto.add(textoSeleccionItemAComprar);
-        textoSeleccionItemAComprar.setBounds(490, 90, 50, 16);
+        textoSeleccionItemAComprar.setBounds(490, 90, 50, 17);
 
         botonCompraDePuesto.setText("Realizar compra");
         botonCompraDePuesto.addActionListener(new java.awt.event.ActionListener() {
@@ -1071,7 +1085,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoSeleccionPuestoQueVende.setText("Puestos:");
         panelVentaPublico.add(textoSeleccionPuestoQueVende);
-        textoSeleccionPuestoQueVende.setBounds(90, 100, 60, 16);
+        textoSeleccionPuestoQueVende.setBounds(90, 100, 60, 17);
 
         movimientoComboDePuestosVenta.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1111,65 +1125,65 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoNombreConsultaProducto.setText("Nombre:");
         panelConsultaProducto.add(textoNombreConsultaProducto);
-        textoNombreConsultaProducto.setBounds(190, 60, 70, 16);
+        textoNombreConsultaProducto.setBounds(190, 60, 70, 17);
 
         textoDescripcionConsultaProducto.setText("Descripcion:");
         panelConsultaProducto.add(textoDescripcionConsultaProducto);
-        textoDescripcionConsultaProducto.setBounds(190, 110, 80, 16);
+        textoDescripcionConsultaProducto.setBounds(190, 110, 80, 17);
 
         textoTipoConsultaProducto.setText("Tipo:");
         panelConsultaProducto.add(textoTipoConsultaProducto);
-        textoTipoConsultaProducto.setBounds(190, 160, 26, 16);
+        textoTipoConsultaProducto.setBounds(190, 160, 29, 17);
 
         textoVenntaPorConsultaProducto.setText("Venta por:");
         panelConsultaProducto.add(textoVenntaPorConsultaProducto);
-        textoVenntaPorConsultaProducto.setBounds(190, 220, 60, 16);
+        textoVenntaPorConsultaProducto.setBounds(190, 220, 60, 17);
 
         consultasNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         consultasNombre.setEnabled(false);
         consultasNombre.setFocusable(false);
         panelConsultaProducto.add(consultasNombre);
-        consultasNombre.setBounds(290, 60, 230, 22);
+        consultasNombre.setBounds(290, 60, 230, 23);
 
         consultasDescripcion.setEnabled(false);
         panelConsultaProducto.add(consultasDescripcion);
-        consultasDescripcion.setBounds(290, 110, 230, 22);
+        consultasDescripcion.setBounds(290, 110, 230, 23);
 
         textoInfoConsultaProducto.setText("Informacion del producto:");
         panelConsultaProducto.add(textoInfoConsultaProducto);
-        textoInfoConsultaProducto.setBounds(560, 60, 190, 16);
+        textoInfoConsultaProducto.setBounds(560, 60, 190, 17);
 
         textoTotalVendidoConsultaProducto.setText("Total $ vendido entre todos los puestos:");
         panelConsultaProducto.add(textoTotalVendidoConsultaProducto);
-        textoTotalVendidoConsultaProducto.setBounds(560, 100, 250, 16);
+        textoTotalVendidoConsultaProducto.setBounds(560, 100, 250, 17);
 
         textoTotalCompradoConsultaProducto.setText("Total $ comprado por todos los puestos:");
         panelConsultaProducto.add(textoTotalCompradoConsultaProducto);
-        textoTotalCompradoConsultaProducto.setBounds(560, 140, 250, 16);
+        textoTotalCompradoConsultaProducto.setBounds(560, 140, 250, 17);
 
         textoCantidadVendidaConsultaProducto.setText("Cantidad total vendida entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadVendidaConsultaProducto);
-        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 360, 16);
+        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 360, 17);
 
         textoCantidadTotalCompradaConsultaProducto.setText("Cantidad total comprada entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadTotalCompradaConsultaProducto);
-        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 390, 16);
+        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 390, 17);
 
         textoPrecioMinimoConsultaProducto.setText("Precio minimo vendido:");
         panelConsultaProducto.add(textoPrecioMinimoConsultaProducto);
-        textoPrecioMinimoConsultaProducto.setBounds(560, 260, 140, 16);
+        textoPrecioMinimoConsultaProducto.setBounds(560, 260, 140, 17);
 
         textoPrecioMaximoConsultaProducto.setText("Precio maximo vendido:");
         panelConsultaProducto.add(textoPrecioMaximoConsultaProducto);
-        textoPrecioMaximoConsultaProducto.setBounds(760, 260, 170, 16);
+        textoPrecioMaximoConsultaProducto.setBounds(760, 260, 170, 17);
 
         textoPrecioVentaMinimoConsultaProducto.setText("Puestos con el precio de venta minimo:");
         panelConsultaProducto.add(textoPrecioVentaMinimoConsultaProducto);
-        textoPrecioVentaMinimoConsultaProducto.setBounds(560, 300, 250, 16);
+        textoPrecioVentaMinimoConsultaProducto.setBounds(560, 300, 250, 17);
 
         textoPrecioVentaMaximoConsultaProducto.setText("Puestos con el precio de venta maximo:");
         panelConsultaProducto.add(textoPrecioVentaMaximoConsultaProducto);
-        textoPrecioVentaMaximoConsultaProducto.setBounds(820, 300, 270, 16);
+        textoPrecioVentaMaximoConsultaProducto.setBounds(820, 300, 270, 17);
 
         consultasPrecioMin.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1216,11 +1230,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         panelConsultaProducto.add(consultasVentaPor);
-        consultasVentaPor.setBounds(290, 220, 230, 22);
+        consultasVentaPor.setBounds(290, 220, 230, 23);
 
         consultasTipo.setEnabled(false);
         panelConsultaProducto.add(consultasTipo);
-        consultasTipo.setBounds(290, 160, 230, 22);
+        consultasTipo.setBounds(290, 160, 230, 23);
 
         consultaPrecioMaximoVendido.setEnabled(false);
         consultaPrecioMaximoVendido.addActionListener(new java.awt.event.ActionListener() {
@@ -1278,15 +1292,15 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoConsultaUnidadesVendidasPuestos.setText("Unidades");
         panelConsultaProducto.add(textoConsultaUnidadesVendidasPuestos);
-        textoConsultaUnidadesVendidasPuestos.setBounds(970, 180, 60, 16);
+        textoConsultaUnidadesVendidasPuestos.setBounds(970, 180, 60, 17);
 
         textoConsultaKilogramosVendidosPuestos.setText("Kilogramos");
         panelConsultaProducto.add(textoConsultaKilogramosVendidosPuestos);
-        textoConsultaKilogramosVendidosPuestos.setBounds(850, 180, 70, 16);
+        textoConsultaKilogramosVendidosPuestos.setBounds(850, 180, 70, 17);
 
         textoConsultaUnidadesCompradasPuestos.setText("Unidades");
         panelConsultaProducto.add(textoConsultaUnidadesCompradasPuestos);
-        textoConsultaUnidadesCompradasPuestos.setBounds(980, 220, 60, 16);
+        textoConsultaUnidadesCompradasPuestos.setBounds(980, 220, 60, 17);
 
         consultaCantidadUnidadesCompradaPuestos.setEnabled(false);
         consultaCantidadUnidadesCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1299,7 +1313,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         textoConsultaKilogramosCompradosPuestos.setText("Kilogramos");
         panelConsultaProducto.add(textoConsultaKilogramosCompradosPuestos);
-        textoConsultaKilogramosCompradosPuestos.setBounds(860, 220, 70, 16);
+        textoConsultaKilogramosCompradosPuestos.setBounds(860, 220, 70, 17);
 
         consultaCantidadKilogramosCompradaPuestos.setEnabled(false);
         consultaCantidadKilogramosCompradaPuestos.addActionListener(new java.awt.event.ActionListener() {
@@ -1533,7 +1547,7 @@ public class Interfaz extends javax.swing.JFrame {
             Sistema.agregarPuesto(identificacion, dueno, ubicacion, cantidadEmpleados);
             registroIdentificacion.setText("");
             registroUbicacion.setText("");
-            registroNumeroEmpleados.setText("0");
+            registroNumeroEmpleados.setText("");
             actualizarListaPuestos();
             actualizarPuestoQueVende();
             actualizarTablaPuestos();
@@ -1716,6 +1730,19 @@ public class Interfaz extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Sistema.guardarProceso();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTabbedPane4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane4StateChanged
+        actualizarTablaDuenos();
+        actualizarTablaMayoristas();
+        actualizarTablaPuestos();
+        mostrarItemConsulta();
+        actualizarComboDuenos();
+        actualizarListaItemsAVender();
+        actualizarPuestoQueVende();
+        actualizarListaMayoristas();
+        actualizarListaPuestos();
+      
+    }//GEN-LAST:event_jTabbedPane4StateChanged
 
     public static void main(String args[]) {
         try {

@@ -9,6 +9,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,13 +29,21 @@ public class GeneradorArchivo {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream("./" + nombreArchivo + ".pdf"));
             document.open();
-
+            LocalDateTime fechaHoraActual = LocalDateTime.now();
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yy  mm:HH");
+            String fechaHoraFormateada = fechaHoraActual.format(formato);
             Paragraph titulo = new Paragraph("Reporte de transacciones", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
             Paragraph subTitulo = new Paragraph(tipoMovimiento, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 14));
+            Paragraph fechaHora = new Paragraph(fechaHoraFormateada, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10));
             titulo.setAlignment(Element.ALIGN_CENTER);
+            subTitulo.setAlignment(Element.ALIGN_CENTER);
+            fechaHora.setAlignment(Element.ALIGN_CENTER);
             titulo.setSpacingAfter(10);
+            subTitulo.setSpacingAfter(5);
+            fechaHora.setSpacingAfter(20);
             document.add(titulo);
             document.add(subTitulo);
+            document.add(fechaHora);
             Font fontEncabezado = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 15);
             Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 13);
             PdfPTable table = new PdfPTable(6);
@@ -50,13 +60,12 @@ public class GeneradorArchivo {
             añadirCelda(table, "Cantidad", fontEncabezado);
             añadirCelda(table, "Precio", fontEncabezado);
 
-
             for (Transaccion transaccion : listaTransacciones) {
-               
+
                 for (String nombre : elementosSeleccionados) {
 
                     if (transaccion.getNumeroTransaccion() >= desde && transaccion.getNumeroTransaccion() <= hasta) {
-                        if ((tipoMovimiento.equalsIgnoreCase("Ventas") && transaccion.getComprador().equalsIgnoreCase("Publico"))&&(transaccion.getVendedor().equals(nombre))) {
+                        if ((tipoMovimiento.equalsIgnoreCase("Ventas") && transaccion.getComprador().equalsIgnoreCase("Publico")) && (transaccion.getVendedor().equals(nombre))) {
                             añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
                             añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
                             añadirCelda(table, transaccion.getVendedor(), fontContenido);
@@ -66,7 +75,7 @@ public class GeneradorArchivo {
 
                         }
 
-                        if ((tipoMovimiento.equalsIgnoreCase("Compras") && !transaccion.getComprador().equalsIgnoreCase("Publico"))&&(transaccion.getComprador().equals(nombre))) {
+                        if ((tipoMovimiento.equalsIgnoreCase("Compras") && !transaccion.getComprador().equalsIgnoreCase("Publico")) && (transaccion.getComprador().equals(nombre))) {
                             añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
                             añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
                             añadirCelda(table, transaccion.getComprador(), fontContenido);
@@ -76,7 +85,7 @@ public class GeneradorArchivo {
 
                         }
 
-                        if ((tipoMovimiento.equalsIgnoreCase("Todo"))&&((transaccion.getComprador().equals(nombre)||(transaccion.getVendedor().equals(nombre))))) {
+                        if ((tipoMovimiento.equalsIgnoreCase("Todo")) && ((transaccion.getComprador().equals(nombre) || (transaccion.getVendedor().equals(nombre))))) {
                             añadirCelda(table, Integer.toString(transaccion.getNumeroTransaccion()), fontContenido);
                             añadirCelda(table, transaccion.getItemVenta().getNombre(), fontContenido);
 

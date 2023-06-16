@@ -73,6 +73,7 @@ public class SeleccionInicio extends javax.swing.JDialog {
 
     private void botonInicioDatosPrecargadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInicioDatosPrecargadosActionPerformed
         Sistema.leerArchivo(2);
+        dispose();
     }//GEN-LAST:event_botonInicioDatosPrecargadosActionPerformed
 
     /**

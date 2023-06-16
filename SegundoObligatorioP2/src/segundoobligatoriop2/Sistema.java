@@ -25,7 +25,6 @@ public class Sistema {
         listaTransacciones = new ArrayList<>();
         Interfaz v = new Interfaz();
         v.setVisible(true);
-        guardarProceso();
     }
 
     public static ArrayList<Item> getListaItems() {
@@ -382,7 +381,7 @@ public class Sistema {
 
     public static void guardarProceso() {
         try {
-            Formatter arch = new Formatter("archiv.txt");
+            Formatter arch = new Formatter("archivo.txt");
             arch.format("%s%n", "-items");
             for (Item item : listaItems) {
                 arch.format("%s%n", item.getNombre() + "@" + item.getDescripcion() + "@" + item.getTipo() + "@" + item.getFormaVenta() + "@" + item.getImagen() + "@" + item.getCantidad());
@@ -409,7 +408,7 @@ public class Sistema {
             }
             arch.format("%s%n", "-transacciones");
             for (Transaccion transaccion : listaTransacciones) {
-                arch.format("%s%n", transaccion.getNumeroTransaccion() + "/" + transaccion.getVendedor() + "/" + transaccion.getComprador() + "/" + transaccion.getItemVenta() + "/" + transaccion.getPrecio() + "/" + transaccion.getCantidad());
+                arch.format("%s%n", transaccion.getNumeroTransaccion() + "/" + transaccion.getVendedor() + "/" + transaccion.getComprador() + "/" + transaccion.getItemVenta().getNombre() + "/" + transaccion.getPrecio() + "/" + transaccion.getCantidad());
             }
             arch.close();
         } catch (FileNotFoundException e) {
@@ -421,7 +420,7 @@ public class Sistema {
         try {
             String ruta = "";
             if (opcion == 1) {
-                ruta = "archiv.txt";
+                ruta = "archivo.txt";
                 System.out.println("se lee opcion 1");
             } else if (opcion == 2) {
                 ruta = "productos.txt";
