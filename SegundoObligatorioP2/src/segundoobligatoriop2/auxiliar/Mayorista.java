@@ -4,23 +4,23 @@ import java.util.*;
 
 public class Mayorista {
 
-    private int rut;
+    private String rut;
     private String nombre;
     private String direccion;
     private ArrayList<Item> listaItems;
 
-    public Mayorista(int rut, String nombre, String direccion,ArrayList<Item> listaItems) {
+    public Mayorista(String rut, String nombre, String direccion,ArrayList<Item> listaItems) {
         this.rut = rut;
         this.nombre = nombre;
         this.direccion = direccion;
         this.listaItems = listaItems;
     }
 
-    public int getRut() {
+    public String getRut() {
         return rut;
     }
 
-    public void setRut(int rut) {
+    public void setRut(String rut) {
         this.rut = rut;
     }
 

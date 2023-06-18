@@ -69,7 +69,7 @@ public class Sistema {
         return existe;
     }
 
-    public static Mayorista getMayorista(int rut) {
+    public static Mayorista getMayorista(String rut) {
         Mayorista mayoristaEncontrado = null;
         for (Mayorista mayorista : listaMayoristas) {
             if (mayorista.getRut() == rut) {
@@ -179,7 +179,7 @@ public class Sistema {
         listaTransacciones.add(new Transaccion(numeroTransaccion, vendedor, comprador, item, precio, cantidad));
     }
 
-    public static void realizarCompraDePuesto(int vendedor, String comprador, String itemVendido, int precio, double cantidad) {
+    public static void realizarCompraDePuesto(String vendedor, String comprador, String itemVendido, int precio, double cantidad) {
         Item itemObjeto = null;
         Mayorista mayorista = getMayorista(vendedor);
 
@@ -268,7 +268,7 @@ public class Sistema {
 //        }
     }
 
-    public static void agregarMayorista(String nombre, int rut, String direccion, ArrayList<String> items) {
+    public static void agregarMayorista(String nombre, String rut, String direccion, ArrayList<String> items) {
         ArrayList<Item> itemsDelNuevoMayorista = new ArrayList<>();
         if (!mayoristaUnico(rut)) {
             System.out.println("ya existe ese mayorista");
@@ -297,7 +297,7 @@ public class Sistema {
         }
     }
 
-    public static ArrayList<Item> getItemsAVenderMayorista(int rut) {
+    public static ArrayList<Item> getItemsAVenderMayorista(String rut) {
         ArrayList<Item> listaItems = new ArrayList<Item>();
         for (Mayorista mayorista : listaMayoristas) {
             if (mayorista.getRut() == rut) {
@@ -307,7 +307,7 @@ public class Sistema {
         return listaItems;
     }
 
-    public static Boolean mayoristaUnico(int rut) {
+    public static Boolean mayoristaUnico(String rut) {
         Boolean existe = true;
         for (Mayorista mayorista : listaMayoristas) {
             if (mayorista.getRut() == rut) {
@@ -473,7 +473,7 @@ public class Sistema {
                                         }
                                     }
                                 }
-                                Mayorista mayorista = new Mayorista(Integer.parseInt(rut), nombre, direccion, listaItems);
+                                Mayorista mayorista = new Mayorista(rut, nombre, direccion, listaItems);
                                 listaMayoristas.add(mayorista);
                             }
                             break;
