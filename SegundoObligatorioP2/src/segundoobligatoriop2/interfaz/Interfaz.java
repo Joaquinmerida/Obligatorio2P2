@@ -609,7 +609,7 @@ public class Interfaz extends javax.swing.JFrame {
         tituloInicio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloInicio.setText(" Bienvenido a Mercado!");
         panelInicio.add(tituloInicio);
-        tituloInicio.setBounds(400, 50, 430, 140);
+        tituloInicio.setBounds(40, 30, 430, 140);
 
         inicioImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         inicioImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/segundoobligatoriop2/ImagenesOblig/Repollitos.jpg"))); // NOI18N

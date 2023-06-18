@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import segundoobligatoriop2.Sistema;
 
 public class GeneradorArchivo {
@@ -30,7 +29,7 @@ public class GeneradorArchivo {
             PdfWriter.getInstance(document, new FileOutputStream("./" + nombreArchivo + ".pdf"));
             document.open();
             LocalDateTime fechaHoraActual = LocalDateTime.now();
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yy  mm:HH");
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yy  HH:mm");
             String fechaHoraFormateada = fechaHoraActual.format(formato);
             Paragraph titulo = new Paragraph("Reporte de transacciones", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
             Paragraph subTitulo = new Paragraph(tipoMovimiento, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 14));
@@ -100,9 +99,7 @@ public class GeneradorArchivo {
                             añadirCelda(table, Integer.toString(transaccion.getPrecio()), fontContenido);
                         }
                     }
-
                 }
-
             }
             document.add(table);
             document.close();

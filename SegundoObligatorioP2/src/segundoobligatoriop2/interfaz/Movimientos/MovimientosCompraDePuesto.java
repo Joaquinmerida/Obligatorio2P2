@@ -1,0 +1,278 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package segundoobligatoriop2.interfaz.Movimientos;
+
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import segundoobligatoriop2.Sistema;
+import segundoobligatoriop2.auxiliar.Item;
+import segundoobligatoriop2.auxiliar.Mayorista;
+import segundoobligatoriop2.auxiliar.Puesto;
+
+public class MovimientosCompraDePuesto extends javax.swing.JFrame {
+
+    public MovimientosCompraDePuesto() {
+        initComponents();
+    }
+
+    private DefaultListModel<String> seleccionListaItemsAComprarModel = new DefaultListModel<>();
+
+    public String getSelectedItem(String nombreLista) {
+        try {
+            Field field = getClass().getDeclaredField(nombreLista);
+            field.setAccessible(true);
+            JList<String> listaSeleccionada = (JList<String>) field.get(this);
+            if (listaSeleccionada != null) {
+                String selectedItem = listaSeleccionada.getSelectedValue();
+                return selectedItem;
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return "JList no encontrada";
+    }
+
+    public void actualizarListaItemsAComprar(String rutMayorista) {
+        Mayorista mayorista = Sistema.getMayorista(rutMayorista);
+
+        ArrayList<Item> listaItems = mayorista.getListaItems();
+        if (listaItems.isEmpty()) {
+            seleccionListaItemsAComprarModel.addElement("No hay ningun item registrado");
+            return;
+        } else {
+            seleccionListaItemsAComprarModel.clear();
+            for (Item item : listaItems) {
+                String nombreItem = item.getNombre();
+                seleccionListaItemsAComprarModel.addElement(nombreItem);
+                System.out.println(nombreItem);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        panelCompraPuesto = new javax.swing.JPanel();
+        tituloCompraPuesto = new javax.swing.JLabel();
+        textoSeleccionPuesto = new javax.swing.JLabel();
+        textoSeleccionMayoristaVendedor = new javax.swing.JLabel();
+        textoPrecioVentaMayorista = new javax.swing.JLabel();
+        textoCantidadVentaMayorista = new javax.swing.JLabel();
+        precioVentaAPuesto = new javax.swing.JTextField();
+        cantidadVentaAPuesto = new javax.swing.JTextField();
+        contenedorListaPuestos = new javax.swing.JScrollPane(seleccionListaMayoristas);
+        seleccionListaPuestos = new javax.swing.JList<>();
+        contenedorListaMayoristas = new javax.swing.JScrollPane(seleccionListaMayoristas);
+        seleccionListaMayoristas = new javax.swing.JList<>();
+        textoSeleccionItemAComprar = new javax.swing.JLabel();
+        botonCompraDePuesto = new javax.swing.JButton();
+        contenedorListaItemsAComprar = new javax.swing.JScrollPane();
+        listaItemsAComprar = new javax.swing.JList<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Compra de puestos");
+
+        panelCompraPuesto.setLayout(null);
+
+        tituloCompraPuesto.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
+        tituloCompraPuesto.setText("Registrar compra de productos");
+        panelCompraPuesto.add(tituloCompraPuesto);
+        tituloCompraPuesto.setBounds(350, 10, 500, 25);
+
+        textoSeleccionPuesto.setText("Puesto que realiza la compra:");
+        panelCompraPuesto.add(textoSeleccionPuesto);
+        textoSeleccionPuesto.setBounds(80, 60, 210, 16);
+
+        textoSeleccionMayoristaVendedor.setText("Mayorista al que le compran:");
+        panelCompraPuesto.add(textoSeleccionMayoristaVendedor);
+        textoSeleccionMayoristaVendedor.setBounds(80, 250, 210, 16);
+
+        textoPrecioVentaMayorista.setText("Precio individual:");
+        panelCompraPuesto.add(textoPrecioVentaMayorista);
+        textoPrecioVentaMayorista.setBounds(800, 110, 100, 20);
+
+        textoCantidadVentaMayorista.setText("Cantidad:");
+        panelCompraPuesto.add(textoCantidadVentaMayorista);
+        textoCantidadVentaMayorista.setBounds(840, 160, 60, 20);
+        panelCompraPuesto.add(precioVentaAPuesto);
+        precioVentaAPuesto.setBounds(920, 100, 160, 40);
+        panelCompraPuesto.add(cantidadVentaAPuesto);
+        cantidadVentaAPuesto.setBounds(920, 150, 160, 40);
+
+        seleccionListaPuestos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                seleccionListaPuestosValueChanged(evt);
+            }
+        });
+        contenedorListaPuestos.setViewportView(seleccionListaPuestos);
+
+        panelCompraPuesto.add(contenedorListaPuestos);
+        contenedorListaPuestos.setBounds(80, 80, 300, 150);
+
+        seleccionListaMayoristas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                seleccionListaMayoristasValueChanged(evt);
+            }
+        });
+        contenedorListaMayoristas.setViewportView(seleccionListaMayoristas);
+
+        panelCompraPuesto.add(contenedorListaMayoristas);
+        contenedorListaMayoristas.setBounds(80, 270, 300, 150);
+
+        textoSeleccionItemAComprar.setText("Item:");
+        panelCompraPuesto.add(textoSeleccionItemAComprar);
+        textoSeleccionItemAComprar.setBounds(490, 90, 50, 16);
+
+        botonCompraDePuesto.setText("Realizar compra");
+        botonCompraDePuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCompraDePuestoActionPerformed(evt);
+            }
+        });
+        panelCompraPuesto.add(botonCompraDePuesto);
+        botonCompraDePuesto.setBounds(530, 270, 380, 130);
+
+        listaItemsAComprar.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaItemsAComprarValueChanged(evt);
+            }
+        });
+        contenedorListaItemsAComprar.setViewportView(listaItemsAComprar);
+
+        panelCompraPuesto.add(contenedorListaItemsAComprar);
+        contenedorListaItemsAComprar.setBounds(560, 90, 210, 130);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1210, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelCompraPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 1210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 554, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelCompraPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        getAccessibleContext().setAccessibleName("Compra de puestos");
+
+        setBounds(0, 0, 910, 562);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void seleccionListaPuestosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaPuestosValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            String selectedItem = getSelectedItem("seleccionListaPuestos");
+            System.out.println("Ítem seleccionado en jList1: " + selectedItem);
+        }
+    }//GEN-LAST:event_seleccionListaPuestosValueChanged
+
+    private void seleccionListaMayoristasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaMayoristasValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            String selectedItem = getSelectedItem("seleccionListaMayoristas");
+            String rutMayorista;
+            String corte = "/";
+            String[] fragmentos = selectedItem.split(corte);
+            rutMayorista = fragmentos[1];
+            actualizarListaItemsAComprar(rutMayorista);
+        }
+    }//GEN-LAST:event_seleccionListaMayoristasValueChanged
+
+    private void botonCompraDePuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCompraDePuestoActionPerformed
+        String itemSeleccionado = getSelectedItem("listaItemsAComprar");
+        String mayoristaSeleccionado = getSelectedItem("seleccionListaMayoristas");
+        String puestoSeleccionado = getSelectedItem("seleccionListaPuestos");
+        String corte = "/";
+        String[] fragmentos = mayoristaSeleccionado.split(corte);
+        String rutMayorista = fragmentos[1];
+        String precioTexto = precioVentaAPuesto.getText();
+        String cantidadTexto = cantidadVentaAPuesto.getText();
+        if ((precioTexto.matches("\\d+") && Integer.parseInt(precioTexto) >= 1) && (cantidadTexto.matches("\\d+") && Integer.parseInt(cantidadTexto) >= 1)) {
+            int precio = Integer.parseInt(precioVentaAPuesto.getText());
+            double cantidad = Double.parseDouble(cantidadVentaAPuesto.getText());
+            Sistema.realizarCompraDePuesto(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
+            precioVentaAPuesto.setText("");
+            cantidadVentaAPuesto.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: Los campos tienen que ser numericos y solo se aceptan compras mayores a 0 ", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonCompraDePuestoActionPerformed
+
+    private void listaItemsAComprarValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaItemsAComprarValueChanged
+
+    }//GEN-LAST:event_listaItemsAComprarValueChanged
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MovimientosCompraDePuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MovimientosCompraDePuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MovimientosCompraDePuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MovimientosCompraDePuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MovimientosCompraDePuesto().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonCompraDePuesto;
+    private javax.swing.JTextField cantidadVentaAPuesto;
+    private javax.swing.JScrollPane contenedorListaItemsAComprar;
+    private javax.swing.JScrollPane contenedorListaMayoristas;
+    private javax.swing.JScrollPane contenedorListaPuestos;
+    private javax.swing.JList<String> listaItemsAComprar;
+    private javax.swing.JPanel panelCompraPuesto;
+    private javax.swing.JTextField precioVentaAPuesto;
+    private javax.swing.JList<String> seleccionListaMayoristas;
+    private javax.swing.JList<String> seleccionListaPuestos;
+    private javax.swing.JLabel textoCantidadVentaMayorista;
+    private javax.swing.JLabel textoPrecioVentaMayorista;
+    private javax.swing.JLabel textoSeleccionItemAComprar;
+    private javax.swing.JLabel textoSeleccionMayoristaVendedor;
+    private javax.swing.JLabel textoSeleccionPuesto;
+    private javax.swing.JLabel tituloCompraPuesto;
+    // End of variables declaration//GEN-END:variables
+}

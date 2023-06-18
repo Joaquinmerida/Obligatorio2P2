@@ -16,7 +16,8 @@ public class Sistema {
     private static ArrayList<Dueno> listaDuenos;
     private static ArrayList<Transaccion> listaTransacciones;
     private static int numeroTransaccion;
-
+    private static Boolean cambio = false;
+    
     public static void main(String[] args) {
         listaItems = new ArrayList<>();
         listaMayoristas = new ArrayList<>();
@@ -25,8 +26,14 @@ public class Sistema {
         listaTransacciones = new ArrayList<>();
         Interfaz v = new Interfaz();
         v.setVisible(true);
+        MenuPrincipal m = new MenuPrincipal();
+        m.setVisible(true);
     }
 
+public interface Observador {
+    void notificarCambio();
+}
+    
     public static ArrayList<Item> getListaItems() {
         return listaItems;
     }
@@ -57,6 +64,11 @@ public class Sistema {
 
     public static void agregarItem(Item unItem) {
         listaItems.add(unItem);
+    }
+
+    public static Boolean actualizador() {
+        cambio = !cambio; 
+        return cambio;
     }
 
     public static Boolean itemUnico(String nombreItem, ArrayList<Item> listaItems) {
@@ -257,15 +269,6 @@ public class Sistema {
                 }
             }
         }
-    }
-
-    public static void ventaAPuesto(int rutVendedor, String comprador, String item, int cantidad, int precio) {
-//        for (Mayorista mayorista : listaMayoristas) {
-//            if (mayorista.get().contains(rut)) {
-//                existe = true;
-//                System.out.println("ya hay un mayorista con ese rut");
-//            }
-//        }
     }
 
     public static void agregarMayorista(String nombre, String rut, String direccion, ArrayList<String> items) {
