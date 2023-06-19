@@ -16,7 +16,6 @@ public class Sistema {
     private static ArrayList<Dueno> listaDuenos;
     private static ArrayList<Transaccion> listaTransacciones;
     private static int numeroTransaccion;
-    private static Boolean cambio = false;
     
     public static void main(String[] args) {
         listaItems = new ArrayList<>();
@@ -29,10 +28,6 @@ public class Sistema {
         MenuPrincipal m = new MenuPrincipal();
         m.setVisible(true);
     }
-
-public interface Observador {
-    void notificarCambio();
-}
     
     public static ArrayList<Item> getListaItems() {
         return listaItems;
@@ -66,11 +61,6 @@ public interface Observador {
         listaItems.add(unItem);
     }
 
-    public static Boolean actualizador() {
-        cambio = !cambio; 
-        return cambio;
-    }
-
     public static Boolean itemUnico(String nombreItem, ArrayList<Item> listaItems) {
         Boolean existe = true;
         for (Item item : listaItems) {
@@ -84,7 +74,7 @@ public interface Observador {
     public static Mayorista getMayorista(String rut) {
         Mayorista mayoristaEncontrado = null;
         for (Mayorista mayorista : listaMayoristas) {
-            if (mayorista.getRut() == rut) {
+            if (mayorista.getRut().equalsIgnoreCase(rut)) {
                 mayoristaEncontrado = mayorista;
                 break;
             }

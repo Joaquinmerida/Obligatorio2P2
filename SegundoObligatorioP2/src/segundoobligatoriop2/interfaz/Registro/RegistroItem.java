@@ -4,10 +4,10 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
-import segundoobligatoriop2.Sistema.Observador;
 import segundoobligatoriop2.auxiliar.Item;
 import segundoobligatoriop2.interfaz.MenuPrincipal;
 
@@ -15,23 +15,6 @@ public class RegistroItem extends javax.swing.JFrame {
 
     public RegistroItem() {
         initComponents();
-    }
-
-    private List<Observador> observadores = new ArrayList<>();
-
-    public void agregarObservador(Observador observador) {
-        observadores.add(observador);
-    }
-
-    public void eliminarObservador(Observador observador) {
-        observadores.remove(observador);
-    }
-
-    // Método para notificar a los observadores sobre el cambio de información
-    private void notificarObservadores() {
-        for (Observador observador : observadores) {
-            observador.notificarCambio();
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -153,6 +136,10 @@ public class RegistroItem extends javax.swing.JFrame {
         setBounds(0, 0, 1217, 557);
     }// </editor-fold>//GEN-END:initComponents
 
+    public JButton getBotonAltaRegistro() {
+        return botonAltaRegistro;
+    }
+    
     private void seleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarImagenActionPerformed
         String Ruta = "";
         FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
@@ -169,7 +156,6 @@ public class RegistroItem extends javax.swing.JFrame {
         String tipo = registroTipo.getSelectedItem().toString();
         String formaVenta = registroVentaPor.getSelectedItem().toString();
         String imagen = seleccionarImagen.getSelectedFile().getPath();
-
         if (nombre.isEmpty() || descripcion.isEmpty() || nombre.contains(" ")) {
             JOptionPane.showMessageDialog(this, "Error: Recuerda llenar todos los campos de texto", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println(" no agrega item");
@@ -181,11 +167,6 @@ public class RegistroItem extends javax.swing.JFrame {
                     System.out.println("agrega item");
                     registroNombre.setText("");
                     registroDescripcion.setText("");
-                    Sistema.actualizador();
-                    notificarObservadores();
-                    //actualizarListaItemsAVender();
-                    //mostrarItemConsulta();
-                    MenuPrincipal.asd();
                 } else {
                     JOptionPane.showMessageDialog(this, "Solo se permiten letras en el nombre", "Error", JOptionPane.ERROR_MESSAGE);
                 }

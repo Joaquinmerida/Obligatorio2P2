@@ -5,17 +5,43 @@
 package segundoobligatoriop2.interfaz.Registro;
 
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import segundoobligatoriop2.Sistema;
+import segundoobligatoriop2.auxiliar.Dueno;
 import segundoobligatoriop2.interfaz.MenuPrincipal;
-
 
 public class RegistroPuesto extends javax.swing.JFrame {
 
     public RegistroPuesto() {
         initComponents();
+        inicializarComboDuenos();
+    }
+    
+public JButton getBotonRegistroPuesto(){
+return botonAltaRegistro;
+}
+    
+    private void inicializarComboDuenos() {
+        registroPuestoCombo.setModel(new DefaultComboBoxModel<>());
+        actualizarComboDuenos();
     }
 
+    public void actualizarComboDuenos() {
+        ArrayList<Dueno> listaDuenos = Sistema.getListaDuenos();
+        DefaultComboBoxModel<String> comboBoxModel = (DefaultComboBoxModel<String>) registroPuestoCombo.getModel();
+        if (listaDuenos.isEmpty()) {
+            comboBoxModel.addElement("No hay ningun dueño registrado");
+            return;
+        }
+        comboBoxModel.removeAllElements();
+        for (Dueno duenos : listaDuenos) {
+            comboBoxModel.addElement(duenos.getNombre());
+
+        }
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -28,7 +54,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
         textoUbicacion = new javax.swing.JLabel();
         textoCantidadEmpleados = new javax.swing.JLabel();
         botonLimpiarRegistro1 = new javax.swing.JButton();
-        botonAltaRegistro1 = new javax.swing.JButton();
+        botonAltaRegistro = new javax.swing.JButton();
         registroUbicacion = new javax.swing.JTextField();
         registroNumeroEmpleados = new javax.swing.JTextField();
         registroPuestoCombo = new javax.swing.JComboBox<>();
@@ -45,23 +71,23 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroIdentificacion);
-        registroIdentificacion.setBounds(260, 119, 230, 22);
+        registroIdentificacion.setBounds(260, 119, 230, 23);
 
         textoIdentificacion.setText("Identificacion:");
         panelRegistroPuesto.add(textoIdentificacion);
-        textoIdentificacion.setBounds(100, 119, 90, 16);
+        textoIdentificacion.setBounds(100, 119, 90, 17);
 
         textoDueño.setText("Dueño:");
         panelRegistroPuesto.add(textoDueño);
-        textoDueño.setBounds(100, 179, 90, 16);
+        textoDueño.setBounds(100, 179, 90, 17);
 
         textoUbicacion.setText("Ubicación:");
         panelRegistroPuesto.add(textoUbicacion);
-        textoUbicacion.setBounds(100, 239, 100, 16);
+        textoUbicacion.setBounds(100, 239, 100, 17);
 
         textoCantidadEmpleados.setText("Cantidad empleados:");
         panelRegistroPuesto.add(textoCantidadEmpleados);
-        textoCantidadEmpleados.setBounds(100, 290, 120, 16);
+        textoCantidadEmpleados.setBounds(100, 290, 120, 17);
 
         botonLimpiarRegistro1.setText("Limpiar");
         botonLimpiarRegistro1.addActionListener(new java.awt.event.ActionListener() {
@@ -72,14 +98,14 @@ public class RegistroPuesto extends javax.swing.JFrame {
         panelRegistroPuesto.add(botonLimpiarRegistro1);
         botonLimpiarRegistro1.setBounds(260, 339, 100, 40);
 
-        botonAltaRegistro1.setText("Alta");
-        botonAltaRegistro1.addActionListener(new java.awt.event.ActionListener() {
+        botonAltaRegistro.setText("Alta");
+        botonAltaRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAltaRegistro1ActionPerformed(evt);
+                botonAltaRegistroActionPerformed(evt);
             }
         });
-        panelRegistroPuesto.add(botonAltaRegistro1);
-        botonAltaRegistro1.setBounds(260, 399, 100, 40);
+        panelRegistroPuesto.add(botonAltaRegistro);
+        botonAltaRegistro.setBounds(260, 399, 100, 40);
 
         registroUbicacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,7 +113,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroUbicacion);
-        registroUbicacion.setBounds(260, 240, 230, 22);
+        registroUbicacion.setBounds(260, 240, 230, 23);
 
         registroNumeroEmpleados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         registroNumeroEmpleados.setText("0");
@@ -97,7 +123,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroNumeroEmpleados);
-        registroNumeroEmpleados.setBounds(260, 290, 30, 22);
+        registroNumeroEmpleados.setBounds(260, 290, 30, 23);
 
         registroPuestoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         registroPuestoCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -106,12 +132,10 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroPuestoCombo);
-        registroPuestoCombo.setBounds(260, 180, 230, 22);
+        registroPuestoCombo.setBounds(260, 180, 230, 23);
 
         getContentPane().add(panelRegistroPuesto);
         panelRegistroPuesto.setBounds(-2, -1, 1100, 570);
-
-        getAccessibleContext().setAccessibleName("Registro de puesto");
 
         setBounds(0, 0, 1156, 578);
     }// </editor-fold>//GEN-END:initComponents
@@ -126,7 +150,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
         registroNumeroEmpleados.setText("0");
     }//GEN-LAST:event_botonLimpiarRegistro1ActionPerformed
 
-    private void botonAltaRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistro1ActionPerformed
+    private void botonAltaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaRegistroActionPerformed
         String identificacion = registroIdentificacion.getText();
         String dueno = registroPuestoCombo.getSelectedItem().toString();
         String ubicacion = registroUbicacion.getText();
@@ -147,7 +171,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
                     registroIdentificacion.setText("");
                     registroUbicacion.setText("");
                     registroNumeroEmpleados.setText("");
-                    
+
                     //actualizarListaPuestos();
                     //actualizarPuestoQueVende();
                     //actualizarTablaPuestos();
@@ -161,7 +185,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Error: La identificación del puesto ya está registrada", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_botonAltaRegistro1ActionPerformed
+    }//GEN-LAST:event_botonAltaRegistroActionPerformed
 
     private void registroUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroUbicacionActionPerformed
         // TODO add your handling code here:
@@ -211,7 +235,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonAltaRegistro1;
+    private javax.swing.JButton botonAltaRegistro;
     private javax.swing.JButton botonLimpiarRegistro1;
     private javax.swing.JPanel panelRegistroPuesto;
     private javax.swing.JTextField registroIdentificacion;

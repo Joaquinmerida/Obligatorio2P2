@@ -1462,7 +1462,7 @@ public class Interfaz extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Solo se permiten letras en el nombre", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-               JOptionPane.showMessageDialog(this, "Nombre de item ya registrando", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nombre de item ya registrando", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -1504,18 +1504,18 @@ public class Interfaz extends javax.swing.JFrame {
             return;
         }
         try {
-            if(rutTexto.matches("[a-zA-Z]+")){
-            if (Sistema.mayoristaUnico(rutTexto)) {
-                Sistema.agregarMayorista(nombre, rutTexto, direccion, elementosSeleccionados);
-                actualizarListaMayoristas();
-                actualizarTablaMayoristas();
-                nombreMayorista.setText("");
-                rutMayorista.setText("");
-                direccionMayorista.setText("");
+            if (rutTexto.matches("[a-zA-Z]+")) {
+                if (Sistema.mayoristaUnico(rutTexto)) {
+                    Sistema.agregarMayorista(nombre, rutTexto, direccion, elementosSeleccionados);
+                    actualizarListaMayoristas();
+                    actualizarTablaMayoristas();
+                    nombreMayorista.setText("");
+                    rutMayorista.setText("");
+                    direccionMayorista.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: Rut ya registrado", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Rut ya registrado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            }else{
                 JOptionPane.showMessageDialog(this, "Error: El rut no puede tener valores numericos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
@@ -1675,7 +1675,7 @@ public class Interfaz extends javax.swing.JFrame {
             actualizarGrilla(puestoSeleccionado);
             precioVentaAPuesto.setText("");
             cantidadVentaAPuesto.setText("");
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Error: Los campos tienen que ser numericos y solo se aceptan compras mayores a 0 ", "Error", JOptionPane.ERROR_MESSAGE);
         }

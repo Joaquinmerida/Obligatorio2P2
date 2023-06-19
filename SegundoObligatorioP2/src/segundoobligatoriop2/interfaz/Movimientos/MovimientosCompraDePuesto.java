@@ -24,9 +24,60 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
 
     public MovimientosCompraDePuesto() {
         initComponents();
+        inicializarListaPuestos();
+        inicializarListaMayoristas();
+        inicializarListaItemsAComprar();
     }
 
     private DefaultListModel<String> seleccionListaItemsAComprarModel = new DefaultListModel<>();
+    private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
+    private DefaultListModel<String> seleccionListaMayoristasModel = new DefaultListModel<>();
+
+    private void inicializarListaPuestos() {
+        seleccionListaPuestos.setModel(seleccionListaPuestosModel);
+        contenedorListaPuestos.setViewportView(seleccionListaPuestos);
+        actualizarListaPuestos();
+    }
+
+    private void inicializarListaMayoristas() {
+        seleccionListaMayoristas.setModel(seleccionListaMayoristasModel);
+        contenedorListaMayoristas.setViewportView(seleccionListaMayoristas);
+    }
+
+        private void inicializarListaItemsAComprar() {
+        listaItemsAComprar.setModel(seleccionListaItemsAComprarModel);
+        contenedorListaItemsAComprar.setViewportView(listaItemsAComprar);
+    }
+    
+    public void actualizarListaMayoristas() {
+        ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
+        if (listaMayoristas.isEmpty()) {
+            seleccionListaMayoristasModel.addElement("No hay ningún puesto registrado");
+            return;
+        } else {
+            seleccionListaMayoristasModel.clear();
+            for (Mayorista mayorista : listaMayoristas) {
+                String nombreMayorista = mayorista.getNombre();
+                String rutMayorista = mayorista.getRut();
+                seleccionListaMayoristasModel.addElement(nombreMayorista + "/" + rutMayorista);
+            }
+        }
+    }
+
+    public void actualizarListaPuestos() {
+        ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
+        if (listaPuestos.isEmpty()) {
+            seleccionListaPuestosModel.clear();
+            seleccionListaPuestosModel.addElement("No hay ningún puesto registrado");
+        } else {
+            seleccionListaPuestosModel.clear();
+            for (Puesto puesto : listaPuestos) {
+                String idPuesto = puesto.getIdentificacion();
+                System.out.println(idPuesto);
+                seleccionListaPuestosModel.addElement(idPuesto);
+            }
+        }
+    }
 
     public String getSelectedItem(String nombreLista) {
         try {
@@ -194,7 +245,8 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
             String corte = "/";
             String[] fragmentos = selectedItem.split(corte);
             rutMayorista = fragmentos[1];
-            actualizarListaItemsAComprar(rutMayorista);
+                actualizarListaItemsAComprar(rutMayorista);
+
         }
     }//GEN-LAST:event_seleccionListaMayoristasValueChanged
 
