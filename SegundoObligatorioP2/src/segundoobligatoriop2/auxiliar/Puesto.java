@@ -60,7 +60,8 @@ public class Puesto {
     }
 
     public void setStock(ArrayList<Item> stock) {
-        this.stock = new ArrayList<>(stock);
+        this.stock = new ArrayList<Item>();
+        this.stock.addAll(stock);
     }
 
     public void ordenarStock() {

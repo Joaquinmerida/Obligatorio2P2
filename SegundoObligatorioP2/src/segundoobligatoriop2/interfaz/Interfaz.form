@@ -1388,7 +1388,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Container class="javax.swing.JScrollPane" name="listaPuestosMenorPrecioConsultaProducto">
+                    <Container class="javax.swing.JScrollPane" name="seleccionListaPuestosMasBaratos">
                       <AuxValues>
                         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                       </AuxValues>

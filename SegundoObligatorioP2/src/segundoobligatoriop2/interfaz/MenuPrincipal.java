@@ -16,17 +16,23 @@ import segundoobligatoriop2.interfaz.Consulta.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    public ConsultaMayoristas consultaMayoristas = new ConsultaMayoristas();
-    public RegistroDueno registroDueno = new RegistroDueno();
-    public MovimientosCompraDePublico compraPublico = new MovimientosCompraDePublico();
-    public RegistroItem registroItem = new RegistroItem();
     public RegistroMayorista registroMayorista = new RegistroMayorista();
     public RegistroPuesto registroPuesto = new RegistroPuesto();
-    public GenerarArchivo generarArchivo = new GenerarArchivo();
+    public RegistroItem registroItem = new RegistroItem();
+    public RegistroDueno registroDueno = new RegistroDueno();
+   
     public ConsultaProductos consultaProductos = new ConsultaProductos();
     public ConsultaPuestos consultaPuestos = new ConsultaPuestos();
-    public MovimientosCompraDePuesto compraPuestos = new MovimientosCompraDePuesto();
+    public ConsultaMayoristas consultaMayoristas = new ConsultaMayoristas();
     public ConsultaDuenosDePuesto consultaDuenos = new ConsultaDuenosDePuesto();
+    
+    public MovimientosCompraDePublico compraPublico = new MovimientosCompraDePublico();
+    public MovimientosCompraDePuesto compraPuestos = new MovimientosCompraDePuesto();
+    
+    public GenerarArchivo generarArchivo = new GenerarArchivo();
+
+
+
 
     public MenuPrincipal() {
         initComponents();
@@ -221,7 +227,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void botonConsultaMayoristasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultaMayoristasActionPerformed
+        consultaMayoristas.actualizarTablaMayoristas();
         consultaMayoristas.setVisible(true);
+
     }//GEN-LAST:event_botonConsultaMayoristasActionPerformed
 
     private void botonDuenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDuenoActionPerformed
@@ -229,7 +237,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 registroPuesto.actualizarComboDuenos();
-
+                consultaDuenos.actualizarTablaDuenos();
             }
         });
 
@@ -238,12 +246,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void botonCompraPublicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCompraPublicoActionPerformed
         compraPublico.setVisible(true);
+        compraPublico.actualizarPuestoQueVende();
     }//GEN-LAST:event_botonCompraPublicoActionPerformed
 
     private void botonItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonItemActionPerformed
         registroItem.getBotonAltaRegistro().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+                consultaProductos.mostrarItemConsulta();
                 registroMayorista.actualizarListaItemsAVender();
             }
         });
@@ -255,9 +265,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 compraPuestos.actualizarListaMayoristas();
+                consultaMayoristas.actualizarTablaMayoristas();
             }
         });
-
+        registroMayorista.actualizarListaItemsAVender();
         registroMayorista.setVisible(true);
     }//GEN-LAST:event_botonMayoristasActionPerformed
 
@@ -266,33 +277,43 @@ public class MenuPrincipal extends javax.swing.JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 compraPuestos.actualizarListaPuestos();
+                compraPublico.actualizarPuestoQueVende();
+                consultaPuestos.actualizarTablaPuestos();
+                generarArchivo.actualizarListaPuestos();
             }
         });
+        registroPuesto.actualizarComboDuenos();
         registroPuesto.setVisible(true);
     }//GEN-LAST:event_botonPuestoActionPerformed
 
     private void botonGenerarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGenerarArchivosActionPerformed
-
+        generarArchivo.actualizarListaPuestos();
         generarArchivo.setVisible(true);
     }//GEN-LAST:event_botonGenerarArchivosActionPerformed
 
     private void botonConsultaProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultaProductosActionPerformed
-
+        consultaProductos.mostrarItemConsulta();
         consultaProductos.setVisible(true);
     }//GEN-LAST:event_botonConsultaProductosActionPerformed
 
     private void botonConsultaPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultaPuestosActionPerformed
-
+        consultaPuestos.actualizarTablaPuestos();
         consultaPuestos.setVisible(true);
     }//GEN-LAST:event_botonConsultaPuestosActionPerformed
 
     private void botonConsultaDuenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultaDuenosActionPerformed
-
+        consultaDuenos.actualizarTablaDuenos();
         consultaDuenos.setVisible(true);
     }//GEN-LAST:event_botonConsultaDuenosActionPerformed
 
     private void botonCompraPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCompraPuestoActionPerformed
-
+        compraPuestos.actualizarListaMayoristas();
+        compraPuestos.getBotonCompra().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                consultaProductos.mostrarItemConsulta();
+            }
+        });
         compraPuestos.setVisible(true);
     }//GEN-LAST:event_botonCompraPuestoActionPerformed
 

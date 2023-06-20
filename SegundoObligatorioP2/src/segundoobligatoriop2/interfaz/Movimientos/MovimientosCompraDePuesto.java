@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -33,6 +35,10 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
     private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
     private DefaultListModel<String> seleccionListaMayoristasModel = new DefaultListModel<>();
 
+    public JButton getBotonCompra() {
+        return botonCompraDePuesto;
+    }
+
     private void inicializarListaPuestos() {
         seleccionListaPuestos.setModel(seleccionListaPuestosModel);
         contenedorListaPuestos.setViewportView(seleccionListaPuestos);
@@ -44,11 +50,11 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
         contenedorListaMayoristas.setViewportView(seleccionListaMayoristas);
     }
 
-        private void inicializarListaItemsAComprar() {
+    private void inicializarListaItemsAComprar() {
         listaItemsAComprar.setModel(seleccionListaItemsAComprarModel);
         contenedorListaItemsAComprar.setViewportView(listaItemsAComprar);
     }
-    
+
     public void actualizarListaMayoristas() {
         ArrayList<Mayorista> listaMayoristas = Sistema.getListaMayoristas();
         if (listaMayoristas.isEmpty()) {
@@ -60,6 +66,22 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
                 String nombreMayorista = mayorista.getNombre();
                 String rutMayorista = mayorista.getRut();
                 seleccionListaMayoristasModel.addElement(nombreMayorista + "/" + rutMayorista);
+            }
+        }
+    }
+
+    public void actualizarListaItemsAComprar(String rutMayorista) {
+        Mayorista mayorista = Sistema.getMayorista(rutMayorista);
+        ArrayList<Item> listaItems = mayorista.getListaItems();
+        if (listaItems.isEmpty()) {
+            seleccionListaItemsAComprarModel.clear();
+        } else {
+            seleccionListaItemsAComprarModel.clear();
+            Collections.sort(listaItems, Comparator.comparing(Item::getNombre));
+            for (Item item : listaItems) {
+                String nombreItem = item.getNombre();
+                seleccionListaItemsAComprarModel.addElement(nombreItem);
+                System.out.println(item.getNombre());
             }
         }
     }
@@ -94,23 +116,6 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
         return "JList no encontrada";
     }
 
-    public void actualizarListaItemsAComprar(String rutMayorista) {
-        Mayorista mayorista = Sistema.getMayorista(rutMayorista);
-
-        ArrayList<Item> listaItems = mayorista.getListaItems();
-        if (listaItems.isEmpty()) {
-            seleccionListaItemsAComprarModel.addElement("No hay ningun item registrado");
-            return;
-        } else {
-            seleccionListaItemsAComprarModel.clear();
-            for (Item item : listaItems) {
-                String nombreItem = item.getNombre();
-                seleccionListaItemsAComprarModel.addElement(nombreItem);
-                System.out.println(nombreItem);
-            }
-        }
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -134,6 +139,7 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Compra de puestos");
+        getContentPane().setLayout(null);
 
         panelCompraPuesto.setLayout(null);
 
@@ -195,6 +201,7 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
         panelCompraPuesto.add(botonCompraDePuesto);
         botonCompraDePuesto.setBounds(530, 270, 380, 130);
 
+        listaItemsAComprar.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listaItemsAComprar.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listaItemsAComprarValueChanged(evt);
@@ -205,30 +212,10 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
         panelCompraPuesto.add(contenedorListaItemsAComprar);
         contenedorListaItemsAComprar.setBounds(560, 90, 210, 130);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1210, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelCompraPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 1210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelCompraPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(panelCompraPuesto);
+        panelCompraPuesto.setBounds(0, 12, 1210, 529);
 
-        getAccessibleContext().setAccessibleName("Compra de puestos");
-
-        setBounds(0, 0, 910, 562);
+        setBounds(0, 0, 1046, 562);
     }// </editor-fold>//GEN-END:initComponents
 
     private void seleccionListaPuestosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaPuestosValueChanged
@@ -239,14 +226,13 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
     }//GEN-LAST:event_seleccionListaPuestosValueChanged
 
     private void seleccionListaMayoristasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_seleccionListaMayoristasValueChanged
-        if (!evt.getValueIsAdjusting()) {
+        if (!evt.getValueIsAdjusting() && getSelectedItem("seleccionListaMayoristas") != null) {
             String selectedItem = getSelectedItem("seleccionListaMayoristas");
             String rutMayorista;
             String corte = "/";
             String[] fragmentos = selectedItem.split(corte);
             rutMayorista = fragmentos[1];
-                actualizarListaItemsAComprar(rutMayorista);
-
+            actualizarListaItemsAComprar(rutMayorista);
         }
     }//GEN-LAST:event_seleccionListaMayoristasValueChanged
 
@@ -255,22 +241,29 @@ public class MovimientosCompraDePuesto extends javax.swing.JFrame {
         String mayoristaSeleccionado = getSelectedItem("seleccionListaMayoristas");
         String puestoSeleccionado = getSelectedItem("seleccionListaPuestos");
         String corte = "/";
-        String[] fragmentos = mayoristaSeleccionado.split(corte);
-        String rutMayorista = fragmentos[1];
-        String precioTexto = precioVentaAPuesto.getText();
-        String cantidadTexto = cantidadVentaAPuesto.getText();
-        if ((precioTexto.matches("\\d+") && Integer.parseInt(precioTexto) >= 1) && (cantidadTexto.matches("\\d+") && Integer.parseInt(cantidadTexto) >= 1)) {
-            int precio = Integer.parseInt(precioVentaAPuesto.getText());
-            double cantidad = Double.parseDouble(cantidadVentaAPuesto.getText());
-            Sistema.realizarCompraDePuesto(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
-            precioVentaAPuesto.setText("");
-            cantidadVentaAPuesto.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: Los campos tienen que ser numericos y solo se aceptan compras mayores a 0 ", "Error", JOptionPane.ERROR_MESSAGE);
+        String[] fragmentos = null;
+        if (mayoristaSeleccionado != null && itemSeleccionado != null && puestoSeleccionado != null) {
+            fragmentos = mayoristaSeleccionado.split(corte);
+            String rutMayorista = fragmentos[1];
+            String precioTexto = precioVentaAPuesto.getText();
+            String cantidadTexto = cantidadVentaAPuesto.getText();
+            if ((precioTexto.matches("\\d+") && Integer.parseInt(precioTexto) >= 1) && (cantidadTexto.matches("\\d+") && Integer.parseInt(cantidadTexto) >= 1)) {
+                int precio = Integer.parseInt(precioVentaAPuesto.getText());
+                double cantidad = Double.parseDouble(cantidadVentaAPuesto.getText());
+                Sistema.realizarCompraDePuesto(rutMayorista, puestoSeleccionado, itemSeleccionado, precio, cantidad);
+                precioVentaAPuesto.setText("");
+                cantidadVentaAPuesto.setText("");
+                JOptionPane.showMessageDialog(this, "Has realizado una compra con exito", "Confirmacion", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Los campos tienen que ser numericos y solo se aceptan compras mayores a 0 ", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
+
+
     }//GEN-LAST:event_botonCompraDePuestoActionPerformed
 
     private void listaItemsAComprarValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaItemsAComprarValueChanged
+
 
     }//GEN-LAST:event_listaItemsAComprarValueChanged
 

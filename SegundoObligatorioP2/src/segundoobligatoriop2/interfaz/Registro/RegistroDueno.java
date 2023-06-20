@@ -134,7 +134,6 @@ public class RegistroDueno extends javax.swing.JFrame {
             if ((edadTexto.matches("\\d+") && experienciaTexto.matches("\\d+")) && ((Integer.parseInt(edadTexto) >= 0)) && (Integer.parseInt(experienciaTexto) >= 0)) {
                 int edad = Integer.parseInt(edadTexto);
                 int experiencia = Integer.parseInt(experienciaTexto);
-
                 if (!Sistema.nombreDueñoUnico(nombreDueno)) {
                     if (nombreDueno.matches("[a-zA-Z]+")) {
                         if (edad > experiencia) {

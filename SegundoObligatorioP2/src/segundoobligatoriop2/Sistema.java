@@ -16,7 +16,7 @@ public class Sistema {
     private static ArrayList<Dueno> listaDuenos;
     private static ArrayList<Transaccion> listaTransacciones;
     private static int numeroTransaccion;
-    
+
     public static void main(String[] args) {
         listaItems = new ArrayList<>();
         listaMayoristas = new ArrayList<>();
@@ -28,7 +28,7 @@ public class Sistema {
         MenuPrincipal m = new MenuPrincipal();
         m.setVisible(true);
     }
-    
+
     public static ArrayList<Item> getListaItems() {
         return listaItems;
     }
@@ -293,7 +293,7 @@ public class Sistema {
     public static ArrayList<Item> getItemsAVenderMayorista(String rut) {
         ArrayList<Item> listaItems = new ArrayList<Item>();
         for (Mayorista mayorista : listaMayoristas) {
-            if (mayorista.getRut() == rut) {
+            if (mayorista.getRut().equalsIgnoreCase(rut)) {
                 listaItems.addAll(mayorista.getListaItems());
             }
         }
@@ -303,7 +303,7 @@ public class Sistema {
     public static Boolean mayoristaUnico(String rut) {
         Boolean existe = true;
         for (Mayorista mayorista : listaMayoristas) {
-            if (mayorista.getRut() == rut) {
+            if (mayorista.getRut().equalsIgnoreCase(rut)) {
                 existe = false;
                 System.out.println("ya hay un mayorista con ese rut");
             }
@@ -466,7 +466,7 @@ public class Sistema {
                                         }
                                     }
                                 }
-                                Mayorista mayorista = new Mayorista(rut, nombre, direccion, listaItems);
+                                Mayorista mayorista = new Mayorista(rut, nombre, direccion, listaItemsDelMayorista);
                                 listaMayoristas.add(mayorista);
                             }
                             break;

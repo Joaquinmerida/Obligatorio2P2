@@ -4,15 +4,39 @@
  */
 package segundoobligatoriop2.interfaz.Consulta;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import segundoobligatoriop2.Sistema;
+import segundoobligatoriop2.auxiliar.Puesto;
+
 
 public class ConsultaPuestos extends javax.swing.JFrame {
 
   
     public ConsultaPuestos() {
         initComponents();
+        generarTablaPuestos();
     }
 
-   
+       public void generarTablaPuestos() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Identificación");
+        model.addColumn("Dueño");
+        model.addColumn("Ubicación");
+        model.addColumn("Cantidad de empleados");
+        tablaConsultaPuestos.setModel(model);
+    }
+       
+           public void actualizarTablaPuestos() {
+        ArrayList<Puesto> listaPuesto = Sistema.getListaPuesto();
+        DefaultTableModel model = (DefaultTableModel) tablaConsultaPuestos.getModel();
+        model.setRowCount(0);
+        for (Puesto puesto : listaPuesto) {
+            model.addRow(new Object[]{puesto.getIdentificacion(), puesto.getDueno().getNombre(), puesto.getUbicacion(), puesto.getCantidadEmpleados()});
+        }
+        tablaConsultaPuestos.revalidate();
+        tablaConsultaPuestos.repaint();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -26,18 +26,15 @@ public class RegistroMayorista extends javax.swing.JFrame {
         inicializarListaItemsAVender();
     }
 
-    
-    public JButton getBotonRegistro(){
-    return botonAltaRegistroMayorista;
+    public JButton getBotonRegistro() {
+        return botonAltaRegistroMayorista;
     }
-    
+
     private void inicializarListaItemsAVender() {
         listaSeleccionItemsMayorista.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         listaSeleccionItemsMayorista.setModel(seleccionListaItemsAVenderModel);
         contenedorListaSeleccionItemsMayorista.setViewportView(listaSeleccionItemsMayorista);
-        actualizarListaItemsAVender();
     }
-
 
     public void actualizarListaItemsAVender() {
         ArrayList<Item> listaItems = Sistema.getListaItems();
@@ -48,7 +45,6 @@ public class RegistroMayorista extends javax.swing.JFrame {
             }
         });
         if (listaItems.isEmpty()) {
-            seleccionListaItemsAVenderModel.clear();
             seleccionListaItemsAVenderModel.addElement("No hay ningun item registrado");
             return;
         } else {
@@ -60,7 +56,6 @@ public class RegistroMayorista extends javax.swing.JFrame {
             }
         }
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -189,28 +184,24 @@ public class RegistroMayorista extends javax.swing.JFrame {
             return;
         }
         try {
-            if (rutTexto.matches("[a-zA-Z]+")) {
+            if (rutTexto.matches("\\d+")) {
                 if (Sistema.mayoristaUnico(rutTexto)) {
                     Sistema.agregarMayorista(nombre, rutTexto, direccion, elementosSeleccionados);
-                    //actualizarListaMayoristas();
-                    //actualizarTablaMayoristas();
+                    JOptionPane.showMessageDialog(this, "Has registrado un mayorista con exito", "Confirmacion", JOptionPane.INFORMATION_MESSAGE);
                     nombreMayorista.setText("");
                     rutMayorista.setText("");
                     direccionMayorista.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error: Rut ya registrado", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Rut ya registrado", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Error: El rut no puede tener valores numericos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El rut solo puede tener valores numericos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error: Verifique que el campo 'RUT' sea un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Verifique que el campo 'RUT' sea un número válido", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

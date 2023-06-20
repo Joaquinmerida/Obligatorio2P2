@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.Dueno;
-import segundoobligatoriop2.interfaz.MenuPrincipal;
 
 public class RegistroPuesto extends javax.swing.JFrame {
 
@@ -18,11 +17,11 @@ public class RegistroPuesto extends javax.swing.JFrame {
         initComponents();
         inicializarComboDuenos();
     }
-    
-public JButton getBotonRegistroPuesto(){
-return botonAltaRegistro;
-}
-    
+
+    public JButton getBotonRegistroPuesto() {
+        return botonAltaRegistro;
+    }
+
     private void inicializarComboDuenos() {
         registroPuestoCombo.setModel(new DefaultComboBoxModel<>());
         actualizarComboDuenos();
@@ -170,11 +169,8 @@ return botonAltaRegistro;
                     Sistema.agregarPuesto(identificacion, dueno, ubicacion, cantidadEmpleados);
                     registroIdentificacion.setText("");
                     registroUbicacion.setText("");
-                    registroNumeroEmpleados.setText("");
-
-                    //actualizarListaPuestos();
-                    //actualizarPuestoQueVende();
-                    //actualizarTablaPuestos();
+                    registroNumeroEmpleados.setText("0");
+                    JOptionPane.showMessageDialog(this, "Has registrado un puesto con exito", "Confirmacion", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: La cantidad de empleados solo pueden ser valores numericos y no pueden ser negativos", "Error", JOptionPane.ERROR_MESSAGE);
                 }

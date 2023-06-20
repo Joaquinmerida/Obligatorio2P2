@@ -1,21 +1,79 @@
-
 package segundoobligatoriop2.interfaz.Consulta;
 
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.Item;
-
+import segundoobligatoriop2.auxiliar.Transaccion;
 
 public class ConsultaProductos extends javax.swing.JFrame {
 
     public ConsultaProductos() {
         initComponents();
+        generarListaPuestosBaratos();
+        generarListaPuestosCaros();
     }
 
+    private DefaultListModel<String> seleccionListaPuestosMasBaratos = new DefaultListModel<>();
+    private DefaultListModel<String> seleccionListaPuestosMasCaros = new DefaultListModel<>();
+
+    public void generarListaPuestosBaratos() {
+        consultasPrecioMin.setModel(seleccionListaPuestosMasBaratos);
+        contenedorListaPuestosMenorPrecioConsultaProducto.setViewportView(consultasPrecioMin);
+    }
+
+    public void generarListaPuestosCaros() {
+        consultasPrecioMax.setModel(seleccionListaPuestosMasCaros);
+        contenedorListaPuestosMayorPrecioConsultaProducto.setViewportView(consultasPrecioMax);
+    }
+
+    public void actualizarListaPuestosBaratos() {
+        int minimo = Integer.MAX_VALUE;
+        seleccionListaPuestosMasBaratos.clear();
+        String item = consultasNombre.getText();
+        ArrayList<String> puestoBarato = new ArrayList<>();
+        ArrayList<Transaccion> listaTransacciones = Sistema.getListaTransacciones();
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getNombre().equalsIgnoreCase(item)) {
+                if (transaccion.getPrecio() < minimo) {
+                    minimo=transaccion.getPrecio();
+                    puestoBarato.clear();
+                    puestoBarato.add(transaccion.getVendedor());
+                } else if (transaccion.getPrecio() == minimo && !puestoBarato.contains(transaccion.getVendedor())) {
+                    puestoBarato.add(transaccion.getVendedor());
+                }
+            }
+        }
+        for (String puesto : puestoBarato) {
+            seleccionListaPuestosMasBaratos.addElement(puesto);
+        }
+    }
+
+    public void actualizarListaPuestosCaros() {
+        int maximo = Integer.MIN_VALUE;
+        seleccionListaPuestosMasCaros.clear();
+        String item = consultasNombre.getText();
+        ArrayList<String> puestoCaro = new ArrayList<>();
+        ArrayList<Transaccion> listaTransacciones = Sistema.getListaTransacciones();
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getComprador().equalsIgnoreCase("Publico") && transaccion.getItemVenta().getNombre().equalsIgnoreCase(item)) {
+                if (transaccion.getPrecio() > maximo) {
+                    maximo=transaccion.getPrecio();
+                    puestoCaro.clear();
+                    puestoCaro.add(transaccion.getVendedor());
+                } else if (transaccion.getPrecio() == maximo && !puestoCaro.contains(transaccion.getVendedor())) {
+                    puestoCaro.add(transaccion.getVendedor());
+                }
+            }
+        }
+        for (String puesto : puestoCaro) {
+            seleccionListaPuestosMasCaros.addElement(puesto);
+        }
+    }
 
     public void cambiarItemConsulta(int cambio, String itemMostrado) {
         ArrayList<Item> listaItems = Sistema.getListaItems();
@@ -37,8 +95,30 @@ public class ConsultaProductos extends javax.swing.JFrame {
                 j = listaItems.size() - 1;
             }
         }
+        for (int i = 0; i < listaItems.size(); i++) {
+            if (j == i) {
+                consultasNombre.setText(listaItems.get(j).getNombre());
+                consultasDescripcion.setText(listaItems.get(j).getDescripcion());
+                consultasTipo.setText(listaItems.get(j).getTipo());
+                consultasVentaPor.setText(listaItems.get(j).getFormaVenta());
+                String Ruta = listaItems.get(j).getImagen();
+                Image mImagen = new ImageIcon(Ruta).getImage();
+                ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(consultasImagen.getWidth(), consultasImagen.getHeight(), Image.SCALE_SMOOTH));
+                consultasImagen.setIcon(mIcono);
+                consultaTotalVendidoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaPuestos(listaItems.get(j))));
+                consultaTotalCompradoEntrePuestos.setText(Integer.toString(Sistema.getTotalDineroVentaMayoristas(listaItems.get(j))));
+                consultaCantidadKgVendidaPuestos.setText(Double.toString(Sistema.getKgTotalVendidoPuestos(listaItems.get(j))));
+                consultaCantidadUnidadesVendidaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalVendidoPuestos(listaItems.get(j))));
+                consultaCantidadKilogramosCompradaPuestos.setText(Double.toString(Sistema.getKgTotalCompradoPuestos(listaItems.get(j))));
+                consultaCantidadUnidadesCompradaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalCompradoPuestos(listaItems.get(j))));
+                consultaPrecioMinimoVendido.setText(Integer.toString(Sistema.getMinimoVendido(listaItems.get(j))));
+                consultaPrecioMaximoVendido.setText(Integer.toString(Sistema.getMaximoVendido(listaItems.get(j))));
+                actualizarListaPuestosBaratos();
+                actualizarListaPuestosCaros();
+            }
+        }
     }
-    
+
     public void mostrarItemConsulta() {
         ArrayList<Item> listaItems = Sistema.getListaItems();
         if (!listaItems.isEmpty()) {
@@ -58,11 +138,11 @@ public class ConsultaProductos extends javax.swing.JFrame {
             consultaCantidadUnidadesCompradaPuestos.setText(Integer.toString(Sistema.getUnidadesTotalCompradoPuestos(listaItems.get(0))));
             consultaPrecioMinimoVendido.setText(Integer.toString(Sistema.getMinimoVendido(listaItems.get(0))));
             consultaPrecioMaximoVendido.setText(Integer.toString(Sistema.getMaximoVendido(listaItems.get(0))));
+            actualizarListaPuestosBaratos();
+            actualizarListaPuestosCaros();
         }
     }
 
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -84,10 +164,10 @@ public class ConsultaProductos extends javax.swing.JFrame {
         textoPrecioMaximoConsultaProducto = new javax.swing.JLabel();
         textoPrecioVentaMinimoConsultaProducto = new javax.swing.JLabel();
         textoPrecioVentaMaximoConsultaProducto = new javax.swing.JLabel();
-        listaPuestosMenorPrecioConsultaProducto = new javax.swing.JScrollPane();
+        contenedorListaPuestosMenorPrecioConsultaProducto = new javax.swing.JScrollPane();
         consultasPrecioMin = new javax.swing.JList<>();
-        listaPuestosMayorPrecioConsultaProducto = new javax.swing.JScrollPane();
-        consultasVentaMax = new javax.swing.JList<>();
+        contenedorListaPuestosMayorPrecioConsultaProducto = new javax.swing.JScrollPane();
+        consultasPrecioMax = new javax.swing.JList<>();
         consultasBotonDerecha = new javax.swing.JButton();
         consultasBotonIzquierda = new javax.swing.JButton();
         consultasVentaPor = new javax.swing.JTextField();
@@ -153,11 +233,11 @@ public class ConsultaProductos extends javax.swing.JFrame {
 
         textoCantidadVendidaConsultaProducto.setText("Cantidad total vendida entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadVendidaConsultaProducto);
-        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 360, 16);
+        textoCantidadVendidaConsultaProducto.setBounds(560, 180, 420, 16);
 
         textoCantidadTotalCompradaConsultaProducto.setText("Cantidad total comprada entre todos los puestos:");
         panelConsultaProducto.add(textoCantidadTotalCompradaConsultaProducto);
-        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 390, 16);
+        textoCantidadTotalCompradaConsultaProducto.setBounds(560, 220, 420, 16);
 
         textoPrecioMinimoConsultaProducto.setText("Precio minimo vendido:");
         panelConsultaProducto.add(textoPrecioMinimoConsultaProducto);
@@ -180,20 +260,20 @@ public class ConsultaProductos extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        listaPuestosMenorPrecioConsultaProducto.setViewportView(consultasPrecioMin);
+        contenedorListaPuestosMenorPrecioConsultaProducto.setViewportView(consultasPrecioMin);
 
-        panelConsultaProducto.add(listaPuestosMenorPrecioConsultaProducto);
-        listaPuestosMenorPrecioConsultaProducto.setBounds(560, 340, 210, 180);
+        panelConsultaProducto.add(contenedorListaPuestosMenorPrecioConsultaProducto);
+        contenedorListaPuestosMenorPrecioConsultaProducto.setBounds(560, 340, 210, 180);
 
-        consultasVentaMax.setModel(new javax.swing.AbstractListModel<String>() {
+        consultasPrecioMax.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        listaPuestosMayorPrecioConsultaProducto.setViewportView(consultasVentaMax);
+        contenedorListaPuestosMayorPrecioConsultaProducto.setViewportView(consultasPrecioMax);
 
-        panelConsultaProducto.add(listaPuestosMayorPrecioConsultaProducto);
-        listaPuestosMayorPrecioConsultaProducto.setBounds(820, 340, 210, 180);
+        panelConsultaProducto.add(contenedorListaPuestosMayorPrecioConsultaProducto);
+        contenedorListaPuestosMayorPrecioConsultaProducto.setBounds(820, 340, 210, 180);
 
         consultasBotonDerecha.setText(">");
         consultasBotonDerecha.addActionListener(new java.awt.event.ActionListener() {
@@ -315,11 +395,9 @@ public class ConsultaProductos extends javax.swing.JFrame {
         consultaCantidadKilogramosCompradaPuestos.setBounds(930, 220, 30, 20);
 
         getContentPane().add(panelConsultaProducto);
-        panelConsultaProducto.setBounds(0, 0, 1020, 560);
+        panelConsultaProducto.setBounds(0, 0, 1100, 560);
 
-        getAccessibleContext().setAccessibleName("Consulta de productos");
-
-        setBounds(0, 0, 864, 637);
+        setBounds(0, 0, 1116, 637);
     }// </editor-fold>//GEN-END:initComponents
 
     private void consultasBotonDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasBotonDerechaActionPerformed
@@ -417,12 +495,12 @@ public class ConsultaProductos extends javax.swing.JFrame {
     private javax.swing.JTextField consultasDescripcion;
     private javax.swing.JLabel consultasImagen;
     private javax.swing.JTextField consultasNombre;
+    private javax.swing.JList<String> consultasPrecioMax;
     private javax.swing.JList<String> consultasPrecioMin;
     private javax.swing.JTextField consultasTipo;
-    private javax.swing.JList<String> consultasVentaMax;
     private javax.swing.JTextField consultasVentaPor;
-    private javax.swing.JScrollPane listaPuestosMayorPrecioConsultaProducto;
-    private javax.swing.JScrollPane listaPuestosMenorPrecioConsultaProducto;
+    private javax.swing.JScrollPane contenedorListaPuestosMayorPrecioConsultaProducto;
+    private javax.swing.JScrollPane contenedorListaPuestosMenorPrecioConsultaProducto;
     private javax.swing.JPanel panelConsultaProducto;
     private javax.swing.JLabel textoCantidadTotalCompradaConsultaProducto;
     private javax.swing.JLabel textoCantidadVendidaConsultaProducto;

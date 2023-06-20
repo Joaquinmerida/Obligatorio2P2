@@ -1,20 +1,38 @@
 package segundoobligatoriop2.interfaz.Registro;
 
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import segundoobligatoriop2.Sistema;
 import segundoobligatoriop2.auxiliar.Item;
-import segundoobligatoriop2.interfaz.MenuPrincipal;
 
 public class RegistroItem extends javax.swing.JFrame {
 
+    private String ruta = "";
+
     public RegistroItem() {
         initComponents();
+        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
+        seleccionarImagen.setFileFilter(filtrado);
+        seleccionarImagen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String imagePath = "/segundoobligatoriop2/imagenesOblig/SinImagen.jpg";
+                File imagenFile = new File(imagePath);
+                System.out.println(imagenFile.getAbsolutePath());
+
+                Image mImagen = new ImageIcon(imagePath).getImage();
+                ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
+                AparicionImagenRegistro.setIcon(mIcono);
+            }
+        });
+
     }
 
     @SuppressWarnings("unchecked")
@@ -115,11 +133,18 @@ public class RegistroItem extends javax.swing.JFrame {
         seleccionarImagen.setAcceptAllFileFilterUsed(false);
         seleccionarImagen.setApproveButtonText("Abrir");
         seleccionarImagen.setApproveButtonToolTipText("Cancelar");
+        seleccionarImagen.setCurrentDirectory(new java.io.File("C:\\Program Files\\NetBeans-17\\."));
         seleccionarImagen.setDialogTitle("");
         seleccionarImagen.setSelectedFile(new java.io.File("C:\\Users\\joaqu\\OneDrive\\Escritorio\\Obligatorio2P2\\Obligatorio2P2\\SegundoObligatorioP2\\src\\segundoobligatoriop2\\ImagenesOblig"));
+        seleccionarImagen.setToolTipText("");
         seleccionarImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         seleccionarImagen.setDoubleBuffered(true);
         seleccionarImagen.setName("seleccionarImagen");
+        seleccionarImagen.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                seleccionarImagenComponentShown(evt);
+            }
+        });
         seleccionarImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 seleccionarImagenActionPerformed(evt);
@@ -139,13 +164,10 @@ public class RegistroItem extends javax.swing.JFrame {
     public JButton getBotonAltaRegistro() {
         return botonAltaRegistro;
     }
-    
+
     private void seleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarImagenActionPerformed
-        String Ruta = "";
-        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
-        seleccionarImagen.setFileFilter(filtrado);
-        Ruta = seleccionarImagen.getSelectedFile().getPath();
-        Image mImagen = new ImageIcon(Ruta).getImage();
+        ruta = seleccionarImagen.getSelectedFile().getPath();
+        Image mImagen = new ImageIcon(ruta).getImage();
         ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(AparicionImagenRegistro.getWidth(), AparicionImagenRegistro.getHeight(), Image.SCALE_SMOOTH));
         AparicionImagenRegistro.setIcon(mIcono);
     }//GEN-LAST:event_seleccionarImagenActionPerformed
@@ -156,17 +178,20 @@ public class RegistroItem extends javax.swing.JFrame {
         String tipo = registroTipo.getSelectedItem().toString();
         String formaVenta = registroVentaPor.getSelectedItem().toString();
         String imagen = seleccionarImagen.getSelectedFile().getPath();
+        
         if (nombre.isEmpty() || descripcion.isEmpty() || nombre.contains(" ")) {
             JOptionPane.showMessageDialog(this, "Error: Recuerda llenar todos los campos de texto", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println(" no agrega item");
-            return;
         } else {
             if (Sistema.itemUnico(nombre, Sistema.getListaItems())) {
                 if (nombre.matches("[a-zA-Z]+")) {
+                    if(imagen== null){
+                    imagen = "SinImagen.jpg";
+                    }
                     Sistema.agregarItem(new Item(nombre, descripcion, tipo, formaVenta, imagen));
-                    System.out.println("agrega item");
                     registroNombre.setText("");
                     registroDescripcion.setText("");
+                    JOptionPane.showMessageDialog(this, "Has registrado un Item con exito", "Confirmacion", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "Solo se permiten letras en el nombre", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -192,6 +217,12 @@ public class RegistroItem extends javax.swing.JFrame {
     private void registroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_registroNombreActionPerformed
+
+    private void seleccionarImagenComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_seleccionarImagenComponentShown
+        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG", "JPG");
+        seleccionarImagen.setFileFilter(filtrado);
+
+    }//GEN-LAST:event_seleccionarImagenComponentShown
 
     /**
      * @param args the command line arguments

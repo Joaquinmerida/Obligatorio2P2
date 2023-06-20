@@ -1,12 +1,36 @@
 package segundoobligatoriop2.interfaz.GenerarArchivo;
 
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import segundoobligatoriop2.Sistema;
+import segundoobligatoriop2.auxiliar.Puesto;
 
 public class GenerarArchivo extends javax.swing.JFrame {
 
     public GenerarArchivo() {
         initComponents();
+        inicializarListaPuestos();
+    }
+
+    private DefaultListModel<String> seleccionListaPuestosModel = new DefaultListModel<>();
+
+    private void inicializarListaPuestos() {
+        seleccionPuestoGenerarArchivo.setModel(seleccionListaPuestosModel);
+        seleccionPuestoGenerarArchivoModel.setViewportView(seleccionPuestoGenerarArchivo);
+    }
+
+    public void actualizarListaPuestos() {
+        ArrayList<Puesto> listaPuestos = Sistema.getListaPuesto();
+        if (listaPuestos.isEmpty()) {
+            seleccionListaPuestosModel.addElement("No hay ningún puesto registrado");
+        } else {
+            seleccionListaPuestosModel.clear();
+            for (Puesto puesto : listaPuestos) {
+                String idPuesto = puesto.getIdentificacion();
+                System.out.println(idPuesto);
+                seleccionListaPuestosModel.addElement(idPuesto);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

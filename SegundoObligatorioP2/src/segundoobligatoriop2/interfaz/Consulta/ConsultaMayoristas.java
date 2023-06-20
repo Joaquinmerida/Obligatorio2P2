@@ -1,9 +1,58 @@
 package segundoobligatoriop2.interfaz.Consulta;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import javax.swing.table.DefaultTableModel;
+import segundoobligatoriop2.Sistema;
+import segundoobligatoriop2.auxiliar.Item;
+import segundoobligatoriop2.auxiliar.Mayorista;
+
 public class ConsultaMayoristas extends javax.swing.JFrame {
 
     public ConsultaMayoristas() {
         initComponents();
+        generarTablaMayoristas();
+    }
+
+    public void generarTablaMayoristas() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nombre");
+        model.addColumn("RUT");
+        model.addColumn("Dirección");
+        model.addColumn("Items");
+        tablaConsultaMayoristas.setModel(model);
+    }
+    
+     public void actualizarTablaMayoristas() {
+        ArrayList<Mayorista> listaMayorista = Sistema.getListaMayoristas();
+        DefaultTableModel model = (DefaultTableModel) tablaConsultaMayoristas.getModel();
+
+        model.setRowCount(0);
+        for (Mayorista mayorista : listaMayorista) {
+            Object[] rowData = new Object[4];
+            rowData[0] = mayorista.getNombre();
+            rowData[1] = mayorista.getRut();
+            rowData[2] = mayorista.getDireccion();
+
+            ArrayList<Item> items = mayorista.getListaItems();
+            StringBuilder itemsString = new StringBuilder();
+
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item item1, Item item2) {
+                    return item1.getNombre().compareTo(item2.getNombre());
+                }
+            });
+
+            for (Item item : items) {
+                itemsString.append(item.getNombre() + " ");
+            }
+            rowData[3] = itemsString.toString();
+            model.addRow(rowData);
+        }
+        tablaConsultaMayoristas.revalidate();
+        tablaConsultaMayoristas.repaint();
     }
 
     @SuppressWarnings("unchecked")
