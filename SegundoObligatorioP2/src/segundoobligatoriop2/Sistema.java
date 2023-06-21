@@ -1,5 +1,11 @@
 package segundoobligatoriop2;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -23,8 +29,6 @@ public class Sistema {
         listaDuenos = new ArrayList<>();
         listaPuesto = new ArrayList<>();
         listaTransacciones = new ArrayList<>();
-        Interfaz v = new Interfaz();
-        v.setVisible(true);
         MenuPrincipal m = new MenuPrincipal();
         m.setVisible(true);
     }
@@ -184,27 +188,22 @@ public class Sistema {
     public static void realizarCompraDePuesto(String vendedor, String comprador, String itemVendido, int precio, double cantidad) {
         Item itemObjeto = null;
         Mayorista mayorista = getMayorista(vendedor);
-
         for (Item itemMayorista : mayorista.getListaItems()) {
             if (itemMayorista.getNombre().equals(itemVendido)) {
                 if (itemMayorista.getFormaVenta().equalsIgnoreCase("Kilogramo")) {
                     itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
                     itemObjeto.setCantidad(cantidad);
-                    System.out.println("se agrega con , porque es kg" + cantidad);
                 } else {
                     itemObjeto = new Item(itemMayorista.getNombre(), itemMayorista.getDescripcion(), itemMayorista.getTipo(), itemMayorista.getFormaVenta(), itemMayorista.getImagen());
                     itemObjeto.setCantidad((int) Math.floor(cantidad));
-                    System.out.println("se agrega sin , porque es unidad" + (int) Math.floor(cantidad));
                 }
-
             }
         }
-
         for (Puesto puesto : listaPuesto) {
             if (puesto.getIdentificacion().equals(comprador)) {
                 boolean itemEncontrado = false;
                 for (Item itemEnStock : puesto.getStock()) {
-                    if (itemEnStock.getNombre().equals(itemObjeto.getNombre())) {
+                    if (itemEnStock.getNombre().equalsIgnoreCase(itemObjeto.getNombre())) {
                         if (itemEnStock.getFormaVenta().equalsIgnoreCase("Kilogramo")) {
                             itemEncontrado = true;
                             itemEnStock.sumarCantidad(cantidad);
@@ -221,19 +220,18 @@ public class Sistema {
                         itemObjeto.setCantidad(cantidad);
                         puesto.añadirItem(itemObjeto);
                         agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, cantidad);
-                        System.out.println("se agrega un item nuevo al stock porque no existia cantidad: " + cantidad);
                     } else {
                         itemObjeto.setCantidad((int) Math.floor(cantidad));
                         puesto.añadirItem(itemObjeto);
                         agregarTransaccion(vendedor + "", comprador, itemObjeto, precio, (int) Math.floor(cantidad));
-                        System.out.println("se agrega un item nuevo al stock porque no existia cantidad: " + (int) Math.floor(cantidad));
                     }
                 }
             }
         }
     }
 
-    public static void realizarCompraDePublico(String idVendedor, String comprador, Item itemVendido, int precio, double cantidad) {
+    public static boolean realizarCompraDePublico(String idVendedor, String comprador, Item itemVendido, int precio, double cantidad) {
+        boolean correcta = true;
         for (Puesto puesto : listaPuesto) {
             if (puesto.getIdentificacion().equals(idVendedor)) {
                 for (Item item : puesto.getStock()) {
@@ -242,51 +240,36 @@ public class Sistema {
                             if (item.getCantidad() >= cantidad) {
                                 agregarTransaccion(idVendedor, "Publico", itemVendido, precio, cantidad);
                                 item.sumarCantidad(cantidad * -1);
-                                System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
                             } else {
-                                System.out.println("compra no valida");
+                                correcta = false;
                             }
                         } else {
                             if (item.getCantidad() >= (int) Math.floor(cantidad)) {
                                 agregarTransaccion(idVendedor, "Publico", itemVendido, precio, (int) Math.floor(cantidad));
                                 item.sumarCantidad(cantidad * -1);
-                                System.out.println("Se agrega compra a publico: " + idVendedor + itemVendido.getNombre());
                             } else {
-                                System.out.println("compra no valida");
+                                correcta = false;
                             }
                         }
                     }
                 }
             }
         }
+        return correcta;
     }
 
     public static void agregarMayorista(String nombre, String rut, String direccion, ArrayList<String> items) {
         ArrayList<Item> itemsDelNuevoMayorista = new ArrayList<>();
-        if (!mayoristaUnico(rut)) {
-            System.out.println("ya existe ese mayorista");
-        } else {
+        if (mayoristaUnico(rut)) {
             for (String itemString : items) {
                 for (Item item : listaItems) {
                     if (item.getNombre().equals(itemString)) {
                         itemsDelNuevoMayorista.add(new Item(item.getNombre(), item.getDescripcion(), item.getTipo(), item.getFormaVenta(), item.getImagen()));
-                        System.out.println("se agrega al mayorista: " + itemString);
                     }
                 }
             }
-
             Mayorista unMayorista = new Mayorista(rut, nombre, direccion, itemsDelNuevoMayorista);
             listaMayoristas.add(unMayorista);
-            System.out.println("se agrega mayorista");
-        }
-
-        for (Mayorista mayorista : listaMayoristas) {
-            System.out.println(mayorista.getNombre());
-            System.out.println("items que vende:");
-            for (Item item : mayorista.getListaItems()) {
-                System.out.println(mayorista.getNombre() + " vende " + item.getNombre());
-            }
-            System.out.println("................");
         }
     }
 
@@ -305,7 +288,6 @@ public class Sistema {
         for (Mayorista mayorista : listaMayoristas) {
             if (mayorista.getRut().equalsIgnoreCase(rut)) {
                 existe = false;
-                System.out.println("ya hay un mayorista con ese rut");
             }
         }
         return existe;
@@ -313,7 +295,7 @@ public class Sistema {
 
     public static void agregarPuesto(String identificacion, String dueno, String ubicacion, int empleados) {
         if (identificacionUnico(identificacion)) {
-            System.out.println("Ya existe un puesto con esa identificacion");
+
         } else {
             Dueno nuevoDueno = null;
             for (Dueno verDueno : listaDuenos) {
@@ -324,21 +306,13 @@ public class Sistema {
             Puesto unPuesto = new Puesto(identificacion, nuevoDueno, ubicacion, empleados);
             listaPuesto.add(unPuesto);
         }
-
     }
 
     public static void agregarDueno(String nombre, int edad, int experiencia) {
-        if (nombreDueñoUnico(nombre)) {
-            System.out.println("ya existe ese nombre");
-        } else {
+        if (!nombreDuenoUnico(nombre)) {
             Dueno unDueño = new Dueno(nombre, edad, experiencia);
             Sistema.getListaDuenos().add(unDueño);
-            System.out.println("se agrego Dueño");
         }
-        for (Dueno unDueño : listaDuenos) {
-            System.out.println(unDueño.getNombre());
-        }
-
     }
 
     public static Boolean identificacionUnico(String identificacion) {
@@ -346,26 +320,19 @@ public class Sistema {
         for (Puesto puesto : listaPuesto) {
             if (puesto.getIdentificacion().equalsIgnoreCase(identificacion)) {
                 existe = true;
-                System.out.println("Ya hay un puesto con esa identificacion");
-
             }
         }
         return existe;
     }
 
-    public static Boolean nombreDueñoUnico(String nombre) {
+    public static Boolean nombreDuenoUnico(String nombre) {
         Boolean existe = false;
         for (Dueno Dueños : listaDuenos) {
             if (Dueños.getNombre().contains(nombre)) {
                 existe = true;
-                System.out.println("Ya hay un Dueño con ese nombre");
             }
         }
         return existe;
-    }
-
-    public void agregarPuesto(Puesto unPuesto) {
-        this.getListaPuesto().add(unPuesto);
     }
 
     public static void generarArchivo(int desde, int hasta, String nombreArchivo, String tipoMovimiento, ArrayList<String> elementosSeleccionados) {
@@ -381,7 +348,7 @@ public class Sistema {
             }
             arch.format("%s%n", "-mayoristas");
             for (Mayorista mayorista : listaMayoristas) {
-                String items = "";
+                String items = "#";
                 for (Item item : mayorista.getListaItems()) {
                     items += item.getNombre() + "#";
                 }
@@ -393,7 +360,7 @@ public class Sistema {
             }
             arch.format("%s%n", "-puestos");
             for (Puesto puesto : listaPuesto) {
-                String items = "";
+                String items = "#";
                 for (Item item : puesto.getStock()) {
                     items += item.getNombre() + "#";
                 }
@@ -405,7 +372,6 @@ public class Sistema {
             }
             arch.close();
         } catch (FileNotFoundException e) {
-            System.out.println("no se pudo cargar el archivo");
         }
     }
 
@@ -414,10 +380,8 @@ public class Sistema {
             String ruta = "";
             if (opcion == 1) {
                 ruta = "archivo.txt";
-                System.out.println("se lee opcion 1");
             } else if (opcion == 2) {
                 ruta = "productos.txt";
-                System.out.println("se lee opcion 2");
             }
             Scanner scanner = new Scanner(new File(ruta));
             String currentSection = "";
@@ -445,18 +409,14 @@ public class Sistema {
                             }
                             break;
                         case "mayoristas":
-                            // Procesar datos de mayoristas
                             if (line.equals("-duenos")) {
-                                currentSection = ""; // Cambiar a la siguiente sección
+                                currentSection = "";
                             } else {
-                                // Leer y procesar la línea de datos del mayorista
                                 String[] mayoristaValues = line.split("/");
-                                // Crear objeto Mayorista y hacer algo con los valores leídos
                                 String rut = mayoristaValues[0];
                                 String nombre = mayoristaValues[1];
                                 String direccion = mayoristaValues[2];
                                 String items = mayoristaValues[3];
-                                // Parsear los nombres de los items separados por "#"
                                 String[] itemsGuardados = items.split("#");
                                 ArrayList<Item> listaItemsDelMayorista = new ArrayList<>();
                                 for (String nombreItem : itemsGuardados) {
@@ -474,16 +434,11 @@ public class Sistema {
                             if (line.equals("-puestos")) {
                                 currentSection = "";
                             } else {
-                                // Leer y procesar la línea de datos del dueño
                                 String[] duenoValues = line.split("/");
-                                // Crear objeto Dueno y hacer algo con los valores leídos
                                 String nombre = duenoValues[0];
                                 int edad = Integer.parseInt(duenoValues[1]);
                                 int aExperiencia = Integer.parseInt(duenoValues[2]);
                                 agregarDueno(nombre, edad, aExperiencia);
-                                // Crear objeto Dueno con los valores leídos
-                                //Dueno dueno = new Dueno(nombre, edad, aExperiencia);
-                                // Hacer algo con el objeto Dueno, como agregarlo a una lista
                             }
                             break;
                         case "puestos":
@@ -496,15 +451,7 @@ public class Sistema {
                                 String ubicacion = puestoValues[2];
                                 int cantidadEmpleados = Integer.parseInt(puestoValues[3]);
                                 String stock = puestoValues[4];
-                                String[] stockItems = stock.split("#");
-                                ArrayList<Item> itemsDelPuesto = new ArrayList<>();
-                                for (String nombreItem : stockItems) {
-                                    for (Item itemAGuardar : listaItems) {
-                                        if (nombreItem.equalsIgnoreCase(itemAGuardar.getNombre())) {
-                                            itemsDelPuesto.add(new Item(itemAGuardar.getNombre(), itemAGuardar.getDescripcion(), itemAGuardar.getTipo(), itemAGuardar.getFormaVenta(), itemAGuardar.getImagen()));
-                                        }
-                                    }
-                                }
+                                String[] stockItems = stock.substring(1).split("#");
                                 Dueno duenoParaAgregar = null;
                                 for (Dueno duenoParaPuesto : listaDuenos) {
                                     if (duenoParaPuesto.getNombre().equalsIgnoreCase(dueno)) {
@@ -512,7 +459,13 @@ public class Sistema {
                                     }
                                 }
                                 Puesto puestoAAgregar = new Puesto(identificacion, duenoParaAgregar, ubicacion, cantidadEmpleados);
-                                puestoAAgregar.setStock(itemsDelPuesto);
+                                for (String nombreItem : stockItems) {
+                                    for (Item itemAGuardar : listaItems) {
+                                        if (nombreItem.equalsIgnoreCase(itemAGuardar.getNombre())) {
+                                            puestoAAgregar.añadirItem(new Item(itemAGuardar.getNombre(), itemAGuardar.getDescripcion(), itemAGuardar.getTipo(), itemAGuardar.getFormaVenta(), itemAGuardar.getImagen()));
+                                        }
+                                    }
+                                }
                                 listaPuesto.add(puestoAAgregar);
                             }
                             break;
@@ -524,7 +477,6 @@ public class Sistema {
                             String itemVenta = transaccionValues[3];
                             int precio = Integer.parseInt(transaccionValues[4]);
                             double cantidad = Double.parseDouble(transaccionValues[5]);
-
                             Item itemParaAgregar = null;
                             for (Item itemTransaccion : listaItems) {
                                 if (itemTransaccion.getNombre().equalsIgnoreCase(itemVenta)) {
@@ -539,11 +491,7 @@ public class Sistema {
                     }
                 }
             }
-
             scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("No se pudo encontrar el archivo.");
-        }
+        } catch (FileNotFoundException e) {}
     }
-
 }

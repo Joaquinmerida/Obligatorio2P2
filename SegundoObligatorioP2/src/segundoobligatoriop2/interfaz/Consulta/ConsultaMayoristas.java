@@ -1,5 +1,12 @@
 package segundoobligatoriop2.interfaz.Consulta;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+*/                           
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,7 +67,7 @@ public class ConsultaMayoristas extends javax.swing.JFrame {
     private void initComponents() {
 
         menuConsultaMayorista = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        contenedorTablaMayoristas = new javax.swing.JScrollPane();
         tablaConsultaMayoristas = new javax.swing.JTable();
         tituloConsultaPuestos1 = new javax.swing.JLabel();
 
@@ -81,20 +88,22 @@ public class ConsultaMayoristas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(tablaConsultaMayoristas);
+        contenedorTablaMayoristas.setViewportView(tablaConsultaMayoristas);
 
-        menuConsultaMayorista.add(jScrollPane4);
-        jScrollPane4.setBounds(150, 70, 880, 402);
+        menuConsultaMayorista.add(contenedorTablaMayoristas);
+        contenedorTablaMayoristas.setBounds(150, 70, 880, 402);
 
         tituloConsultaPuestos1.setFont(new java.awt.Font("Segoe UI Symbol", 0, 36)); // NOI18N
+        tituloConsultaPuestos1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloConsultaPuestos1.setText("Mayoristas");
         menuConsultaMayorista.add(tituloConsultaPuestos1);
-        tituloConsultaPuestos1.setBounds(500, 20, 240, 40);
+        tituloConsultaPuestos1.setBounds(150, 20, 880, 40);
 
         getContentPane().add(menuConsultaMayorista);
-        menuConsultaMayorista.setBounds(0, 0, 1300, 500);
+        menuConsultaMayorista.setBounds(0, 0, 1210, 500);
 
-        setBounds(0, 0, 1231, 542);
+        setSize(new java.awt.Dimension(1231, 542));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
@@ -124,7 +133,7 @@ public class ConsultaMayoristas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane contenedorTablaMayoristas;
     private javax.swing.JPanel menuConsultaMayorista;
     private javax.swing.JTable tablaConsultaMayoristas;
     private javax.swing.JLabel tituloConsultaPuestos1;

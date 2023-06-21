@@ -1,9 +1,14 @@
 package segundoobligatoriop2.auxiliar;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+*/                           
 import java.util.*;
 
 public class Mayorista {
-
     private String rut;
     private String nombre;
     private String direccion;

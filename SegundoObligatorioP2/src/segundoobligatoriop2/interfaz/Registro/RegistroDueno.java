@@ -1,29 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package segundoobligatoriop2.interfaz.Registro;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+ */
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import segundoobligatoriop2.Sistema;
 
-/**
- *
- * @author joaqu
- */
 public class RegistroDueno extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistroDueño
-     */
     public RegistroDueno() {
         initComponents();
     }
 
-    public JButton getBotonAlta(){
-    return botonAltaRegistro;
+    public JButton getBotonAlta() {
+        return botonAltaRegistro;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -37,6 +33,7 @@ public class RegistroDueno extends javax.swing.JFrame {
         registroEdadExperiencia = new javax.swing.JTextField();
         botonLimpiarRegistro2 = new javax.swing.JButton();
         botonAltaRegistro = new javax.swing.JButton();
+        tituloRegistroDueno = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de dueño");
@@ -46,7 +43,7 @@ public class RegistroDueno extends javax.swing.JFrame {
 
         textoNombre.setText("Nombre");
         panelRegistroPuesto1.add(textoNombre);
-        textoNombre.setBounds(100, 119, 90, 17);
+        textoNombre.setBounds(100, 119, 90, 16);
 
         registroNombreDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,11 +51,11 @@ public class RegistroDueno extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroNombreDueño);
-        registroNombreDueño.setBounds(260, 119, 120, 23);
+        registroNombreDueño.setBounds(260, 119, 120, 22);
 
         textoEdadDueño.setText("Edad:");
         panelRegistroPuesto1.add(textoEdadDueño);
-        textoEdadDueño.setBounds(100, 179, 90, 17);
+        textoEdadDueño.setBounds(100, 179, 90, 16);
 
         registroEdadDueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,11 +63,11 @@ public class RegistroDueno extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadDueño);
-        registroEdadDueño.setBounds(260, 179, 130, 23);
+        registroEdadDueño.setBounds(260, 179, 130, 22);
 
         textoExperienciaDueño.setText("Años de experiencia:");
         panelRegistroPuesto1.add(textoExperienciaDueño);
-        textoExperienciaDueño.setBounds(100, 239, 150, 17);
+        textoExperienciaDueño.setBounds(100, 239, 150, 16);
 
         registroEdadExperiencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,7 +75,7 @@ public class RegistroDueno extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto1.add(registroEdadExperiencia);
-        registroEdadExperiencia.setBounds(260, 240, 40, 23);
+        registroEdadExperiencia.setBounds(260, 240, 40, 22);
 
         botonLimpiarRegistro2.setText("Limpiar");
         botonLimpiarRegistro2.addActionListener(new java.awt.event.ActionListener() {
@@ -98,10 +95,17 @@ public class RegistroDueno extends javax.swing.JFrame {
         panelRegistroPuesto1.add(botonAltaRegistro);
         botonAltaRegistro.setBounds(260, 340, 150, 40);
 
-        getContentPane().add(panelRegistroPuesto1);
-        panelRegistroPuesto1.setBounds(0, 12, 1170, 549);
+        tituloRegistroDueno.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        tituloRegistroDueno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloRegistroDueno.setText("Registro de dueño");
+        panelRegistroPuesto1.add(tituloRegistroDueno);
+        tituloRegistroDueno.setBounds(190, -10, 480, 110);
 
-        setBounds(0, 0, 928, 581);
+        getContentPane().add(panelRegistroPuesto1);
+        panelRegistroPuesto1.setBounds(0, 12, 900, 549);
+
+        setSize(new java.awt.Dimension(928, 581));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void registroNombreDueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroNombreDueñoActionPerformed
@@ -134,15 +138,14 @@ public class RegistroDueno extends javax.swing.JFrame {
             if ((edadTexto.matches("\\d+") && experienciaTexto.matches("\\d+")) && ((Integer.parseInt(edadTexto) >= 0)) && (Integer.parseInt(experienciaTexto) >= 0)) {
                 int edad = Integer.parseInt(edadTexto);
                 int experiencia = Integer.parseInt(experienciaTexto);
-                if (!Sistema.nombreDueñoUnico(nombreDueno)) {
+                if (!Sistema.nombreDuenoUnico(nombreDueno)) {
                     if (nombreDueno.matches("[a-zA-Z]+")) {
                         if (edad > experiencia) {
                             Sistema.agregarDueno(nombreDueno, edad, experiencia);
                             registroNombreDueño.setText("");
                             registroEdadDueño.setText("");
                             registroEdadExperiencia.setText("0");
-                            //actualizarComboDuenos();
-                            //actualizarTablaDuenos();
+                            JOptionPane.showMessageDialog(this, "Has registrado un dueño con exito", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(this, "Error: La experiencia no puede ser mayor a la edad", "Error", JOptionPane.ERROR_MESSAGE);
                         }
@@ -161,15 +164,8 @@ public class RegistroDueno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonAltaRegistroActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -186,10 +182,7 @@ public class RegistroDueno extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistroDueno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RegistroDueno().setVisible(true);
@@ -207,5 +200,6 @@ public class RegistroDueno extends javax.swing.JFrame {
     private javax.swing.JLabel textoEdadDueño;
     private javax.swing.JLabel textoExperienciaDueño;
     private javax.swing.JLabel textoNombre;
+    private javax.swing.JLabel tituloRegistroDueno;
     // End of variables declaration//GEN-END:variables
 }

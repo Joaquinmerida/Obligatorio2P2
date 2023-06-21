@@ -1,5 +1,12 @@
 package segundoobligatoriop2.interfaz.Consulta;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+*/                           
+
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -184,6 +191,7 @@ public class ConsultaProductos extends javax.swing.JFrame {
         consultaCantidadUnidadesCompradaPuestos = new javax.swing.JTextField();
         textoConsultaKilogramosCompradosPuestos = new javax.swing.JLabel();
         consultaCantidadKilogramosCompradaPuestos = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consulta de productos");
@@ -394,10 +402,17 @@ public class ConsultaProductos extends javax.swing.JFrame {
         panelConsultaProducto.add(consultaCantidadKilogramosCompradaPuestos);
         consultaCantidadKilogramosCompradaPuestos.setBounds(930, 220, 30, 20);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Consulta de productos");
+        panelConsultaProducto.add(jLabel1);
+        jLabel1.setBounds(50, -10, 970, 70);
+
         getContentPane().add(panelConsultaProducto);
         panelConsultaProducto.setBounds(0, 0, 1100, 560);
 
-        setBounds(0, 0, 1116, 637);
+        setSize(new java.awt.Dimension(1116, 637));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void consultasBotonDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasBotonDerechaActionPerformed
@@ -501,6 +516,7 @@ public class ConsultaProductos extends javax.swing.JFrame {
     private javax.swing.JTextField consultasVentaPor;
     private javax.swing.JScrollPane contenedorListaPuestosMayorPrecioConsultaProducto;
     private javax.swing.JScrollPane contenedorListaPuestosMenorPrecioConsultaProducto;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel panelConsultaProducto;
     private javax.swing.JLabel textoCantidadTotalCompradaConsultaProducto;
     private javax.swing.JLabel textoCantidadVendidaConsultaProducto;

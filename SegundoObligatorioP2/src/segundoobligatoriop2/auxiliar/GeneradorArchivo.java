@@ -1,5 +1,11 @@
 package segundoobligatoriop2.auxiliar;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+ */
 import java.io.FileOutputStream;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
@@ -14,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import javax.swing.JOptionPane;
 import segundoobligatoriop2.Sistema;
 
 public class GeneradorArchivo {
@@ -103,9 +110,9 @@ public class GeneradorArchivo {
             }
             document.add(table);
             document.close();
-            System.out.println("El archivo PDF se ha creado correctamente.");
+            JOptionPane.showMessageDialog(null, "Archivo PDF creado con exito", "Archivo creado", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            System.out.println("No se pudo crear el reporte PDF: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "No se pudo generar el archivo PDF", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

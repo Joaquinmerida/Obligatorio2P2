@@ -1,8 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package segundoobligatoriop2.interfaz.Registro;
+
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+*/                           
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,9 +21,6 @@ public class RegistroMayorista extends javax.swing.JFrame {
 
     private DefaultListModel<String> seleccionListaItemsAVenderModel = new DefaultListModel<>();
 
-    /**
-     * Creates new form RegistroMayorista
-     */
     public RegistroMayorista() {
         initComponents();
         inicializarListaItemsAVender();
@@ -45,14 +45,13 @@ public class RegistroMayorista extends javax.swing.JFrame {
             }
         });
         if (listaItems.isEmpty()) {
+            seleccionListaItemsAVenderModel.clear();
             seleccionListaItemsAVenderModel.addElement("No hay ningun item registrado");
-            return;
         } else {
             seleccionListaItemsAVenderModel.clear();
             for (Item item : listaItems) {
                 String nombreItem = item.getNombre();
                 seleccionListaItemsAVenderModel.addElement(nombreItem);
-                System.out.println(nombreItem);
             }
         }
     }
@@ -203,11 +202,7 @@ public class RegistroMayorista extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAltaRegistroMayoristaActionPerformed
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -224,9 +219,7 @@ public class RegistroMayorista extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistroMayorista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RegistroMayorista().setVisible(true);

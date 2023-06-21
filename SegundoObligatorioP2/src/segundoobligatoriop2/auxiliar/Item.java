@@ -1,5 +1,12 @@
 package segundoobligatoriop2.auxiliar;
 
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+*/                           
+
 public class Item {
 
     private String nombre;

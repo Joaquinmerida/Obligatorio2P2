@@ -1,8 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package segundoobligatoriop2.interfaz.Registro;
+
+/*
+      ---------------------------------------------------------
+    |                    Sistema desarrollado por                               |
+  |    Joaquin Merida 253076 y Juan Manuel Mera  273527 |
+ ---------------------------------------------------------
+*/                           
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -57,6 +60,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
         registroUbicacion = new javax.swing.JTextField();
         registroNumeroEmpleados = new javax.swing.JTextField();
         registroPuestoCombo = new javax.swing.JComboBox<>();
+        tituloRegistroPuesto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de puesto");
@@ -70,23 +74,23 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroIdentificacion);
-        registroIdentificacion.setBounds(260, 119, 230, 23);
+        registroIdentificacion.setBounds(260, 119, 230, 22);
 
         textoIdentificacion.setText("Identificacion:");
         panelRegistroPuesto.add(textoIdentificacion);
-        textoIdentificacion.setBounds(100, 119, 90, 17);
+        textoIdentificacion.setBounds(100, 119, 90, 16);
 
         textoDueño.setText("Dueño:");
         panelRegistroPuesto.add(textoDueño);
-        textoDueño.setBounds(100, 179, 90, 17);
+        textoDueño.setBounds(100, 179, 90, 16);
 
         textoUbicacion.setText("Ubicación:");
         panelRegistroPuesto.add(textoUbicacion);
-        textoUbicacion.setBounds(100, 239, 100, 17);
+        textoUbicacion.setBounds(100, 239, 100, 16);
 
         textoCantidadEmpleados.setText("Cantidad empleados:");
         panelRegistroPuesto.add(textoCantidadEmpleados);
-        textoCantidadEmpleados.setBounds(100, 290, 120, 17);
+        textoCantidadEmpleados.setBounds(100, 290, 120, 16);
 
         botonLimpiarRegistro1.setText("Limpiar");
         botonLimpiarRegistro1.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +116,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroUbicacion);
-        registroUbicacion.setBounds(260, 240, 230, 23);
+        registroUbicacion.setBounds(260, 240, 230, 22);
 
         registroNumeroEmpleados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         registroNumeroEmpleados.setText("0");
@@ -122,7 +126,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroNumeroEmpleados);
-        registroNumeroEmpleados.setBounds(260, 290, 30, 23);
+        registroNumeroEmpleados.setBounds(260, 290, 30, 22);
 
         registroPuestoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         registroPuestoCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -131,12 +135,19 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
         panelRegistroPuesto.add(registroPuestoCombo);
-        registroPuestoCombo.setBounds(260, 180, 230, 23);
+        registroPuestoCombo.setBounds(260, 180, 230, 22);
+
+        tituloRegistroPuesto.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        tituloRegistroPuesto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloRegistroPuesto.setText("Registro de puesto");
+        panelRegistroPuesto.add(tituloRegistroPuesto);
+        tituloRegistroPuesto.setBounds(80, 20, 920, 70);
 
         getContentPane().add(panelRegistroPuesto);
-        panelRegistroPuesto.setBounds(-2, -1, 1100, 570);
+        panelRegistroPuesto.setBounds(-2, -1, 1090, 570);
 
-        setBounds(0, 0, 1156, 578);
+        setSize(new java.awt.Dimension(1113, 578));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void registroIdentificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroIdentificacionActionPerformed
@@ -154,17 +165,17 @@ public class RegistroPuesto extends javax.swing.JFrame {
         String dueno = registroPuestoCombo.getSelectedItem().toString();
         String ubicacion = registroUbicacion.getText();
         String cantEmpleados = registroNumeroEmpleados.getText();
-        if (identificacion.isEmpty() || ubicacion.isEmpty() || dueno.isEmpty()) {
+        if (identificacion.isEmpty() || ubicacion.isEmpty() || cantEmpleados.equals("0") || dueno.equalsIgnoreCase("No hay ningun dueño registrado")) {
             JOptionPane.showMessageDialog(this, "Error: Verifique que todos los campos de información estén siendo llenados", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (dueno == "No hay ningun dueno registrado") {
+        if (dueno.equalsIgnoreCase("No hay ningun dueno registrado")) {
             JOptionPane.showMessageDialog(this, "Error: No hay Duenos registrados actualmente, recuerda registrar un dueno previo a registrar un puesto", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (!Sistema.identificacionUnico(identificacion)) {
             if (identificacion.matches("[a-zA-Z]+")) {
-                if (cantEmpleados.matches("\\d+") && (Integer.parseInt(cantEmpleados) >= 0)) {
+                if (cantEmpleados.matches("\\d+") && (Integer.parseInt(cantEmpleados) >= 0) && !cantEmpleados.equals("0")) {
                     int cantidadEmpleados = Integer.parseInt(registroNumeroEmpleados.getText());
                     Sistema.agregarPuesto(identificacion, dueno, ubicacion, cantidadEmpleados);
                     registroIdentificacion.setText("");
@@ -195,15 +206,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
 
     }//GEN-LAST:event_registroPuestoComboActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -220,9 +223,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistroPuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RegistroPuesto().setVisible(true);
@@ -242,5 +243,6 @@ public class RegistroPuesto extends javax.swing.JFrame {
     private javax.swing.JLabel textoDueño;
     private javax.swing.JLabel textoIdentificacion;
     private javax.swing.JLabel textoUbicacion;
+    private javax.swing.JLabel tituloRegistroPuesto;
     // End of variables declaration//GEN-END:variables
 }
